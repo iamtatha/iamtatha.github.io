@@ -1,2 +1,2 @@
-# iamtatha.github.com
+# iamtatha.github.io
 Tatha's personal Code-World
