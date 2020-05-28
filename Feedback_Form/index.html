@@ -6,6 +6,7 @@
 	  	<meta name="author" content="Tathagata Dey">
 	  	<meta name="description" content="Feedback Form of HRPlus Global Consulting Group">
 	  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  	<meta http-equiv="X-UA-Compatible" content="ie*edge">
 
 		<title>HRPlus Global Consulting Group</title>
 		
@@ -16,7 +17,7 @@
 	</head>
 
 	<body>
-		<form action="" method="">
+		<form action="contact.php" method="">
 			<header>
 				<h2 id="form_title">Training Evaluation</h2>
 				
@@ -108,7 +109,7 @@
 
 
 				<label id="qu_three">For what reasons did you attend this training</label>
-				<textarea rows="20" cols="50" id="reasons" placeholder="Say a few words about the reason of attending the training"></textarea>
+				<textarea rows="20" cols="50" id="reasons" placeholder="Say a few words about the reason of attending the training" name="Reason"></textarea>
 
 				<label id="qu_four">How satisfied were you with the following?</label>
 				<table id="table_three">
@@ -122,59 +123,59 @@
 					</tr>
 					<tr>
 						<td>Training Venue</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="venue" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="venue" value="Unsatisfied"></td>
+						<td><input type="radio" name="venue" value="Neutral"></td>
+						<td><input type="radio" name="venue" value="Satisfied"></td>
+						<td><input type="radio" name="venue" value="Very Satisfied"></td>
 					</tr>
 					<tr>
 						<td>Ease of registration</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="ease" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="ease" value="Unsatisfied"></td>
+						<td><input type="radio" name="ease" value="Neutral"></td>
+						<td><input type="radio" name="ease" value="Satisfied"></td>
+						<td><input type="radio" name="ease" value="Very Satisfied"></td>
 					</tr>
 					<tr>
 						<td>Date of training</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="date" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="date" value="Unsatisfied"></td>
+						<td><input type="radio" name="date" value="Neutral"></td>
+						<td><input type="radio" name="date" value="Satisfied"></td>
+						<td><input type="radio" name="date" value=""></td>
 					</tr>
 					<tr>
 						<td>Quality of presenters</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="quality" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="quality" value="Unsatisfied"></td>
+						<td><input type="radio" name="quality" value="Neutral"></td>
+						<td><input type="radio" name="quality" value="Satisfied"></td>
+						<td><input type="radio" name="quality" value="Very Satisfied"></td>
 					</tr>
 					<tr>
 						<td>Quality of food</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="food" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="food" value="Unsatisfied"></td>
+						<td><input type="radio" name="food" value="Neutral"></td>
+						<td><input type="radio" name="food" value="Satisfied"></td>
+						<td><input type="radio" name="food" value="Very Satisfied"></td>
 					</tr>
 					<tr>
 						<td>Quality of accommodations</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="accommodations" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="accommodations" value="Unsatisfied"></td>
+						<td><input type="radio" name="accommodations" value="Neutral"></td>
+						<td><input type="radio" name="accommodations" value="Satisfied"></td>
+						<td><input type="radio" name="accommodations" value="Very Satisfied"></td>
 					</tr>
 					<tr>
 						<td>Registration fees</td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
-						<td><input type="radio" name=""></td>
+						<td><input type="radio" name="fees" value="Very Unsatisfied"></td>
+						<td><input type="radio" name="fees" value="Unsatisfied"></td>
+						<td><input type="radio" name="fees" value="Neutral"></td>
+						<td><input type="radio" name="fees" value="Satisfied"></td>
+						<td><input type="radio" name="fees" value="Very Satisfied"></td>
 					</tr>
 				</table>
 
@@ -230,11 +231,11 @@
 				
 
 				<label id="qu_five">Would you recommend this training to others?</label>
-				<aside id="qu_five_ans"> <p> <input type="radio" name="">Yes </p>
-				<p> <input type="radio" name="">No </p> </aside>
+				<aside id="qu_five_ans"> <p> <input type="radio" name="reco" value="Yes">Yes </p>
+				<p> <input type="radio" name="reco" value="No">No </p> </aside>
 
 				<label id="qu_six">Comments</label>
-				<textarea rows="15" cols="70" id="comments" placeholder="Let us know your regards."></textarea>
+				<textarea rows="15" cols="70" id="comments" placeholder="Let us know your regards." name="comments"></textarea>
 
 			</main>
 
