@@ -1,6 +1,6 @@
 /*Mobile version Design First*/
 
-@media all and (max-width: 800px){
+@media all and (max-width: 900px){
 	body{
 		margin: 0%;
 		font-family: "arial";
@@ -319,7 +319,7 @@
 
 /*Tablet version Layout*/
 
-@media all and (min-width: 700px) and (max-width: 1024px){
+@media all and (min-width: 900px) and (max-width: 1024px){
 	body{
 		margin: 4%;
 		font-family: "arial";
