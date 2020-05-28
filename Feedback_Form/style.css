@@ -1,306 +1,307 @@
-/*Mobile version Design First
+/*Mobile version Design First*/
 
-@media all and (max-width: 800px){*/
-body{
-	margin: 0%;
-	font-family: "arial";
-	background-color: rgba(1,1,1,0.3)
-}
-header{
-	padding: 0%;
-	background-color: rgba(255,255,255,1);
-	width: 100%;
-}
+@media all and (max-width: 800px){
+	body{
+		margin: 0%;
+		font-family: "arial";
+		background-color: rgba(1,1,1,0.3)
+	}
+	header{
+		padding: 0%;
+		background-color: rgba(255,255,255,1);
+		width: 100%;
+	}
 
-h2{
-	display: inline-block;
-	width: 45%;
-	font-size: 100%;
-	float: left;
-	padding-top: 2.5%;
-	padding-left: 4%;
-	font-family: "arial";
-	color: rgba(150,0,20,1);
-}
-
-img{
-	display: inline-block;
-	float: none;
-	width: 45%;
-	padding-left: 1%;
-}
-
-form{
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
-}
-
-main{
-	background-color: rgba(184, 222, 215, 0.7);
-	float: none;
-	padding-top: 2%;
-	padding-left: 5%;
-	padding-right: 5%;
-	line-height: 150%;
-}
-
-label{
-	display: block;
-	font-size: 120%;
-	padding-bottom: 1%;
-}
-
-#course_box::-webkit-input-placeholder {
-	font-size: 80%;
-	line-height: 3;
-}
-
-#course_box::-moz-input-placeholder {
-	font-size: 80%;
-	line-height: 3;
-}
-
-#course_box::-o-input-placeholder {
-	font-size: 80%;
-	line-height: 3;
-}
-
-#table_one{
-	width: 100%;
-}
-
-#table_one td{
-	width: 50%;
-}
-
-#name_box{
-	height: 3vh;
-	width: 90%;
-}
-
-#course_box{
-	height: 3vh;
-	width: 90%;
-}
-
-#table_one tr{
-	width: 100%;
-}
-
-span{
-	display: block;
-	width: 100% !important;
-}
-
-.arrow:nth-child(even){
-	display: none;
-}
-
-.arrow{
-	margin-top: 3%;
-	margin-bottom: 3%;
-	margin-right: 0.40rem;
-	height: 0.3vh;
-	width: 0.3vw;
-	border: solid rgba(150,0,20,1);
-		border-width: 0 3px 3px 0;
+	h2{
 		display: inline-block;
-		padding: 0.3%;
-		transform: rotate(-45deg);
-		-webkit-transform: rotate(-45deg);
-		-moz-transform: rotate(-45deg);
-		-o-transform: rotate(-45deg);
-}
+		width: 45%;
+		font-size: 100%;
+		float: left;
+		padding-top: 2.5%;
+		padding-left: 4%;
+		font-family: "arial";
+		color: rgba(150,0,20,1);
+	}
 
-#table_two{
-	border-collapse: collapse;
-	width: 70%;
-	font-size: 50%;
-	margin-top: 2%;
-	margin-bottom: 4%;
-	height: 3vh;
-}
+	img{
+		display: inline-block;
+		float: none;
+		width: 45%;
+		padding-left: 1%;
+	}
 
-#table_two tr:first-child td:not(:first-child){
-	border-style: ridge;
-	border-collapse: collapse;
-	border-spacing: 0.01px;
-	border-color: rgba(1,1,1,0.5);
-	text-align: center;
-}
+	form{
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+	}
 
-#table_two tr:nth-child(2) td{
-	border-style: solid;
-	border-collapse: collapse;
-	border-spacing: 0.1px;
-	border-color: rgba(1,1,1,0.5);
-	text-align: center;
-	background-color: #d5d5d5;
-}
+	main{
+		background-color: rgba(184, 222, 215, 0.7);
+		float: none;
+		padding-top: 2%;
+		padding-left: 5%;
+		padding-right: 5%;
+		line-height: 150%;
+	}
 
-#table_two input{
-	transform: scale(0.8);
-}
+	label{
+		display: block;
+		font-size: 120%;
+		padding-bottom: 1%;
+	}
 
-#table_two tr{
-	line-height: 140%;
-}
+	#course_box::-webkit-input-placeholder {
+		font-size: 80%;
+		line-height: 3;
+	}
 
-#qu_two_ans p{
-	width: 49.5%;
-	display: inline-block;
-	font-family: "arial";
-	font-size: 120%;
-	margin-bottom: 5%;
-}
+	#course_box::-moz-input-placeholder {
+		font-size: 80%;
+		line-height: 3;
+	}
 
-#qu_two_ans p input{
-	transform: scale(1.5);
-	margin-right: 5%;
-}
+	#course_box::-o-input-placeholder {
+		font-size: 80%;
+		line-height: 3;
+	}
 
-#reasons{
-	margin-top: 1%;
-	margin-bottom: 5%;
-	width: 99%;
-	height: 18vh;
-	box-sizing: border-box;
-		border: 2px solid #ccc;
-		border-radius: 4px;
-}
+	#table_one{
+		width: 100%;
+	}
 
-#reasons::-webkit-input-placeholder {
-	font-size: 150%;
-	line-height: 1;
-}
+	#table_one td{
+		width: 50%;
+	}
 
-#reasons::-moz-input-placeholder {
-	font-size: 150%;
-	line-height: 1;
-}
+	#name_box{
+		height: 3vh;
+		width: 90%;
+	}
 
-#reasons::-o-input-placeholder {
-	font-size: 150%;
-	line-height: 1;
-}
+	#course_box{
+		height: 3vh;
+		width: 90%;
+	}
 
-#table_three{
-	border-collapse: collapse;
-	width: 100%;
-	font-size: 80%;
-	margin-top: 2%;
-	margin-bottom: 4%;
-	height: 3vh;
-}
+	#table_one tr{
+		width: 100%;
+	}
 
-#table_three tr:first-child td:not(:first-child){
-	border-style: ridge;
-	border-collapse: collapse;
-	border-spacing: 0.01px;
-	border-color: rgba(1,1,1,0.5);
-	text-align: center;
-}
+	span{
+		display: block;
+		width: 100% !important;
+	}
 
-#table_three tr:not(:first-child) td{
-	border-style: ridge;
-	border-collapse: collapse;
-	border-spacing: 0.01px;
-	border-color: rgba(1,1,1,0.5);
-	text-align: center;
-}
+	.arrow:nth-child(even){
+		display: none;
+	}
 
-#table_three tr:nth-child(even) td{
-	border-style: solid;
-	border-collapse: collapse;
-	border-spacing: 0.1px;
-	border-color: rgba(1,1,1,0.5);
-	text-align: center;
-	background-color: #d5d5d5;
-}
+	.arrow{
+		margin-top: 3%;
+		margin-bottom: 3%;
+		margin-right: 0.40rem;
+		height: 0.3vh;
+		width: 0.3vw;
+		border: solid rgba(150,0,20,1);
+			border-width: 0 3px 3px 0;
+			display: inline-block;
+			padding: 0.3%;
+			transform: rotate(-45deg);
+			-webkit-transform: rotate(-45deg);
+			-moz-transform: rotate(-45deg);
+			-o-transform: rotate(-45deg);
+	}
 
-#table_three input{
-	transform: scale(1.2);
-	border-style: solid;
-	border-color: rgb(1,1,1);
-}
+	#table_two{
+		border-collapse: collapse;
+		width: 70%;
+		font-size: 50%;
+		margin-top: 2%;
+		margin-bottom: 4%;
+		height: 3vh;
+	}
 
-#table_three tr{
-	line-height: 150%;
-}
+	#table_two tr:first-child td:not(:first-child){
+		border-style: ridge;
+		border-collapse: collapse;
+		border-spacing: 0.01px;
+		border-color: rgba(1,1,1,0.5);
+		text-align: center;
+	}
 
-#qu_five_ans p{
-	width: 49.5%;
-	display: inline-block;
-	font-family: "arial";
-	font-size: 120%;
-	margin-bottom: 5%;
-	margin-top: 2%;
-}
+	#table_two tr:nth-child(2) td{
+		border-style: solid;
+		border-collapse: collapse;
+		border-spacing: 0.1px;
+		border-color: rgba(1,1,1,0.5);
+		text-align: center;
+		background-color: #d5d5d5;
+	}
 
-#qu_five_ans p input{
-	transform: scale(1.5);
-	margin-right: 5%;
-}
+	#table_two input{
+		transform: scale(0.8);
+	}
 
-#comments{
-	margin-top: 1%;
-	margin-bottom: 5%;
-	width: 99%;
-	height: 18vh;
-	box-sizing: border-box;
-		border: 2px solid #ccc;
-		border-radius: 4px;
-}
+	#table_two tr{
+		line-height: 140%;
+	}
 
-#comments::-webkit-input-placeholder {
-	font-size: 160%;
-	line-height: 1;
-}
+	#qu_two_ans p{
+		width: 49.5%;
+		display: inline-block;
+		font-family: "arial";
+		font-size: 120%;
+		margin-bottom: 5%;
+	}
 
-#comments::-moz-input-placeholder {
-	font-size: 160%;
-	line-height: 1;
-}
+	#qu_two_ans p input{
+		transform: scale(1.5);
+		margin-right: 5%;
+	}
 
-#comments::-o-input-placeholder {
-	font-size: 160%;
-	line-height: 1;
-}
+	#reasons{
+		margin-top: 1%;
+		margin-bottom: 5%;
+		width: 99%;
+		height: 18vh;
+		box-sizing: border-box;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+	}
 
-#submit{
-	height: 15vh;
-	background-color: rgba(255,255,255,0.9);
-}
+	#reasons::-webkit-input-placeholder {
+		font-size: 150%;
+		line-height: 1;
+	}
 
-#submit_button{
-	margin-left: 5%;
-	margin-top: 3%;
-	width: 25%;
-	height: 5vh;
-	border-style: outset;
-	border-color: rgba(1,1,1,0.5);
-	box-shadow: inherit;
-	font-family: "arial";
-	font-size: 130%;
-	/*background: linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));
-	background: -webkit-linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));
-	background: -moz-linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));
-	background: -o-linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));*/
-}
+	#reasons::-moz-input-placeholder {
+		font-size: 150%;
+		line-height: 1;
+	}
 
-.button:hover{
-	background-color: rgba(1,1,1,0.8);
-	color: rgb(255,255,255);
-	font-weight: bold;
-	border-style: outset;
-	border-color: rgba(255,255,255,0.7);
-}
+	#reasons::-o-input-placeholder {
+		font-size: 150%;
+		line-height: 1;
+	}
 
-#caution{
-	display: none;
-	margin-left: 5%;
-	font-family: "arial";
-	font-size: 110%;
-	color: rgba(128,10,20,1);
+	#table_three{
+		border-collapse: collapse;
+		width: 100%;
+		font-size: 80%;
+		margin-top: 2%;
+		margin-bottom: 4%;
+		height: 3vh;
+	}
+
+	#table_three tr:first-child td:not(:first-child){
+		border-style: ridge;
+		border-collapse: collapse;
+		border-spacing: 0.01px;
+		border-color: rgba(1,1,1,0.5);
+		text-align: center;
+	}
+
+	#table_three tr:not(:first-child) td{
+		border-style: ridge;
+		border-collapse: collapse;
+		border-spacing: 0.01px;
+		border-color: rgba(1,1,1,0.5);
+		text-align: center;
+	}
+
+	#table_three tr:nth-child(even) td{
+		border-style: solid;
+		border-collapse: collapse;
+		border-spacing: 0.1px;
+		border-color: rgba(1,1,1,0.5);
+		text-align: center;
+		background-color: #d5d5d5;
+	}
+
+	#table_three input{
+		transform: scale(1.2);
+		border-style: solid;
+		border-color: rgb(1,1,1);
+	}
+
+	#table_three tr{
+		line-height: 150%;
+	}
+
+	#qu_five_ans p{
+		width: 49.5%;
+		display: inline-block;
+		font-family: "arial";
+		font-size: 120%;
+		margin-bottom: 5%;
+		margin-top: 2%;
+	}
+
+	#qu_five_ans p input{
+		transform: scale(1.5);
+		margin-right: 5%;
+	}
+
+	#comments{
+		margin-top: 1%;
+		margin-bottom: 5%;
+		width: 99%;
+		height: 18vh;
+		box-sizing: border-box;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+	}
+
+	#comments::-webkit-input-placeholder {
+		font-size: 160%;
+		line-height: 1;
+	}
+
+	#comments::-moz-input-placeholder {
+		font-size: 160%;
+		line-height: 1;
+	}
+
+	#comments::-o-input-placeholder {
+		font-size: 160%;
+		line-height: 1;
+	}
+
+	#submit{
+		height: 15vh;
+		background-color: rgba(255,255,255,0.9);
+	}
+
+	#submit_button{
+		margin-left: 5%;
+		margin-top: 3%;
+		width: 25%;
+		height: 5vh;
+		border-style: outset;
+		border-color: rgba(1,1,1,0.5);
+		box-shadow: inherit;
+		font-family: "arial";
+		font-size: 130%;
+		/*background: linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));
+		background: -webkit-linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));
+		background: -moz-linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));
+		background: -o-linear-gradient(rgba(255,255,255,1),rgba(1,1,1,0.2));*/
+	}
+
+	.button:hover{
+		background-color: rgba(1,1,1,0.8);
+		color: rgb(255,255,255);
+		font-weight: bold;
+		border-style: outset;
+		border-color: rgba(255,255,255,0.7);
+	}
+
+	#caution{
+		display: none;
+		margin-left: 5%;
+		font-family: "arial";
+		font-size: 110%;
+		color: rgba(128,10,20,1);
+	}
 }
 
 
