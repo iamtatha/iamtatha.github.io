@@ -1,0 +1,133 @@
+body{
+	margin-left: 4%;
+	margin-right: 0;
+}
+
+header{
+	display: inline-block;
+	padding-top: 0;
+	width: 70%;
+	margin-right: 2%;
+}
+
+img{
+	width: 18%;
+	height: 35vh;
+}
+
+h1{
+	font-size: 240%;
+}
+
+h3{
+	font-size: 120%;
+	text-align: center;
+}
+
+p{
+	width: 70%;
+	padding-bottom: 2%;
+	padding-left: 15%;
+	text-align: center;
+  	text-justify: inter-word;
+}
+
+form label{
+	font-size: 160%;
+	padding-right: 5%;
+	font-weight: bold;
+}
+
+#seq{
+	width: 50%;
+	height: 20vh;
+}
+
+#button{
+	margin-top: 2%;
+	margin-left: 5%;
+	width: 8%;
+	height: 5vh;
+	box-shadow: 2px 5px;
+}
+
+#button:hover{
+	background-color: rgba(1,1,1,0.8);
+	color: white;
+}
+
+#graph{
+	width: 50vw;
+	height: 70vh;
+	margin-top: 3%;
+	padding-top: 4%;
+	margin-left: 20%;
+	display: none;
+}
+
+span{
+	display: inline-block;
+	margin-left: 50%;
+}
+
+span ul{
+	display: inline-block;
+	margin-left: 0;
+}
+
+h2{
+	text-align: center;
+	float: none;
+}
+
+
+#chart{
+	display: table;
+	margin-top: 5%;
+	padding-right: 8%;
+	width: 90%;
+	table-layout: auto;
+	border-collapse: collapse;
+ 	border: 1px solid black;
+ 	padding-right: 8%;
+}
+
+#chart th,td {
+  border: 1px solid black;
+}
+
+footer{
+	background-color: rgba(1,1,1,0.9);
+	margin-right: 4%;
+	height: 15vh;
+	margin-top: 20%;
+}
+
+footer p{
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	font-size: 120%;
+	color: white;
+	padding-top: 3%;
+	margin-left: 3%;
+}
+
+a{
+	text-decoration: none;
+	color: tomato;
+	font-size: 120%;
+}
+
+
+#link{
+	float: right;
+	padding-top: 3%;
+}
+
+#tatha{
+	float: right;
+	margin-right: 3%;
+	padding-left: 0;
+}

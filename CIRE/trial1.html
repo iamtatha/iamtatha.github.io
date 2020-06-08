@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+<script>
+window.onload = function () {/*
+alert(Math.sin(90));
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2",
+	title:{
+		text: "Simple Line Chart"
+	},
+	axisY:{
+		includeZero: true
+	},
+	data: [{        
+		type: "line",
+      	indexLabelFontSize: 16,
+		dataPoints: [
+			{ y: 450, x:200 },
+			{ y: 414},
+			{ y: 520, /*indexLabel: "\u2191 highest",markerColor: "red", markerType: "triangle" *//*},
+			{ y: 460 },
+			{ y: 450 },
+			{ y: 500 },
+			{ y: 480 },
+			{ y: 480 },
+			{ y: 410 , /*indexLabel: "\u2193 lowest",markerColor: "DarkSlateGrey", markerType: "cross"*//* },
+			{ y: 500 },
+			{ y: 480 },
+			{ y: 510 }
+		]
+	}]
+});
+chart.render();
+
+}*/
+TESTER = document.getElementById('tester');
+	Plotly.newPlot( TESTER, [{
+	x: [1, 2, 3, 4, 5],
+	y: [1, 2, 4, 8, 16] }], {
+	margin: { t: 0 } } );}
+</script>
+</head>
+<body>
+<div id="tester" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<aside></aside>
+</body>
+</html>
