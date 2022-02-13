@@ -1,0 +1,388 @@
+/* Desktop and laptop Version */
+@media all and (min-width: 1024px){
+  body{
+  	background-color: rgba(1,1,1,0.9);
+  	padding: 1%;
+  }
+
+  .shape {
+    height: 60%;
+    background-color: rgba(240,100,230, 0.65);
+    padding: 0.05% 12% 0 4%;
+    width: 1%;
+    position: relative;
+    margin-top: 1%;
+    margin-left: 1%;
+    display: inline-block;
+  }
+  .shape p {
+    color: white;
+    font-size: 177%;
+    position: relative;
+  }
+  .shape:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: 90px solid rgba(240,100,230, 0.65);
+    border-right: 75px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    display: inline-block;
+  }
+
+  input{
+    display: none;
+  }
+  nav span{
+    display: none;
+  }
+  nav{
+    display: inline-block;
+    background-color: rgba(255,255,255,0.9);
+    width: 40%;
+    margin-left: 40%;
+    padding-top: 0;
+  }
+  
+  nav ul li{
+    display: inline;
+    padding: 0;
+    margin-left: 5%;
+    font-size: 1.2em;
+    text-decoration: none;
+  }
+  nav div{
+    padding: 0px;
+  }
+  nav a:link{
+    text-decoration: none;
+    text-decoration-style: bold;
+  }
+
+
+  nav div ul li:hover{
+    color: rgba(240,100,230, 0.9); 
+    font-size: 1.3em;
+  }
+
+  #line{
+    margin: 1%;
+    /*height: 5vh;*/
+    display: block;
+    background-color: #7FFF50;
+    text-align: center;
+    padding: 0.5%;
+    font-size: 180%;
+    font-weight: bold;
+    color: black;
+    font-family: "Trebuchet MS";
+  }
+
+  h3{
+    color: #7FFFc0;
+    margin: 1%;
+    margin-left: 7%;
+    margin-right: 10%;
+    font-size: 200%;
+    font-family: "Trebuchet MS";
+  }
+
+  #thoughts{
+    color: white;
+    margin: 1%;
+    margin-left: 7%;
+    margin-right: 10%;
+    text-align: justify;
+    margin-bottom: 5%;
+    font-family: "Comic Sans MS";
+    font-size: 110%;
+  }
+
+  #thoughts a{
+    text-decoration: none;
+    color: #FFC0CB;
+  }
+
+  #my_rg a{
+    text-decoration: none;
+    color: #87CEEB;
+    font-size: 125%;
+    font-family: Georgia;
+  }
+
+  #my_rg{
+    text-align: center;
+    font-size: 125%;
+  }
+
+  .heading{
+    margin: 1%;
+    margin-left: 7%;
+    font-size: 200%;
+    font-weight: bold;
+    color: #7FFFc0;
+    font-family: "Book Antiqua";
+  }
+
+  .paper{
+    margin: 2%;
+    margin-left: 8.5%;
+    margin-right: 8.5%;
+    color: #FFE4C4;
+    font-size: 150%;
+    font-weight: bold;
+    font-family: "Trebuchet MS","Lucida Console";
+  }
+
+  .paper p{
+    font-size: 60%;
+    font-weight: normal;
+    color: white;
+    font-family: "Comic Sans MS","Courier New";
+  }
+
+  .author{
+    color: #ADD8E6;
+    font-size: 120%;
+    font-family: Geneva;
+  }
+
+  .publish{
+    color: #ADD8E6;
+    font-size: 120%;
+    font-family: Geneva;
+  }
+
+  .doi{
+    color: #ADD8E6;
+    font-size: 120%;
+    font-family: Geneva;
+  }
+
+  .rg{
+    color: #ADD8E6;
+    font-size: 120%;
+    font-family: Geneva;
+  }
+
+  .paper a{
+    color: #DA70D6;
+  }
+
+  footer{
+    margin: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+    color: white;
+    text-align: center;
+  }
+
+  q{
+    color: #EEE8AA;
+    font-family: cursive;
+    font-style: italic;
+  }
+
+  footer p{
+    font-family: georgia;
+  }
+
+}
+
+
+
+/* Mobile and Tablet version */
+
+@media all and (max-width: 600px){
+  body
+  {
+    background-color: rgba(1,1,1,0.9);
+    padding: 1%;
+    margin: 0;
+    padding: 0;
+    
+    /* make it look decent enough */
+    background: #232323;
+    color: #cdcdcd;
+    font-family: "Avenir Next", "Avenir", sans-serif;
+  }
+
+  .shape {
+    height: 60%;
+    background-color: rgba(240,100,230, 0.65);
+    padding: 0.5px 80px 0.5px 15px;
+    width: 1px;
+    position: relative;
+    margin-top: 20px;
+    margin-left: 4%;
+  }
+  .shape p {
+    color: white;
+    font-size: 15px;
+    position: relative;
+  }
+  .shape:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: 49px solid rgba(240,100,230, 0.65);
+    border-right: 55px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+
+  #menuToggle
+  {
+    display: block;
+    position: relative;
+    top: 50px;
+    left: 4%;
+    
+    z-index: 1;
+    
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+
+  #menuToggle a
+  {
+    text-decoration: none;
+    color: white;
+    /*background-color: gray;*/
+    transition: color 0.3s ease;
+  }
+
+  #menuToggle a:nth-child(2) {
+    color: rgba(255,255,255,0.5);
+  }
+
+  #menuToggle a:hover
+  {
+    color: rgba(240,100,230, 0.65);
+  }
+
+
+  #menuToggle input
+  {
+    display: block;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    
+    cursor: pointer;
+    
+    opacity: 0; /* hide this */
+    z-index: 2; /* and place it over the hamburger */
+    
+    -webkit-touch-callout: none;
+  }
+
+  /*
+   * Just a quick hamburger
+   */
+  #menuToggle span
+  {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    
+    background: #cdcdcd;
+    border-radius: 3px;
+    
+    z-index: 1;
+    
+    transform-origin: 4px 0px;
+    
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                opacity 0.55s ease;
+  }
+
+  #menuToggle span:first-child
+  {
+    transform-origin: 0% 0%;
+  }
+
+  #menuToggle span:nth-last-child(2)
+  {
+    transform-origin: 0% 100%;
+  }
+
+  /* 
+   * Transform all the slices of hamburger
+   * into a crossmark.
+   */
+  #menuToggle input:checked ~ span
+  {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: rgba(240,100,230, 0.65);
+  }
+
+  /*
+   * But let's hide the middle one.
+   */
+  #menuToggle input:checked ~ span:nth-last-child(3)
+  {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+
+  /*
+   * Oh yeah and the last one should go the other direction
+   */
+  #menuToggle input:checked ~ span:nth-last-child(2)
+  {
+    transform: rotate(-45deg) translate(0, -1px);
+  }
+
+  /*
+   * Make this absolute positioned
+   * at the top left of the screen
+   */
+  #menu
+  {
+    position: absolute;
+    width: 300px;
+    margin: -100px 0 0 -50px;
+    padding: 50px;
+    padding-top: 125px;
+    
+    /*background: ;*/
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+    
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+    
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+  }
+
+
+  #menu li
+  {
+    padding: 10px 0;
+    font-size: 22px;
+  }
+
+  /*
+   * And let's slide it in from the left
+   */
+  #menuToggle input:checked ~ ul
+  {
+    transform: none;
+  }
+
+
+
+}
