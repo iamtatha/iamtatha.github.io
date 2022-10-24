@@ -271,6 +271,11 @@ h6 {
   border-bottom: 3px solid #149ddd;
 }
 
+#link{
+  font-size: 18px;
+  font-family: "Open Sans";
+}
+
 @media (max-width: 1100px) {
   #hero {
     background-attachment: fixed;
@@ -290,8 +295,8 @@ h6 {
   #hero p {
     color: #fff;
     margin-bottom: 40px;
-    font-size: 22px;
-    padding-top: 8px;
+    font-size: 26px;
+    padding-top: 20px;
     font-family: "Poppins", sans-serif;
   }
   
@@ -300,6 +305,11 @@ h6 {
     padding-bottom: 4px;
     letter-spacing: 1px;
     border-bottom: 3px solid #149ddd;
+  }
+
+  #link{
+    font-size: 20px;
+    font-family: "Open Sans";
   }
 }
 
@@ -315,8 +325,9 @@ h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 60px 100px 0 100px;
   overflow: hidden;
+  /* background-color: yellow; */
 }
 
 .section-bg {
@@ -349,6 +360,20 @@ section {
 
 .section-title p {
   margin-bottom: 0;
+  font-family: "Raleway";
+  font-weight: 500;
+}
+
+@media (max-width: 1100px) {
+  section {
+    padding: 60px 20px 0 20px;
+    overflow: hidden;
+    /* background-color: yellow; */
+  }
+
+  .section-title p {
+    text-align: justify;
+  }
 }
 
 /*--------------------------------------------------------------
