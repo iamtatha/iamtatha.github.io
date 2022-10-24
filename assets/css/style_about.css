@@ -341,7 +341,7 @@ h6 {
   }
 
   @media (max-width: 1100px) {
-    .video{
+    iframe{
       width: 300;
       height: 180;
     }
