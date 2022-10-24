@@ -359,6 +359,34 @@ body {
     background-color: #b4b2ad;
     color: #050D18;
   }
+
+  @media (max-width: 700px) {
+    body{
+      margin-top: 10px;
+    }
+
+    table{
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+
+    #prevedu {
+      overflow-x: scroll;
+      font-size: 10pt;
+    }
+
+    #prevedu td{
+      font-size: 10pt;
+    }
+
+    #autumn22 td{
+      font-size: 11pt;
+    }
+
+
+  }
+
+
   /*--------------------------------------------------------------
   # Footer
   --------------------------------------------------------------*/
