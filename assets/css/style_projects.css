@@ -348,6 +348,16 @@ body {
     .projects div p{
       font-size: 9pt;
     }
+      
+    .projects div{
+      margin-bottom: 5%;
+      text-align:left;
+    }
+      
+    h2{
+      font-weight: 500;
+      font-size: 16pt;
+    }
   }
 
 
