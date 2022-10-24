@@ -295,7 +295,7 @@ h6 {
   #hero p {
     color: #fff;
     margin-bottom: 40px;
-    font-size: 26px;
+    font-size: 24px;
     padding-top: 20px;
     font-family: "Poppins", sans-serif;
   }
@@ -325,7 +325,7 @@ h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 100px 0 100px;
+  padding: 0 100px 0 100px;
   overflow: hidden;
   /* background-color: yellow; */
 }
@@ -343,6 +343,7 @@ section {
   font-weight: bold;
   margin-bottom: 20px;
   padding-bottom: 20px;
+  padding-top: 60px;
   position: relative;
   color: #173b6c;
 }
@@ -364,6 +365,31 @@ section {
   font-weight: 500;
 }
 
+.goto h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  position: relative;
+  color: #173b6c;
+}
+
+.goto h3::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #149ddd;
+  bottom: 0;
+  left: 0;
+}
+
+.goto {
+  display: none;
+  padding-bottom: 30px;
+}
+
 @media (max-width: 1100px) {
   section {
     padding: 60px 20px 0 20px;
@@ -373,6 +399,10 @@ section {
 
   .section-title p {
     text-align: justify;
+  }
+
+  .goto{
+    display: block;
   }
 }
 
