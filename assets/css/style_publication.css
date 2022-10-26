@@ -371,14 +371,12 @@ body {
     }
 
     li button{
-      margin: 2px;
-      font-size: 9pt;
+      font-size: 10pt;
       width: 40%;
     }
 
     p{
       font-size: 10pt;
-      margin: 0%;
     }
 
     /* table p */
