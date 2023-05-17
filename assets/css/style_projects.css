@@ -11,6 +11,7 @@
 body {
     font-family: "Open Sans", sans-serif;
     color: #272829;
+    padding-top: 1%;
   }
   
   
@@ -358,6 +359,20 @@ body {
       font-weight: 500;
       font-size: 16pt;
     }
+  }
+
+  .section-title h2{
+    background-color: #dfe0ea;
+    border-radius: 10px;
+    padding-left: 10px;
+    font-size: 19pt;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-family: 'Raleway';
+  }
+
+  .section-title{
+    margin-bottom: 1%;
   }
 
 

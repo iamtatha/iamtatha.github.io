@@ -341,14 +341,14 @@ h6 {
   }
 
   @media (max-width: 1100px) {
-    iframe{
-      width: 300;
-      height: 180;
+    .video{
+      width: 360;
+      height: 224;
     }
 
     .me{
-      padding-left: 7%;
-      padding-right: 7%;
+      padding-left: 4%;
+      padding-right: 4%;
       font-family: 'Raleway';
       font-weight: 25px;
       font-size: 12pt;

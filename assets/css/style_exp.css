@@ -11,8 +11,18 @@
 body {
     font-family: "Open Sans", sans-serif;
     color: #272829;
+    padding-top: 2%;
   }
   
+  a {
+    color: #149ddd;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #37b3ed;
+    text-decoration: none;
+  }
   
   h1,
   h2,
@@ -276,125 +286,101 @@ body {
     font-size: 14px;
   }
   
-  h1{
-    padding-top: 2%;
+  img{
+    height: 50px;
   }
 
-  h2{
-    color: #040b14;
-    padding-top: 2%;
-    padding-bottom: 2%;
+  .img{
+    text-align: center;
+    padding-right: 5%;
   }
 
-  /* #change{
-    font-size: 11pt;
-    font-weight: 100;
-  } */
-
-  ol{
-    width: 80%;
+  .exp {
+    width: 90%;
+    margin: auto;
+    padding-top: 3%;
+    padding-bottom: 7%;
+    border-radius: 20px;
   }
 
-  .even{
-    padding: 1%;
+  h4{
+    padding-bottom: 0%;
+    margin-bottom: 0%;
+    font-family: 'Raleway';
+    /* background-color: #040b14; */
+  }
+
+  hr{
+    width: 98%;
+    color: #149ddd;
+    position: relative;
+    top: 20px;
+    border: none;
+    height: 5px;
+    background-color: black;
+    margin-bottom: 50px;
+    margin-top: 0%;
+    padding-top: 0%;
   }
 
   table{
-    font-family: "Raleway";
-    font-size: 11pt;
-    width: 100%;
+    width: 80%;
+    margin: auto;
   }
 
-
-  table a{
-    color: white;
-    text-decoration: none;
+  .left-exp{
+    /* background-color: yellowgreen; */
+    width: 69%;
+    font-family: 'Raleway';
+    display: inline-block;
+    /* height: 100px; */
+    padding: 0%;
   }
 
-  button:hover{
-    text-decoration: none;
-    background-color: #cccac2;
-    color: #040b14;
-  }
-
-  button{
-    position: relative;
-    color: #4e4f50;
-    border-color: white;
-    /* background-color: #c0c2c4; */
+  .right-exp{
+    /* background-color: violet; */
+    width: 29%;
+    display: inline-block;
     text-align: center;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    text-decoration: none;
-    overflow: hidden;
-    cursor: pointer;
-    border-radius: 5px 10px;
-    font-size: 11pt;
-    width: 20%;
-    /* font-weight: bold; */
-  }
-  
-  #contents a{
-    text-decoration: none;
-    font-family: "Raleway";
-    color: #2c2f3f;
-    font-size: 13pt;
   }
 
-  #orcid {
-    background-color: #447405;
-    margin-bottom: 2%;
-    color: white;
+  table span{
+    font-size: 14pt;
+    font-style: italic;
+    display: block;
+    font-weight: bold;
   }
 
-
-  #rg{
-    background-color: #189565;
-    margin-bottom: 2%;
-    color: white;
+  p{
+    margin-top: 3%;
   }
 
-  table p{
-    margin: 0.5%;
+  img{
+    width: 70%;
+    height: 70%;
+  }
+/* 
+  .exps{
+    background-color: #040b14;
+  } */
+
+  .exp:nth-child(odd){
+    background-color: #F3EBE9;
+    
   }
 
-
+  .exp:nth-child(even){
+    background-color: white;  
+  }
 
   @media (max-width: 1100px) {
     body{
-      width: 100%;
-    }
+      margin-top: 12px;
+    
 
-    button {
-      width: 70%;
-      height: 6vh;
-    }
-
-    ol{
-      width: 100%;
-    }
-
-    tr {
-      padding: 0;
-      width: 100%;
-    }
-
-    h5{
-      font-size: 11pt;
-    }
-
-    li button{
-      font-size: 10pt;
-      width: 35%;
-    }
-
-    p{
-      font-size: 10pt;
-    }
-
-    /* table p */
 
   }
+
 
   /*--------------------------------------------------------------
   # Footer
