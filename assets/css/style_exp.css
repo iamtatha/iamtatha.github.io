@@ -298,16 +298,11 @@ body {
   .exp {
     width: 90%;
     margin: auto;
-    padding-top: 3%;
-    padding-bottom: 7%;
+    margin-top: 2%;
+    padding-top: 2%;
+    margin-bottom: 2%;
+    padding-bottom: 2%;
     border-radius: 20px;
-  }
-
-  h4{
-    padding-bottom: 0%;
-    margin-bottom: 0%;
-    font-family: 'Raleway';
-    /* background-color: #040b14; */
   }
 
   hr{
@@ -359,24 +354,26 @@ body {
     width: 70%;
     height: 70%;
   }
-/* 
-  .exps{
-    background-color: #040b14;
-  } */
-
-  .exp:nth-child(odd){
-    background-color: #F3EBE9;
-    
-  }
-
-  .exp:nth-child(even){
-    background-color: white;  
-  }
 
   @media (max-width: 1100px) {
     body{
       margin-top: 12px;
-    
+    }
+
+    .left-exp{
+      display: block;
+      width: 100%;
+    }
+
+    .right-exp{
+      display: block;
+      width: 70%;
+      margin: auto;
+    }
+
+    .exp{
+      margin-bottom: 12%;
+    }
 
 
   }
