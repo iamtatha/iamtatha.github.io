@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style_morse.css" rel="stylesheet">
+    <script src="morse.js"></script>
+</head>
+
+<body>
+    <h2 id='title'>Morse Translator by Tathagata</h2>
+    <div id="input" class="wrapper">
+        <div class="form">
+            <div class="inputfield">
+                <label for="morse_input" id='label1'> Place Your Input Here </label>
+                <textarea id="morse_input" rows=10 cols=50
+                    placeholder='Write or Paste the input text here for encryption.'></textarea>
+            </div>
+            <div class="inputfield">
+                <label for="morse_output" id='label2'> The Output is </label>
+                <textarea id="morse_output" rows=10 cols=50
+                    placeholder='The decrypted output will be shown here.'></textarea>
+            </div>
+            <div class="inputfield">
+                <input onclick="into_morse()" type="submit" value="Convert into Morse" class="btn">
+                <input onclick="from_morse()" type="submit" value="Convert form Morse" class="btn">
+                <input onclick="copy()" type="submit" value="Copy Output" class="btn">
+                <input onclick="document.getElementById('morse_input').value = ''" type="submit" value="Reset Field"
+                    class="btn">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Created and protected by &copy Tathagata Dey.
+        <br>
+        Contact: <a href="https://www.linkedin.com/in/tathagata-dey-580245172/" target="_blank">LinkedIn</a> | <a
+            href="mailto:tathagata2403@gmail.com" target="_blank">Email</a> | <a
+            href="https://instagram.com/epistemophilic_nerd" target="_blank">Instagram</a> | <a
+            href="www.iamtatha.github.io" target="_blank">Webpage</a>
+    </footer>
+
+
+</body>
+
+</html>
