@@ -36,6 +36,26 @@ code['33'] = '11100010001000111'   //x
 code['34'] = '1110001000111000111'   //y
 code['35'] = '11100011100010001'   //z
 
+code['146'] = '1000100010001110001'//.
+code['144'] = '1000100011100010001'//,
+code['163'] = '100010001110001000111'//?
+code['133'] = '100010001110001110001'//!
+
+code['134'] = '1000111000100010001'//"
+code['135'] = '100011100010001000111'//#
+code['138'] = '100011100010001110001'//&
+code['164'] = '10001110001000111000111'//@
+code['139'] = '100011100011100010001'//'
+code['145'] = '10001110001110001000111'//-
+code['195'] = '10001110001110001110001'//_
+
+code['143'] = '111000100010001000111'//+
+code['142'] = '111000100010001110001'//*
+code['147'] = '11100010001000111000111'///
+code['161'] = '111000100011100010001'//=
+code['132'] = ' '//space
+//
+
 
 function copy() {
     var copyText = document.getElementById("morse_output");
@@ -53,34 +73,43 @@ function into_morse() {
     var text = str.toString().toLowerCase();
     var output = "";
     var i;
-    //console.log(text);
+    // console.log(text);
     for (i = 0; i < text.length; i++) {
         var ascii = text[i].charCodeAt(0);
-        if ((text[i] == ' ') && (i != text.length - 1) && (text[i + 1] != '.') && (i != 0) && (text[i - 1] != '.')) {
+        // console.log(ascii);
+        if ((text[i] == ' ')) {
+            // console.log('match1');
             output = output.concat('  ');  						//2 spaces - word gap
         }
 
         else if ((text[i] == ' ') && ((text[i + 1] == '.') || (text[i - 1] == '.'))) {
+            // console.log('match2');
             output = output.concat('');
         }
 
-        else if (text[i] == '.') {
-            output = output.concat('   ');  						//3 spaces - fullstop
-        }
+        // else if (text[i] == '.') {
+        //     output = output.concat(code[ascii+100]);  				//dot ascii
+        //     if ((i != text.length - 1) && (text[i + 1] != ' ')) {
+        //         output = output.concat(' '); 
+        //     }
+        // }
         else {
-            if (ascii < 58)
+            // console.log(ascii);
+            if (ascii < 58 && ascii > 47)
                 ascii = ascii - 48;
-            else
+            else if((ascii > 64 && ascii < 91) || (ascii > 95 && ascii < 125))
                 ascii = ascii - 87;
-            //console.log(code[ascii]);
+            else
+                ascii = ascii + 100;
+            // console.log(code[ascii]);
             output = output.concat(code[ascii]);
-            if ((i != text.length - 1) && (text[i + 1] != ' ') && (text[i + 1] != '.')) {
+            if ((i != text.length - 1) && (text[i + 1] != ' ')) {
                 output = output.concat(' ');  						//1 spaces - letter gap
                 //console.log(output);
             }
         }
     }
-    //console.log(output);
+    console.log(output);
     while ((output.split("111").length - 1) > 0) {
         output = output.replace("111", "-");
     }
@@ -102,7 +131,7 @@ function into_morse() {
 
 
 function match(n) {
-
+    // console.log(n);
     if (n == '')
         return '';
     var i = 0;
@@ -110,14 +139,17 @@ function match(n) {
     for (i = 0; i < code.length; i++) {
         if (code[i] == n) {
             index = i;
+            // console.log(code[index]);
+            // console.log(index);
             break;
         }
-        //console.log(index);
     }
     if (index < 10)
         index = index + 48;
-    else
+    else if (index < 36)
         index = index + 87;
+    else
+        index = index - 100;
     var value = String.fromCharCode(index);
     return value;
 }
@@ -130,6 +162,7 @@ function getword(s) {
     var k = 0;
 
     for (k = 0; k < letters.length; k++) {
+        console.log(letters[k]);
         var letter = '';
 
         while ((letters[k].split(".").length - 1) > 0) {
@@ -142,11 +175,11 @@ function getword(s) {
         }
 
         letters[k] = letters[k].substring(0, letters[k].length - 3);
-        //console.log(letters[k]);
+        // console.log(letters[k]);
         letter = match(letters[k]);
         word = word.concat(letter);
     }
-
+    // console.log(word);
     return word;
 }
 
@@ -157,43 +190,33 @@ function from_morse() {
     var text = str.toString().toLowerCase();
 
     var output = "";
-    var sentences = text.split("   ");						//3 spaces - Fullstop
-    //console.log(sentences);
+    var words = text.split("  ");						//2 spaces - Word split
+    // console.log(words);
 
     var i = 0;
-    for (i = 0; i < sentences.length; i++) {
-
-
-        var words = sentences[i].split("  ");					//2 spaces - word gap
-        //console.log(words);
+    for (i = 0; i < words.length; i++) {
         var sentence = '';
-        var j = 0;
-        for (j = 0; j < words.length; j++) {
 
-            var word = getword(words[j]);
-            //console.log(word);
+        var word = getword(words[i]);
+        //console.log(word);
 
-            if (j != words.length - 1) {
-                word = word.concat(' ');
-            }
-            sentence = sentence.concat(word);
-        }
-
-        output = output.concat(sentence);
-
-        if ((i != sentences.length - 1) && (sentences[i + 1].length > 0)) {
-            //console.log('yay');
-            output = output.concat('.');
-            output = output.concat(' ');
-        }
-        else if ((i == sentences.length - 1) && (text[text.length - 1] == ' ')) {
-            //console.log('nay');
-            output = output.concat('.');
-        }
-        else if ((i != sentences.length - 1) && (sentences[i + 1].length == 0) && (sentences[i].length == 0)) {
-            output = output.concat('.');
-        }
+        output = output.concat(word);
+        output = output.concat(' ');
     }
+
+
+        // if ((i != sentences.length - 1) && (sentences[i + 1].length > 0)) {
+        //     //console.log('yay');
+        //     output = output.concat('.');
+        //     output = output.concat(' ');
+        // }
+        // else if ((i == sentences.length - 1) && (text[text.length - 1] == ' ')) {
+        //     //console.log('nay');
+        //     output = output.concat('.');
+        // }
+        // else if ((i != sentences.length - 1) && (sentences[i + 1].length == 0) && (sentences[i].length == 0)) {
+        //     output = output.concat('.');
+        // }
 
     document.getElementById("morse_output").innerHTML = output;
 }
