@@ -92,7 +92,7 @@ h2 {
 
 #title {
     text-align: center;
-    padding-bottom: 3%;
+    padding-bottom: 1%;
 }
 
 footer {
@@ -109,6 +109,24 @@ footer a{
 
 span {
     color: red;
+}
+
+#web_div{
+    text-align: center;
+}
+#web{
+    height: 6vh;
+    border-radius: 10px;
+    border-color: rgba(27, 27, 27, 1);
+    color: white;
+    background-color: rgba(27, 27, 27, 1);
+    padding: 1%;
+}
+
+#web a{
+    text-decoration: none;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
 }
 
 @media (max-width:420px) {
