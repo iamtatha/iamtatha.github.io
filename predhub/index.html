@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pred Hub</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="getSheetData.js" type="text/javascript" defer></script>
+    <script src="script_match.js" type="text/javascript" defer></script>
+    <style>
+        body{
+            width: 100%;
+        }
+
+        .regname {
+            margin-top: 2%;
+        }
+
+        .blue-text {
+            margin-bottom: 2%;
+        }
+
+        .predName {
+            margin-top: 2%;
+        }
+
+        .matches {
+            margin-top: 3%;
+        }
+
+        @media (max-width: 1100px) {
+            .euro-div table{
+                /* display: block; */
+                /* background-color: yellow; */
+                width: 100%;
+            }
+
+            .copa-div table{
+                display: block;
+                /* background-color: yellow; */
+                width: 100%;
+            }
+
+            /* #submit {
+                display: block;
+            } */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid px-1 py-5 mx-auto">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-8 col-lg-9 col-md-10 col-12 text-center">
+                <h3>Predict Your Scoreline, Get Points and Make Your Matchdays Exciting.</h3>
+                <span>Developed and maintained by <b>Tathagata Dey</b>, <a href="https://cse.iitb.ac.in/~tathagata/" target="_blank">Webpage</a>, <a href="https://twitter.com/i_am_tatha" target="_blank">Twitter</a>, <a href="https://www.linkedin.com/in/tathagata-dey-580245172/" target="_blank">LinkedIn</a>, <a href="https://linktr.ee/tathag" target="_blank">Links</a></span>
+                <p class="blue-text">
+                    <h5>Rules of Prediction!</h5>
+                    <ul style="text-align: left;">
+                        <li>Prediction of a match should be made before the start of the match.</li>
+                        <li>An absolute correct prediction will result in +5 points.</li>
+                        <li>Prediction of correct winning team and correct goal difference will result in +3 points</li>
+                        <li>Prediction of the correct winning team will result in +2 points.</li>
+                        <li>Write E7 or C7 for the 7th match of Euro and Copa respectively.</li>
+                        <li>If you do not have a key, register yourself and you will receive a key.</li>
+                        <li>You need to enter your prediction through the form with your own key.</li>
+                        <li>Only one submission will be acceptable per match.</li>
+                    </ul>
+                    <a href="#"><button class="col-5 col-lg-3 btn btn-danger">Watch Youtube Tutorial</button></a>
+                    <a href="index2.html"><Check class="col-5 col-lg-3 btn btn-success">Check Leaderboard</button></a>
+                </p>
+
+
+                <div class="card">
+                    <h5 class="text-center mb-4 predName">Prediction Hub</h5>
+                    <form class="form-card" id="predict" method="post" action="https://script.google.com/macros/s/AKfycbyG3cZginvYSrEqdbcgIYuerxEbt58g49xyO7Q8XczAROYZnskfcKGPkkVWccXDLCO7Nw/exec">
+                        
+                        <input type="text" name="key" id="key" placeholder="Your Key: hd65s"/>
+                        <input type="text" placeholder="Match" name="match" id="match">
+                        <input type="number" placeholder="Team 1 score" name="t1" id="t1">
+                        <input type="number" placeholder="Team 2 score" name="t2" id="t2">
+                        <input type="hidden" id="datetime" name="datetime">
+                        <input id="submit" type="submit" value="Submit" id="Submit"/>
+                    </form>
+                </div>
+
+
+                <div class="card">
+                    <h5 class="text-center mb-4 regname">Register Yourself</h5>
+                    <form class="form-card" id="register" method="post" action="https://script.google.com/macros/s/AKfycbyK68awfpNoE820OBW5BEQqSmxhX0jnVPCOTpptGZNWqJyS-eVkqXyxRt3hMtmxpwR7Nw/exec">
+                        
+                        <input type="text" name="name" id="key" placeholder="Your Name"/>
+                        <input type="email" name="email" id="email" placeholder="Your Email: abc@def.xyz">
+                        <input type="number" name="number" id="number" placeholder="Phone Number">
+                        <input id="submit" type="submit" value="Submit" id="Submit"/>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center matches">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-12 text-center euro-div" style="display: inline-block; background-color: rgb(239, 247, 211);">
+                    <h3> EURO 2024 Schedule</h3>
+                    <table id="euro">
+                        <tr>
+                            <th>Match Number</th>
+                            <th>Date</th>
+                            <th>Home Team</th>
+                            <th>Away Team</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5 col-12 text-center copa-div" style="display: inline-block; background-color: beige;">
+                    <h3>Copa 2024 Schedule</h3>
+                    <table id="copa">
+                        <tr>
+                            <th>Match Number</th>
+                            <th>Date</th>
+                            <th>Home Team</th>
+                            <th>Away Team</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predict').addEventListener('submit', function(event) {
+            const currentDateTime = new Date().toISOString();
+            document.getElementById('datetime').value = currentDateTime;
+            console.log(currentDateTime);
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.
+bundle.min.js"></script>
+</body>
+
+</html>
