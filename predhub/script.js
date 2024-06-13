@@ -40,10 +40,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
   getSheetData({
     // sheetID you can find in the URL of your spreadsheet after "spreadsheet/d/"
-    sheetID: "1NHXYOMPWGGtlThwFYYW0aQdu_-gxozAsTzuDK8zOIlg",
+    sheetID: "",
     // sheetName is the name of the TAB in your spreadsheet (default is "Sheet1")
     sheetName: "test",
-    query: "SELECT * WHERE E = 'GATE Guidance'",
+    query: "",
     callback: sheetDataHandler,
   });
 });
