@@ -3,32 +3,44 @@ window.addEventListener("DOMContentLoaded", (event) => {
     console.log("sheet data: ", sheetData);
     console.log("length: ", sheetData.length);
     //ADD YOUR CODE TO WORK WITH sheetData ARRAY OF OBJECTS HERE
-    let table = document.getElementById("table");
-    let row = table.insertRow(-1);
-    let c1 = row.insertCell(0);
-    let c2 = row.insertCell(1);
-    let c3 = row.insertCell(2);
-    let c4 = row.insertCell(3);
-    let c5 = row.insertCell(4);
-    let c6 = row.insertCell(5);
-    let c7 = row.insertCell(6);
-    let c8 = row.insertCell(7);
-    let c9 = row.insertCell(8);
-    let c10 = row.insertCell(9);
     
     let key = 0;
+    let count = 0;
 
-    c1.innerHTML = sheetData[key]["Sl. No."];
-    c2.innerHTML = sheetData[key]["Name"];
-    c3.innerHTML = sheetData[key]["Email"];
-    c4.innerHTML = sheetData[key]["Contact"];
-    c5.innerHTML = sheetData[key]["Service"];
-    c6.innerHTML = sheetData[key]["Book Date"];
-    c7.innerHTML = sheetData[key]["Book Time"];
-    c8.innerHTML = sheetData[key]["Query"];
-    c9.innerHTML = sheetData[key]["Rating"];
-    c10.innerHTML = sheetData[key]["Testimonial"];
+    let data = []
+
+    for(key; key<sheetData.length; key++) {
+      nameKey = sheetData[key]["key"];
+      name_ = sheetData[key]["name"];
+      score_ = sheetData[key]["score"];
+      tot_ = sheetData[key]["total preds"];
+      avg_ = sheetData[key]["avg score"];
+      
+      count += 1;
+      data.push({name: name_, score: score_, tot: tot_, avg: avg_});
+    }
+
+    data.sort((a, b) => a.score - b.score);
+    let rank = 1;
+    
+    for(count; count>0; count--) {
+      // console.log(data[count-1]);
+      let table = document.getElementById("table");
+      let row = table.insertRow(-1);
+      let c1 = row.insertCell(0);
+      let c2 = row.insertCell(1);
+      let c3 = row.insertCell(2);
+      let c4 = row.insertCell(3);
+
+      c1.innerHTML = rank;
+      c2.innerHTML = data[count-1].name;
+      c3.innerHTML = data[count-1].score;
+      c4.innerHTML = data[count-1].avg;
+
+      rank += 1;
+    }
   };
+
 
   // --==== QUERY EXAMPLES ====--
   // --==== USE LETTERS FOR COLUMN NAMES ====--
@@ -40,10 +52,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
   getSheetData({
     // sheetID you can find in the URL of your spreadsheet after "spreadsheet/d/"
-    sheetID: "",
+    sheetID: "1a28hEzwn663y6WP19Ix9UNFyE-1NnXLUSRNfKdWBDQg",
     // sheetName is the name of the TAB in your spreadsheet (default is "Sheet1")
-    sheetName: "test",
-    query: "",
+    sheetName: "scores",
+    query: "SELECT *",
     callback: sheetDataHandler,
   });
 });
