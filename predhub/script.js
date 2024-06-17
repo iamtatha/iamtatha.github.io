@@ -20,6 +20,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       data.push({name: name_, score: score_, tot: tot_, avg: avg_});
     }
 
+    data.sort((a, b) => a.avg - b.avg);
     data.sort((a, b) => a.score - b.score);
     let rank = 1;
     
