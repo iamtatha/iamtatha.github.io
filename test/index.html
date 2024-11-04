@@ -1,62 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSV Data from GitHub</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Questions</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #table-container { margin-top: 20px; }
+        #filter-buttons { margin-bottom: 10px; }
+        .button { margin: 5px; padding: 5px 10px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    </style>
 </head>
 <body>
 
-<h1>Data from CSV on GitHub</h1>
-<div id="data-table"></div>
+<h1>LeetCode Questions</h1>
 
-<script>
-  // URL of the CSV file on GitHub
-  const csvUrl = 'https://raw.githubusercontent.com/krishnadey30/LeetCode-Questions-CompanyWise/refs/heads/master/accolite_alltime.csv';
+<div id="filter-buttons">
+    <label for="company">Company:</label>
+    <select id="company">
+        <option value="">Select Company</option>
+        <option value="Google">Google</option>
+        <option value="Amazon">Amazon</option>
+        <option value="Apple">Apple</option>
+        <option value="Meta">Meta</option>
+    </select>
 
-  // Fetch the CSV file
-  d3.csv(csvUrl).then(data => {
-    // Create a table element
-    const table = d3.select("#data-table").append("table");
-    const thead = table.append("thead");
-    const tbody = table.append("tbody");
+    <label for="tag">Tag:</label>
+    <select id="tag">
+        <option value="">Select Tag</option>
+        <option value="Array">Array</option>
+        <option value="Hash Table">Hash Table</option>
+        <option value="Linked List">Linked List</option>
+        <option value="Math">Math</option>
+        <option value="String">String</option>
+        <option value="Binary Search">Binary Search</option>
+        <option value="Dynamic Programming">Dynamic Programming</option>
+        <option value="Heap">Heap</option>
+        <option value="BFS">BFS</option>
+        <option value="Graph">Graph</option>
+        <option value="Design">Design</option>
+    </select>
 
-    // Add table headers
-    thead.append("tr")
-      .selectAll("th")
-      .data(Object.keys(data[0]))
-      .enter()
-      .append("th")
-      .text(d => d);
+    <button id="filter-button" class="button">Filter</button>
+    <button id="reset-button" class="button">Reset</button>
+</div>
 
-    // Add rows of data
-    data.forEach(row => {
-      const tr = tbody.append("tr");
-      Object.values(row).forEach(value => {
-        tr.append("td").text(value);
-      });
-    });
-  }).catch(error => {
-    console.error("Error loading CSV data:", error);
-    document.getElementById("data-table").innerText = "Failed to load data.";
-  });
-</script>
+<div id="table-container">
+    <table id="questions-table">
+        <thead>
+            <tr>
+                <th>Question No</th>
+                <th>Question Name</th>
+                <th>Link</th>
+                <th>Companies</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Data will be loaded here -->
+        </tbody>
+    </table>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
