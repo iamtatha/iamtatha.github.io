@@ -1,16 +1,16 @@
-Question No,Question Name,Link,Companies,Tags
-1,Two Sum,https://leetcode.com/problems/two-sum,Google;Amazon;Facebook,Array;Hash Table
-2,Add Two Numbers,https://leetcode.com/problems/add-two-numbers,Amazon;Microsoft;Apple,Linked List;Math
-3,Longest Substring Without Repeating Characters,https://leetcode.com/problems/longest-substring-without-repeating-characters,Google;Facebook,String;Sliding Window
-4,Median of Two Sorted Arrays,https://leetcode.com/problems/median-of-two-sorted-arrays,Facebook;Amazon;Microsoft,Array;Binary Search;Divide and Conquer
-5,Longest Palindromic Substring,https://leetcode.com/problems/longest-palindromic-substring,Google;Amazon,String;Dynamic Programming
-6,Container With Most Water,https://leetcode.com/problems/container-with-most-water,Google;Amazon,Array;Two Pointer
-7,Generate Parentheses,https://leetcode.com/problems/generate-parentheses,Facebook;Amazon;Microsoft,String;Backtracking
-8,Merge k Sorted Lists,https://leetcode.com/problems/merge-k-sorted-lists,Amazon;Google;LinkedIn,Linked List;Heap
-9,Reverse Nodes in k-Group,https://leetcode.com/problems/reverse-nodes-in-k-group,Microsoft;LinkedIn;Amazon,Linked List
-10,Maximum Subarray,https://leetcode.com/problems/maximum-subarray,Amazon;Microsoft;Google,Array;Dynamic Programming
-11,Search in Rotated Sorted Array,https://leetcode.com/problems/search-in-rotated-sorted-array,Google;Microsoft,Array;Binary Search
-12,Trapping Rain Water,https://leetcode.com/problems/trapping-rain-water,Google;Amazon;Microsoft,Array;Two Pointer;Dynamic Programming
-13,Word Ladder,https://leetcode.com/problems/word-ladder,Amazon;Facebook;LinkedIn,BFS;Graph
-14,Find Median from Data Stream,https://leetcode.com/problems/find-median-from-data-stream,Google;Amazon;Microsoft,Heap;Design
-15,LRU Cache,https://leetcode.com/problems/lru-cache,Google;Amazon;Facebook;LinkedIn,Design;Hash Table
+Question No,Question Name,Difficulty,Link,Companies,Tags
+1,Two Sum,Easy,https://leetcode.com/problems/two-sum,Google;Amazon;Facebook,Array;Hash Table
+2,Add Two Numbers,Medium,https://leetcode.com/problems/add-two-numbers,Amazon;Microsoft;Apple,Linked List;Math
+3,Longest Substring Without Repeating Characters,Medium,https://leetcode.com/problems/longest-substring-without-repeating-characters,Google;Facebook,String;Sliding Window
+4,Median of Two Sorted Arrays,Hard,https://leetcode.com/problems/median-of-two-sorted-arrays,Facebook;Amazon;Microsoft,Array;Binary Search;Divide and Conquer
+5,Longest Palindromic Substring,Medium,https://leetcode.com/problems/longest-palindromic-substring,Google;Amazon,String;Dynamic Programming
+6,Container With Most Water,Medium,https://leetcode.com/problems/container-with-most-water,Google;Amazon,Array;Two Pointer
+7,Generate Parentheses,Medium,https://leetcode.com/problems/generate-parentheses,Facebook;Amazon;Microsoft,String;Backtracking
+8,Merge k Sorted Lists,Hard,https://leetcode.com/problems/merge-k-sorted-lists,Amazon;Google;LinkedIn,Linked List;Heap
+9,Reverse Nodes in k-Group,Medium,https://leetcode.com/problems/reverse-nodes-in-k-group,Microsoft;LinkedIn;Amazon,Linked List
+10,Maximum Subarray,Easy,https://leetcode.com/problems/maximum-subarray,Amazon;Microsoft;Google,Array;Dynamic Programming
+11,Search in Rotated Sorted Array,Medium,https://leetcode.com/problems/search-in-rotated-sorted-array,Google;Microsoft,Array;Binary Search
+12,Trapping Rain Water,Medium,https://leetcode.com/problems/trapping-rain-water,Google;Amazon;Microsoft,Array;Two Pointer;Dynamic Programming
+13,Word Ladder,Hard,https://leetcode.com/problems/word-ladder,Amazon;Facebook;LinkedIn,BFS;Graph
+14,Find Median from Data Stream,Hard,https://leetcode.com/problems/find-median-from-data-stream,Google;Amazon;Microsoft,Heap;Design
+15,LRU Cache,Medium,https://leetcode.com/problems/lru-cache,Google;Amazon;Facebook;LinkedIn,Design;Hash Table
