@@ -6,6 +6,91 @@ body {
     padding: 20px; /* Add padding for better spacing */
 }
 
+
+
+
+#loading-message {
+    text-align: center;
+    margin: 20px 0;
+    font-family: 'Roboto', sans-serif; /* Use Roboto for a modern look */
+    border: 1px solid #dcdcdc; /* Light border around the box */
+    border-radius: 12px; /* Rounded corners for the box */
+    padding: 25px; /* Padding inside the box */
+    background-color: #ffffff; /* Light background for light mode */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+}
+
+#loading-message h2 {
+    color: #2c3e50; /* Dark color for heading in light mode */
+    margin-bottom: 10px; /* Reduced margin for less space */
+    font-size: 24px; /* Larger font size for emphasis */
+    font-weight: 600; /* Semi-bold for a more authoritative look */
+}
+
+#loading-message p {
+    font-size: 18px; /* Slightly larger font size for readability */
+    color: #34495e; /* Darker color for text in light mode */
+    line-height: 1.4; /* Reduced line height for less space */
+    margin: 5px 0; /* Reduced margin for less space */
+}
+
+#loading-message a {
+    text-decoration: none; /* Remove underline from link */
+    color: #2980b9; /* Professional link color */
+    font-weight: 500; /* Medium font weight for the link */
+}
+
+#loading-message img {
+    width: 150px; /* Size of QR code */
+    height: 150px; /* Size of QR code */
+    margin-top: 15px;
+    border-radius: 8px; /* Rounded corners for the QR code */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for QR code */
+}
+
+/* Dark mode styles */
+body.dark #loading-message {
+    background-color: #2c3e50; /* Dark background for dark mode */
+    color: #ecf0f1; /* Light text color for dark mode */
+    border-color: #34495e; /* Darker border for dark mode */
+}
+
+body.dark #loading-message h2 {
+    color: #ecf0f1; /* Light color for heading in dark mode */
+}
+
+body.dark #loading-message p {
+    color: #bdc3c7; /* Softer light color for paragraphs in dark mode */
+}
+
+body.dark #loading-message a {
+    color: #3498db; /* Light link color in dark mode */
+}
+
+
+
+
+h1 {
+    text-align: center; /* Center the title */
+    font-family: 'Roboto', sans-serif; /* Use Roboto for a clean look */
+    font-size: 32px; /* Larger font size for emphasis */
+    font-weight: 700; /* Bold font weight for a strong presence */
+    color: #2c3e50; /* Dark color for better readability */
+    margin: 20px 0; /* Margin to give some space above and below */
+    text-transform: uppercase; /* Uppercase for a formal touch */
+    letter-spacing: 1px; /* Slight spacing between letters */
+}
+
+body.dark h1 {
+    color: #ecf0f1; /* Light color for the title in dark mode */
+}
+
+
+
+
+
+
 #table-container { 
     margin-top: 20px; 
 }
