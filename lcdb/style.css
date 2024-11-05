@@ -1,0 +1,160 @@
+body { 
+    font-family: Arial, sans-serif; 
+    transition: background-color 0.3s, color 0.3s; 
+    max-width: 1200px; /* Max width for desktop */
+    margin: auto; /* Center the body */
+    padding: 20px; /* Add padding for better spacing */
+}
+
+#table-container { 
+    margin-top: 20px; 
+}
+
+/* Filter buttons styles */
+#filter-buttons { 
+    margin-bottom: 10px; 
+    display: flex; /* Use flexbox for layout */
+    flex-direction: row; /* Align buttons and dropdowns in a row */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center align items vertically */
+    flex-wrap: wrap; /* Allow wrapping for dropdowns and buttons on smaller screens */
+}
+
+.button {
+    margin: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    border-radius: 5px; /* Rounded corners */
+    background: linear-gradient(90deg, #007bff, #0056b3); /* Gradient background */
+    color: white;
+    font-size: 14px;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    flex: 0 0 40%; /* Allow buttons to take 40% of the width */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    flex: 1; /* Allow buttons to grow */
+    min-width: 120px; /* Set a minimum width for buttons */
+}
+
+.button:hover {
+    background: linear-gradient(90deg, #0056b3, #00408a); /* Darker gradient on hover */
+    transform: translateY(-2px); /* Slightly lift button on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.button:active {
+    transform: translateY(0); /* Reset lift effect on click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow */
+}
+
+/* Style for the dropdowns */
+select {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #007bff; /* Border color matching the button */
+    background-color: white; /* Background color */
+    color: #333; /* Text color */
+    font-size: 14px;
+    transition: border-color 0.3s, background-color 0.3s; /* Smooth transition */
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="%23007bff" viewBox="0 0 16 16"><path d="M8 12l-4-4h8l-4 4z"/></svg>'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    flex: 1; /* Allow dropdowns to grow */
+    min-width: 120px; /* Set a minimum width for dropdowns */
+}
+
+select:hover {
+    border-color: #0056b3; /* Change border color on hover */
+}
+
+select:focus {
+    border-color: #0056b3; /* Change border color when focused */
+    outline: none; /* Remove default outline */
+    background-color: #f0f8ff; /* Light background when focused */
+}
+
+/* Additional styles for the table */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Ensure borders are merged */
+    border: 1px solid #ddd; /* Thin border in light mode */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd; /* Thin border for table cells in light mode */
+}
+
+/* Dark theme table styles */
+body.dark table {
+    border: 1px solid #444; /* Border for dark mode */
+}
+
+body.dark th, body.dark td {
+    border: 1px solid #555; /* Border for table cells in dark mode */
+}
+
+/* Light theme styles */
+body.light {
+    background-color: white;
+    color: black;
+}
+
+/* Dark theme styles */
+body.dark {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* Dark theme link styles */
+body.dark a {
+    color: #f3ebbb; /* Set link color to #f3ebbb in dark mode */
+}
+
+body.dark a:hover {
+    color: #ffffff; /* Optional: Change link color on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Reduce padding on small screens */
+    }
+
+    #filter-buttons {
+        flex-direction: row; /* Align buttons and dropdowns in a row */
+        justify-content: space-between; /* Space between items */
+        align-items: center; /* Center align items vertically */
+    }
+
+    .button, select {
+        width: 48%; /* Set each to approximately half the width */
+    }
+
+    #table-container {
+        overflow-x: auto; /* Allow horizontal scrolling for the table */
+    }
+
+    table {
+        min-width: 600px; /* Set a minimum width for the table to prevent collapsing */
+    }
+}
+
+
+
+
+#theme-switch {
+    margin: 5px;
+    padding: 5px 10px; /* Padding for the theme switch button */
+    cursor: pointer;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    transition: background 0.3s, color 0.3s; /* Smooth transition */
+    font-size: 12px; /* Font size */
+    flex: 0 0 auto; /* Allow button to fit in a line */
+}
