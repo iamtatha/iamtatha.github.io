@@ -1,11 +1,13 @@
 // GitHub repo URL
-const repoUrl = ' /usr/local/bin/python3 /Users/tathagata.dey/Desktop/Code/My_Projects/github_db/lcdb/'; // Adjust URL to your repo
+const repoUrl = 'https://raw.githubusercontent.com/iamtatha/iamtatha.github.io/refs/heads/master/lcdb'; // Adjust URL to your repo
+// const repoUrl = 'Users/tathagata.dey/Desktop/Code/My_Projects/github_db/'; // Adjust URL to your repo
 // GitHub repo URL
 
 
 // CSV file URLs
 const questionUrl = `${repoUrl}/questions.csv`;
 const tagUrl = `${repoUrl}/tag.csv`;
+
 
 
 
@@ -29,7 +31,7 @@ async function loadCompanies() {
     // Dynamically generate URLs for each company
     const companyData = {};
     for (const company of companies) {
-        companyData[company] = `${repoUrl}/${company.toLowerCase()}.csv`;
+        companyData[company] = `${repoUrl}/companies/${company}.csv`;
     }
 
     return companyData;
@@ -53,9 +55,16 @@ function filterQuestions(questions, companyData, tags) {
     const companyFilter = document.getElementById('company').value;
     const tagFilter = document.getElementById('tag').value;
 
-    const filtered = questions.filter(([qNo, name, link, comp, t]) => {
-        const compMatch = !companyFilter || (companyData[companyFilter]?.includes(qNo) ?? false);
-        const tagMatch = !tagFilter || tags[qNo]?.includes(tagFilter);
+    const filtered = questions.filter(([qNo, name, difficulty, link, companies, questionTags]) => {
+        // Split companies string into an array and check if the selected company is included
+        const companiesArray = companies.split(';');
+
+        // Check if the question matches the selected company
+        const compMatch = !companyFilter || companiesArray.includes(companyFilter);
+
+        // Check if the question matches the selected tag
+        const tagMatch = !tagFilter || questionTags.includes(tagFilter);
+
         return compMatch && tagMatch;
     });
 
@@ -65,17 +74,18 @@ function filterQuestions(questions, companyData, tags) {
 
 
 
+
+
 // Function to render table
 function renderTable(data) {
     const tableBody = document.getElementById('table-body');
     tableBody.innerHTML = '';
-    data.forEach(([qNo, name, difficulty, acceptance, link, companies, tags]) => {
+    data.forEach(([qNo, name, difficulty, link, companies, tags]) => {
         tableBody.innerHTML += `
             <tr>
                 <td>${qNo}</td>
                 <td>${name}</td>
                 <td>${difficulty}</td>
-                <td>${acceptance}</td>
                 <td><a href="${link}" target="_blank">Link</a></td>
                 <td>${companies}</td>
                 <td>${tags}</td>
@@ -83,16 +93,6 @@ function renderTable(data) {
         `;
     });
 }
-
-
-
-
-
-// const companyFiles = loadCompanies();
-// console.log('Printing:');
-// for (let key in companyFiles) {
-//     console.log(`${key}: ${companyFiles[key]}`);
-//   }
 
 
 
