@@ -54,6 +54,7 @@ async function fetchCSV(url) {
 function filterQuestions(questions, companyData, tags) {
     const companyFilter = document.getElementById('company').value;
     const tagFilter = document.getElementById('tag').value;
+    const difficultyFilter = document.getElementById('difficulty').value;
 
     const filtered = questions.filter(([qNo, name, difficulty, link, companies, questionTags]) => {
         // Split companies string into an array and check if the selected company is included
@@ -65,11 +66,15 @@ function filterQuestions(questions, companyData, tags) {
         // Check if the question matches the selected tag
         const tagMatch = !tagFilter || questionTags.includes(tagFilter);
 
-        return compMatch && tagMatch;
+        const difficultyMatch = !difficultyFilter || difficulty === difficultyFilter;
+
+        return compMatch && tagMatch && difficultyMatch;
     });
 
     renderTable(filtered);
 }
+
+
 
 
 
@@ -86,7 +91,7 @@ function renderTable(data) {
                 <td>${qNo}</td>
                 <td>${name}</td>
                 <td>${difficulty}</td>
-                <td><a href="${link}" target="_blank">Link</a></td>
+                <td><a href="${link}" target="_blank">Leetcode</a></td>
                 <td>${companies}</td>
                 <td>${tags}</td>
             </tr>
