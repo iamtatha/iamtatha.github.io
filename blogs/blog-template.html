@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Blog Title - Tathagata Dey</title>
+    <meta name="description" content="Your blog description here">
+    <meta name="keywords" content="your, keywords, here">
+    <meta name="author" content="Tathagata Dey">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Your Blog Title">
+    <meta property="og:description" content="Your blog description here">
+    <meta property="og:image" content="path/to/your/image.jpg">
+    <meta property="og:url" content="https://your-domain.com/blogs/your-blog.html">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Your Blog Title">
+    <meta name="twitter:description" content="Your blog description here">
+    <meta name="twitter:image" content="path/to/your/image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/Tatha.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Blog Styles -->
+    <link rel="stylesheet" href="blog-styles.css">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+    
+    <!-- Syntax Highlighting (optional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress"></div>
+    
+    <!-- Back Button -->
+    <a href="../new-blog.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Blog
+    </a>
+    
+    <!-- Main Blog Container -->
+    <div class="blog-container">
+        <!-- Blog Header -->
+        <div class="blog-header">
+            <h1 class="blog-title">Your Blog Title Here</h1>
+            <div class="blog-meta">
+                <span><i class="fas fa-calendar"></i> January 15, 2025</span>
+                <span><i class="fas fa-clock"></i> <span class="reading-time">5 min read</span></span>
+                <span><i class="fas fa-tag"></i> Category</span>
+                <span><i class="fas fa-user"></i> Tathagata Dey</span>
+            </div>
+        </div>
+        
+        <!-- Blog Content -->
+        <div class="blog-content">
+            <!-- Introduction -->
+            <p>Start your blog post with an engaging introduction. This paragraph should hook the reader and give them a clear idea of what to expect from the article.</p>
+            
+            <!-- Table of Contents will be auto-generated here -->
+            
+            <!-- Main Content Sections -->
+            <h2>First Main Section</h2>
+            <p>This is where your main content begins. Write your thoughts, explanations, and insights here.</p>
+            
+            <h3>Subsection</h3>
+            <p>Use subsections to break down complex topics into digestible chunks.</p>
+            
+            <!-- Mathematical Formulas Examples -->
+            <h2>Mathematical Formulas</h2>
+            
+            <p>You can include mathematical formulas in your blog posts using LaTeX syntax. Here are some examples:</p>
+            
+            <!-- Inline Math Example -->
+            <p>The quadratic formula is <span class="math-inline">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</span> which gives us the roots of a quadratic equation.</p>
+            
+            <!-- Block Math Example -->
+            <div class="math-block">
+                \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+            </div>
+            
+            <!-- Math Container Example -->
+            <div class="math-container">
+                <div class="math-title">Attention Mechanism Formula</div>
+                <div class="math-block">
+                    \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+                </div>
+            </div>
+            
+            <!-- Math Example Box -->
+            <div class="math-example">
+                <h4>Transformer Architecture</h4>
+                <p>The multi-head attention mechanism allows the model to attend to different positions simultaneously:</p>
+                <div class="math-block">
+                    \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^O
+                </div>
+                <p>Where each head is computed as:</p>
+                <div class="math-block">
+                    \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+                </div>
+            </div>
+            
+            <!-- Code Example -->
+            <pre><code class="language-python">def example_function():
+    print("This is a code example")
+    return "Hello World"</code></pre>
+            
+            <!-- LaTeX Code Block Example -->
+            <pre><code class="language-latex">\begin{align}
+y &= mx + b \\
+&= 2x + 3 \\
+&= 2(5) + 3 \\
+&= 13
+\end{align}</code></pre>
+            
+            <!-- Highlight Box -->
+            <div class="highlight-box">
+                <h4>💡 Key Insight</h4>
+                <p>Use highlight boxes to emphasize important points, tips, or warnings.</p>
+            </div>
+            
+            <!-- List Example -->
+            <h3>Key Points</h3>
+            <ul>
+                <li>First important point</li>
+                <li>Second important point</li>
+                <li>Third important point</li>
+            </ul>
+            
+            <!-- Blockquote Example -->
+            <blockquote>
+                This is a blockquote. Use it for important quotes, testimonials, or highlighted information.
+            </blockquote>
+            
+            <!-- Image Example -->
+            <img src="path/to/your/image.jpg" alt="Description of the image">
+            
+            <!-- Another Section -->
+            <h2>Second Main Section</h2>
+            <p>Continue with your content structure. Use headers to organize your thoughts logically.</p>
+            
+            <!-- Numbered List -->
+            <h3>Step-by-Step Process</h3>
+            <ol>
+                <li>First step</li>
+                <li>Second step</li>
+                <li>Third step</li>
+            </ol>
+            
+            <!-- Inline Code -->
+            <p>You can use <code>inline code</code> to highlight specific terms or commands.</p>
+            
+            <!-- Links -->
+            <p>Include <a href="https://example.com" target="_blank">relevant links</a> to external resources.</p>
+            
+            <!-- Conclusion -->
+            <h2>Conclusion</h2>
+            <p>Wrap up your blog post with a strong conclusion that summarizes the key points and provides a call to action.</p>
+        </div>
+        
+        <!-- Social Share -->
+        <div class="social-share">
+            <a href="#" class="twitter">
+                <i class="fab fa-twitter"></i> Share on Twitter
+            </a>
+            <a href="#" class="linkedin">
+                <i class="fab fa-linkedin"></i> Share on LinkedIn
+            </a>
+            <a href="#" class="facebook">
+                <i class="fab fa-facebook"></i> Share on Facebook
+            </a>
+        </div>
+        
+        <!-- Related Posts -->
+        <div class="related-posts">
+            <h3>Related Posts</h3>
+            <div class="related-grid">
+                <div class="related-post">
+                    <h4>Related Post Title 1</h4>
+                    <p>Brief description of the related post...</p>
+                    <a href="related-post-1.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h4>Related Post Title 2</h4>
+                    <p>Brief description of the related post...</p>
+                    <a href="related-post-2.html">Read More →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="blog-script.js"></script>
+    
+    <!-- KaTeX for Math Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+    
+    <!-- Syntax Highlighting (optional) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        // Initialize syntax highlighting
+        hljs.highlightAll();
+    </script>
+</body>
+</html>
