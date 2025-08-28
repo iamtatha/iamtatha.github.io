@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tathagata Dey - Blog & Gallery</title>
+    <title>Tathagata Dey - Blog & Announcements</title>
     <link rel="icon" type="image/x-icon" href="/images/Tatha.png">
-    <link rel="stylesheet" href="css/styles-blog.css">
+    <link rel="stylesheet" href="css/style_new_blog.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-text">TD</span>
-                <!-- <span class="logo-subtitle">Tathagata Dey</span> -->
             </div>
             <div class="nav-links">
                 <a href="index.html">
@@ -42,7 +45,11 @@
                 </a>
                 <a href="blog.html" class="active">
                     <i class="fas fa-blog"></i>
-                    <span>Blog & Gallery</span>
+                    <span>Blog</span>
+                </a>
+                <a href="gallery.html">
+                    <i class="fa-solid fa-icons"></i>
+                    <span>Gallery</span>
                 </a>
             </div>
             <div class="hamburger">
@@ -53,252 +60,110 @@
         </div>
     </nav>
 
-    <!-- Other Projects Section -->
-    <section class="other-projects-section">
-        <div class="container">
-            <h2>Acquintances</h2>
-            <div class="projects-grid">
-                <a href="https://geeksfortrips.github.io" target="_blank" class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-plane-departure"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>GeeksForTrips</h3>
-                        <p>My travel community for tech enthusiasts</p>
-                    </div>
-                </a>
-                <a href="https://healtoday.com" target="_blank" class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-heartbeat"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>HealToday</h3>
-                        <p>Planning to dive into next venture</p>
-                    </div>
-                </a>
-            </div>
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+        <div class="blog-hero-content">
+            <h1>Blog & Announcements</h1>
         </div>
     </section>
 
-    <!-- Blog Section -->
+    <!-- Blog Main Section with Sidebar -->
     <section class="blog-section">
-        <div class="container">
-            <h2>Latest Blog Posts</h2>
-            <div class="blog-grid">
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <img src="images/blog/gpt-threat.webp" alt="Blog Post Image">
+        <div class="blog-main-flex">
+            <!-- Sidebar -->
+            <label for="filter-toggle" class="filter-toggle">Filters</label>
+            <input type="checkbox" id="filter-toggle">
+            <aside class="blog-sidebar">
+                <div class="sidebar-tags">
+                    <h4>Tags</h4>
+                    <button class="sidebar-tag" data-tag="all">All</button>
+                    <button class="sidebar-tag" data-tag="project">Project Launch</button>
+                    <button class="sidebar-tag" data-tag="announcement">Announcement</button>
+                    <button class="sidebar-tag" data-tag="social">Social</button>
+                    <button class="sidebar-tag" data-tag="topic">Topic</button>
+                </div>
+                <div class="sidebar-content-tags">
+                    <h4>Content Tags</h4>
+                    <button class="sidebar-content-tag" data-content-tag="all">All</button>
+                    <button class="sidebar-content-tag" data-content-tag="content">Content</button>
+                    <button class="sidebar-content-tag" data-content-tag="ai">AI</button>
+                    <button class="sidebar-content-tag" data-content-tag="conference">Conference</button>
+                </div>
+                <div class="sidebar-dates">
+                    <h4>Date</h4>
+                    <button class="sidebar-date" data-date="all">All</button>
+                    <button class="sidebar-date" data-date="2024-06">June 2024</button>
+                    <button class="sidebar-date" data-date="2024-05">May 2024</button>
+                </div>
+            </aside>
+            <!-- Blog Posts -->
+            <div class="blog-container crisp-blog">
+                <article class="blog-post highlighted-announcement" data-tags="announcement topic"
+                    data-content-tags="content announcement" data-date="2024-08">
+                    <h3>🌟 Major Update: New Blog Platform Launched!</h3>
+                    <div class="blog-meta">
+                        <span><i class="fas fa-calendar-alt"></i> August 26, 2025</span>
                     </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">June 3, 2023</span>
-                            <span class="blog-category">AI and Tech</span>
-                        </div>
-                        <h3>Is GPT a Threat to Mankind? Exploring the Implications of Advanced Language Models</h3>
-                        <p>The rapid advancement of artificial intelligence (AI) has led to the development of powerful language models s...</p>
-                        <a href="https://iamtatha.medium.com/is-gpt-a-threat-to-mankind-exploring-the-implications-of-advanced-language-models-9c61e38d88b4" target="_blank" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <p>
+                        I'm thrilled to announce the launch of my brand new blog platform! Explore a cleaner design,
+                        better navigation, and more ways to connect. Thank you for your support—stay tuned for more
+                        updates and features!
+                    </p>
                 </article>
 
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <img src="images/blog/ai-not-going.webp" alt="Blog Post Image">
+
+                <article class="blog-post" data-tags="project topic" data-content-tags="content ai" data-date="2024-06">
+                    <h3>🚀 Launching My New AI Project!</h3>
+                    <div class="blog-meta">
+                        <span><i class="fas fa-calendar-alt"></i> June 10, 2024</span>
                     </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">January 09, 2025</span>
-                            <span class="blog-category">AI and Tech</span>
-                        </div>
-                        <h3>AI Is Not Going to Be Where It Is Now</h3>
-                        <p>People is taking it lightly what the world is observing right now. In all these fuss of 𝗡𝘃𝗶𝗱𝗶𝗮, 𝗠𝗲𝘁𝗮 and 𝗢𝗽𝗲𝗻𝗔𝗜, the 𝗮𝗿𝘁𝗶𝗳𝗶𝗰𝗶𝗮𝗹 𝗶𝗻𝘁𝗲𝗹𝗹𝗶𝗴𝗲𝗻𝗰𝗲 universe is taking a new direction, what I have been 𝘵𝘦𝘭𝘭𝘪𝘯𝘨 𝘧𝘰𝘳 𝘢 𝘺𝘦𝘢𝘳 𝘯𝘰𝘸....</p>
-                        <a href="https://iamtatha.medium.com/ai-is-not-going-to-be-where-it-is-now-a95d4b53c3f1" target="_blank" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <p>
+                        Excited to announce the launch of my latest AI-powered application designed to simplify data
+                        analysis for everyone. Stay tuned for more updates and a detailed walkthrough!
+                    </p>
                 </article>
 
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <img src="images/blog/just-finished-this.jpeg" alt="Blog Post Image">
+                <!-- Announcement Example -->
+                <article class="blog-post" data-tags="announcement topic" data-content-tags="content conference"
+                    data-date="2024-05">
+                    <h3>📢 Upcoming Talk at Tech Conference</h3>
+                    <div class="blog-meta">
+                        <span><i class="fas fa-calendar-alt"></i> May 28, 2024</span>
                     </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">April 23, 2025</span>
-                            <span class="blog-category">AI and Tech</span>
-                        </div>
-                        <h3>Just Finished This Book and It Changed My Vision for AI Completely</h3>
-                        <p>This book brilliantly connects our billion-year neural evolution with today's AI limitations. The contrast is stark: machines excel at chess but stumble with dishwashers...</p>
-                        <a href="https://www.linkedin.com/posts/tathagata-dey-580245172_artificialintelligence-neuroscienceofai-machinelearning-activity-7320810497627287552-qWWO?utm_source=share&utm_medium=member_desktop&rcm=ACoAACj4YPABCb4BbuHsYyolEDorugelCdrRYkY" target="_blank" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <p>
+                        Honored to be invited as a speaker at the Global AI Tech Conference 2024. I'll be sharing
+                        insights on generative AI and its real-world applications. Hope to see you there!
+                    </p>
                 </article>
 
-                <!-- Additional blog posts (hidden initially) -->
-                <article class="blog-card hidden">
-                    <div class="blog-image">
-                        <img src="images/blog/air21-journey.jpeg" alt="Blog Post Image">
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">April 20, 2025</span>
-                            <span class="blog-category">GATE Preparation</span>
-                        </div>
-                        <h3>The truth about my AIR 21 journey that no one talks about</h3>
-                        <p>It wasn't genius. It wasn't luck. It was CONSISTENCY. When everyone was searching for the "𝗽𝗲𝗿𝗳𝗲𝗰𝘁 𝘀𝘁𝗿𝗮𝘁𝗲𝗴𝘆," I was showing up...</p>
-                        <a href="https://www.linkedin.com/posts/tathagata-dey-580245172_gate-gatecs-gateda-activity-7319706420034039809-VMhM?utm_source=share&utm_medium=member_desktop&rcm=ACoAACj4YPABCb4BbuHsYyolEDorugelCdrRYkY" target="_blank" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                <!-- Embedded Tweet Example -->
+                <article class="blog-post" data-tags="social topic" data-content-tags="content ai" data-date="2024-05">
+                    <!-- <div class="blog-meta">
+                        <span><i class="fas fa-calendar-alt"></i> May 15, 2024</span>
+                    </div> -->
+                    <p>Here is it.</p>
+                    <blockquote class="twitter-tweet">
+                        <p lang="en" dir="ltr">Thrilled to share my latest research on generative models! Check it out
+                            and let me know your thoughts. <a href="https://t.co/example">https://t.co/example</a></p>
+                        &mdash; Tathagata Dey (@i_am_tatha) <a
+                            href="https://twitter.com/i_am_tatha/status/1234567890">May 15, 2024</a>
+                    </blockquote>
                 </article>
-
-                <article class="blog-card hidden">
-                    <div class="blog-image">
-                        <img src="images/blog/self-reflection.webp" alt="Blog Post Image">
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">May 29, 2023</span>
-                            <span class="blog-category">Life</span>
-                        </div>
-                        <h3>The Power of Self-Reflection: Identifying Own Criticism as a Valuable Quality in Human Beings</h3>
-                        <p>Today, let's dive into a topic that's all about embracing our imperfections and owning up to our mistakes. We're talking about the rad quality of identifying our own criticism. Yeah, you heard me right! It might...</p>
-                        <a href="https://iamtatha.medium.com/the-power-of-self-reflection-identifying-own-criticism-as-a-valuable-quality-in-human-beings-b084198ed87c" target="_blank" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <article class="blog-card hidden">
-                    <div class="blog-image">
-                        <img src="images/blog/cosmos.webp" alt="Blog Post Image">
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">May 21, 2023</span>
-                            <span class="blog-category">Books</span>
-                        </div>
-                        <h3>Cosmos by Carl Sagan: A Masterpiece of Scientific Exploration</h3>
-                        <p>Today, I am going to talk about a book that kept me zoned over the last few weeks. One of my dearest friends, Dr Rani Chatterjee gifted me this book long back which I just finished and now opting to share my review. Caution: if you haven't already read it and please don't move ahead....</p>
-                        <a href="https://iamtatha.medium.com/cosmos-by-carl-sagan-a-masterpiece-of-scientific-exploration-e8a4792ef117" target="_blank" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-            </div>
-            <div class="view-all-container">
-                <a href="#" class="view-all-link" id="viewAllLink">View All Posts <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery-section">
-        <div class="container">
-            <h2>Gallery</h2>
-            <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <!-- <button class="filter-btn" data-filter="bruteforce">Bruteforce</button> -->
-                <button class="filter-btn" data-filter="research">Research</button>
-                <button class="filter-btn" data-filter="honours">Honours</button>
-                <button class="filter-btn" data-filter="iit">IIT Bombay</button>
-            </div>
-            <div class="gallery-grid">
-                <div class="gallery-item" data-category="iit">
-                    <img src="images/20250227_192225.jpg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Convocated, IIT Bombay</h4>
-                        <p>August, 2024</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="honours">
-                    <img src="images/balasie.jpeg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Honoured for GATE Rank</h4>
-                        <p>A moment with Balakrishna Sir</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="research">
-                    <img src="images/firstposter.jpeg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>My First Poster Talk</h4>
-                        <p>Presenting my first paper at Frontier's Conference</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="iit">
-                    <img src="images/moodi.jpg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Mood Indigo</h4>
-                        <p>The heart of IIT Bombay and Asia's largest cultural fest</p>
-                    </div>
-                </div>
-
-
-
-
-                <div class="gallery-item" data-category="iit">
-                    <img src="images/20240825_172120.jpg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>IITB CSE 2024</h4>
-                        <p>Getting convocated the whole batch</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="iit">
-                    <img src="images/trad1.JPG" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Traditional Day</h4>
-                        <p>CSE, IIT Bombay</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="honours">
-                    <img src="images/DSC_0462.JPG" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Meeting Prof. C.N.R. Rao</h4>
-                        <!-- <p>Working on AI projects</p> -->
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="research">
-                    <img src="images/cire.jpeg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>CIRE, Kolkata</h4>
-                        <p>Team of excellent researchers I worked with.</p>
-                    </div>
-                </div>
-
-
-
-
-                <div class="gallery-item" data-category="iit">
-                    <img src="images/GC.jpg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>GC Cricket Match, H14</h4>
-                        <!-- <p>Team of excellent researchers I worked with.</p> -->
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="iit">
-                    <img src="images/lh.jpg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Lecture Hall</h4>
-                        <!-- <p>Team of excellent researchers I worked with.</p> -->
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="all">
-                    <img src="images/telescope.jpeg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>Stargazing</h4>
-                        <!-- <p>Team of excellent researchers I worked with.</p> -->
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="honours">
-                    <img src="images/jbnsts.jpg" alt="Gallery Image">
-                    <div class="gallery-overlay">
-                        <h4>JBNSTS Award</h4>
-                        <!-- <p>Team of excellent researchers I worked with.</p> -->
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer id="contact" class="footer">
         <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Connect With Me</h3>
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/in/tathagata-dey-580245172/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://www.instagram.com/epistemophilic_nerd/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/tathagata-dey-580245172/" target="_blank"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/epistemophilic_nerd/" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
                         <a href="https://twitter.com/i_am_tatha" target="_blank"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
@@ -307,66 +172,74 @@
                     <p>Email: tathagata2403@gmail.com</p>
                     <p>Location: Pune, India</p>
                 </div>
+            </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 Tathagata Dey. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script>
-        // Gallery Filter
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
+        // Blog filter logic
+        const tagButtons = document.querySelectorAll('.sidebar-tag');
+        const dateButtons = document.querySelectorAll('.sidebar-date');
+        const contentTagButtons = document.querySelectorAll('.sidebar-content-tag');
+        const posts = document.querySelectorAll('.blog-post');
 
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    button.classList.add('active');
+        let activeTag = 'all';
+        let activeDate = 'all';
+        let activeContentTag = 'all';
 
-                    const filter = button.getAttribute('data-filter');
-
-                    galleryItems.forEach(item => {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.style.display = 'block';
-                            setTimeout(() => {
-                                item.style.opacity = '1';
-                                item.style.transform = 'scale(1)';
-                            }, 50);
-                        } else {
-                            item.style.opacity = '0';
-                            item.style.transform = 'scale(0.8)';
-                            setTimeout(() => {
-                                item.style.display = 'none';
-                            }, 300);
-                        }
-                    });
-                });
-            });
-
-            // View All Posts Functionality
-            const viewAllLink = document.getElementById('viewAllLink');
-            const hiddenBlogs = document.querySelectorAll('.blog-card.hidden');
-            let isExpanded = false;
-
-            viewAllLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                isExpanded = !isExpanded;
-                
-                hiddenBlogs.forEach(blog => {
-                    if (isExpanded) {
-                        blog.classList.remove('hidden');
-                        viewAllLink.innerHTML = 'Show Less <i class="fas fa-arrow-up"></i>';
-                    } else {
-                        blog.classList.add('hidden');
-                        viewAllLink.innerHTML = 'View All Posts <i class="fas fa-arrow-right"></i>';
-                    }
-                });
+        tagButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tagButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTag = btn.dataset.tag;
+                filterPosts();
             });
         });
+
+        dateButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                dateButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeDate = btn.dataset.date;
+                filterPosts();
+            });
+        });
+
+        contentTagButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                contentTagButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeContentTag = btn.dataset.contentTag;
+                filterPosts();
+            });
+        });
+
+        function filterPosts() {
+            posts.forEach(post => {
+                const tags = post.dataset.tags.split(' ');
+                const date = post.dataset.date;
+                const contentTags = post.dataset.contentTags.split(' ');
+                let tagMatch = (activeTag === 'all') || tags.includes(activeTag);
+                let dateMatch = (activeDate === 'all') || (date === activeDate);
+                let contentTagMatch = (activeContentTag === 'all') || contentTags.includes(activeContentTag);
+                if (tagMatch && dateMatch && contentTagMatch) {
+                    post.style.display = '';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        // Set default active
+        document.querySelector('.sidebar-tag[data-tag="all"]').classList.add('active');
+        document.querySelector('.sidebar-date[data-date="all"]').classList.add('active');
+        document.querySelector('.sidebar-content-tag[data-content-tag="all"]').classList.add('active');
     </script>
+    <script src="script.js"></script>
 </body>
-</html> 
+
+</html>
