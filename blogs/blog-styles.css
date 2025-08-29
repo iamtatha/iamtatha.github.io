@@ -111,7 +111,8 @@ body {
     margin-bottom: 0.6rem;
 }
 
-.blog-content ul, .blog-content ol {
+.blog-content ul,
+.blog-content ol {
     margin: 1.5rem 0 1.5rem 1.5rem;
     padding-left: 1.5rem;
 }
@@ -168,7 +169,7 @@ body {
     text-decoration: none;
     font-weight: 600;
     font-size: 1.05rem;
-    transition: all 0.2s cubic-bezier(.4,0,.2,1);
+    transition: all 0.2s cubic-bezier(.4, 0, .2, 1);
     z-index: 1000;
     box-shadow: 0 4px 18px rgba(37, 99, 235, 0.13);
     border: none;
@@ -253,20 +254,24 @@ a:hover {
 }
 
 .blog-image {
-  display: block;
-  margin: 1rem auto 1rem auto;
-  max-width: 60%;
-  height: auto;
-  box-shadow: 0 2px 16px rgba(44,83,100,0.08);
-  border-radius: 0.8rem;
+    display: block;
+    margin: 1rem auto 1rem auto;
+    max-width: 60%;
+    height: auto;
+    box-shadow: 0 2px 16px rgba(44, 83, 100, 0.08);
+    border-radius: 0.8rem;
 }
 
 .blog-image-right {
-    max-width: 320px; 
-    min-width: 120px; 
-    margin: 0; 
-    box-shadow: 0 2px 16px rgba(44,83,100,0.08); 
+    display: block;
+    max-width: 320px;
+    min-width: 120px;
+    width: 100%;
+    margin: 0;
+    box-shadow: 0 2px 16px rgba(44, 83, 100, 0.08);
     border-radius: 0.8rem;
+    height: auto;
+    object-fit: contain;
 }
 
 
@@ -275,9 +280,11 @@ a:hover {
         margin: 1.2rem;
         padding: 1.2rem;
     }
+
     .blog-title {
         font-size: 2rem;
     }
+
     .back-button {
         top: 1rem;
         left: 1rem;
@@ -291,13 +298,16 @@ a:hover {
         padding: 0.7rem;
         margin: 0.5rem;
     }
+
     .blog-title {
         font-size: 1.4rem;
     }
+
     .blog-header {
         padding-bottom: 1rem;
         margin-bottom: 1.5rem;
     }
+
     .back-button {
         top: 0.5rem;
         left: 0.5rem;
@@ -313,17 +323,21 @@ a:hover {
         padding: 1.2rem;
         max-width: 100%;
     }
+
     .blog-title {
         padding-top: 3rem;
         font-size: 1.5rem;
     }
+
     .blog-meta {
         gap: 0.5rem;
     }
+
     .blog-content p {
         line-height: 1.75rem;
         font-size: 1rem;
     }
+
     .back-button {
         top: 1rem;
         left: 1.2rem;
@@ -341,7 +355,8 @@ a:hover {
         line-height: 1.6rem;
     }
 
-    .blog-content ul, .blog-content ol {
+    .blog-content ul,
+    .blog-content ol {
         margin: 1rem 0 1.5rem 1.5rem;
         padding-left: 1.5rem;
     }
@@ -372,5 +387,28 @@ a:hover {
 
     .math-block {
         font-size: 0.8rem;
+    }
+
+    .blog-image {
+        display: block;
+        margin: 1rem auto 1rem auto;
+        max-width: 60%;
+        height: auto;
+        box-shadow: 0 2px 16px rgba(44, 83, 100, 0.08);
+        border-radius: 0.8rem;
+    }
+
+    .blog-image-right {
+        width: 10%;
+        margin-left: 1rem;
+    }
+    /* If you use a flex container for image+text, stack vertically on small screens */
+    .blog-image-flex-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    .blog-image-flex-row > * {
+        width: 100% !important;
+        max-width: 100% !important;
     }
 }
