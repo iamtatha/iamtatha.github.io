@@ -252,6 +252,24 @@ a:hover {
     text-decoration: underline;
 }
 
+.blog-image {
+  display: block;
+  margin: 1rem auto 1rem auto;
+  max-width: 60%;
+  height: auto;
+  box-shadow: 0 2px 16px rgba(44,83,100,0.08);
+  border-radius: 0.8rem;
+}
+
+.blog-image-right {
+    max-width: 320px; 
+    min-width: 120px; 
+    margin: 0; 
+    box-shadow: 0 2px 16px rgba(44,83,100,0.08); 
+    border-radius: 0.8rem;
+}
+
+
 @media (max-width: 900px) {
     .blog-post-container {
         margin: 1.2rem;
@@ -354,5 +372,5 @@ a:hover {
 
     .math-block {
         font-size: 0.8rem;
-}
+    }
 }

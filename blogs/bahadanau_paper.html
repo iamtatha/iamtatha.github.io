@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformers Explained: The Architecture That Revolutionized AI - Tathagata Dey</title>
+    <link rel="icon" type="image/x-icon" href="/images/Tatha.png">
+    <!-- <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles-blog.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+        integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+    <link rel="stylesheet" href="blog-styles.css">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A clear, intuitive explanation of Bahdanau et al.'s attention mechanism in neural machine translation. Learn how attention started and why it matters for AI.">
+    <meta name="keywords" content="Bahdanau, Attention, Neural Machine Translation, AI, Deep Learning, Transformers, Sequence to Sequence, NLP, Tathagata Dey, Blog">
+    <meta name="author" content="Tathagata Dey">
+    <meta property="og:title" content="The Birth of Attention: The Start We All Needed - Tathagata Dey">
+    <meta property="og:description" content="A clear, intuitive explanation of Bahdanau et al.'s attention mechanism in neural machine translation. Learn how attention started and why it matters for AI.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://iamtatha.github.io/blogs/bahadanau_paper.html">
+    <meta property="og:image" content="https://iamtatha.github.io/images/bahdanau1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Birth of Attention: The Start We All Needed - Tathagata Dey">
+    <meta name="twitter:description" content="A clear, intuitive explanation of Bahdanau et al.'s attention mechanism in neural machine translation.">
+    <meta name="twitter:image" content="https://iamtatha.github.io/images/bahdanau1.png">
+</head>
+
+<body>
+    <a href="../blog.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Blog
+    </a>
+
+    <div class="blog-post-container">
+        <div class="blog-header">
+            <h1 class="blog-title">The Birth of Attention: The Start We All Needed</h1>
+            <div class="blog-meta">
+                <span><i class="fas fa-calendar"></i> Aug 29, 2025</span>
+                <span><i class="fas fa-clock"></i> 8 min read</span>
+                <span><i class="fas fa-tag"></i> AI & ML</span>
+                <span><i class="fas fa-user"></i> Tathagata Dey</span>
+            </div>
+        </div>
+
+        <div class="blog-content">
+            <p>Well come on, we have heard the stories of <em>Attention is all you need</em> like a thousand times. And
+                it doesn't stop here as the transformer model keeps giving us fruit, keeps creating magics. But let's
+                look into where it all started. The insipiration of modern self and cross attention was by <b>Bahdanau
+                    et al.</b> when they introduced the first known idea of Attention. So the paper we are going to talk
+                about today is nothing but <a href="https://arxiv.org/abs/1409.0473"><b>Neural Machine Translation: By
+                        Jointly Learning to Align and Translate</b></a>.</p>
+
+            <!-- <div class="highlight-box">
+                <h4>💡 Key Insight</h4>
+                <p>Transformers replaced the sequential processing of RNNs with parallel attention mechanisms, enabling
+                    models to process entire sequences simultaneously and capture long-range dependencies more
+                    effectively.</p>
+            </div> -->
+
+            <h2>The Problem with Previous Architectures</h2>
+
+            <p><b>Fixed-length context vector bottleneck:</b> The major issue in previous RNN-based architectures were
+                the context length. Machine translation often
+                came across longer sentences and caused a fixed-context length bottleneck issues. In vanilla seq2seq
+                <em>(Sutskever et al., 2014)</em>, the encoder compressed the entire source sentence into a single
+                vector.
+            </p>
+            <img src="images/bahdanau1.png" alt="Bahdanau Figure 1" class="blog-image">
+            We can see the image shows two diagrams highlighting problems in early seq2seq models. The first diagram
+            illustrates the fixed-length context vector bottleneck, where all input words are compressed into a single
+            vector before decoding, leading to information loss. The second diagram shows the difficulty in handling
+            long sequences, where longer sentences overload the single context vector, making translation less accurate.
+            <br>
+            <p>As the authors described below,</p>
+            <img src="images/bahdanau2.png" alt="Bahdanau Figure 2" class="blog-image" style="max-width: 80%;">
+            the issues lie in context length and forming a higher order understanding of the input text to translate
+            into another vector space (the target language vector space).
+
+            <!-- <ul>
+                <li><strong>Sequential Processing:</strong> RNNs process tokens one by one, making them slow and
+                    difficult to parallelize</li>
+                <li><strong>Vanishing Gradients:</strong> Information loss over long sequences</li>
+                <li><strong>Limited Context:</strong> Difficulty capturing long-range dependencies</li>
+                <li><strong>Bottleneck:</strong> The hidden state becomes a bottleneck for information flow</li>
+            </ul> -->
+
+            <h2>The Beginning of Attention</h2>
+
+            <p>And that is how the authors came up with the revolutionary idea to formulate a mutual understanding of
+                tokens in the input space as well. Quoting the following lines from the paper, the authors how each
+                token needs to concentrate on the other tokens and find out the relevant information to answer the
+                question. This is how the context vectors are defined as well.</p>
+            <img src="images/bahdanau3.png" alt="Bahdanau Figure 3" class="blog-image" style="max-width: 80%;">
+
+            <h2>The Architecture</h2>
+
+            <div style="display: flex; align-items: flex-start; gap: 2rem; margin: 2rem 0;">
+                <div style="flex: 1;">
+                    The authors defined the conditional probability as follows,
+                    <div class="math-container">
+                        <div class="math-block">
+                            \text{P}(y_i|y_1,...,y_{i-1},X) = \text{g}(y_{i-1}, s_i, c_i)
+                        </div>
+                    </div>
+                    So, to break it down, the next token predicted is a function of previous tokens, the current state
+                    and the context vector. The catch about this approach is the context vector. The reason why
+                    attention outperformed other approaches is the way it kept the context alive instead of combining
+                    all info into one vector.
+                    <br>
+                    The context vector is defined as a weighted sum of the encoder hidden states,
+                    <div class="math-container">
+                        <div class="math-block">
+                            c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_j
+                        </div>
+                    </div>
+                    For ith time, the context vector is a weighted sum of all the hidden states from the encoder.
+                </div>
+
+                <img src="images/bahdanau4.png" alt="Bahdanau Figure 1" class="blog-image-right">
+            </div>
+
+            <p>The weights are defined as follows,</p>
+            <div class="math-container">
+                <div class="math-block">
+                    \alpha_{ij} = \frac{\exp(e_{ij})}{\sum_{k=1}^{T_x} \exp(e_{ik})}
+                </div>
+                <div class="math-block">
+                    e_{ij} = a(s_{i-1}, h_j)
+                </div>
+            </div>
+            Let's break it down. The weights are nothing but a softmax over the scores. Here a is the alignment
+            model which scores how well the inputs around position j and the output at position i match. It is a small
+            feed forward network trained for this purpose.
+
+            <br>
+            So, to have higher level intution about it, we can see the context vector is derived from hidden states and
+            a special weight for each hidden state at that particular time instance.
+            Now, this weight is determined by a softmax of scores which in turn is a non-linear function of the previous
+            decoder state and the encoder hidden state.
+            <br>
+            So, the model learns to pay attention to certain words from the whole context given the last predicted word.
+            This helps the model in finding out which is the most relevant next token.
+
+
+            <div class="highlight-box">
+                <h4>Moment of Truth</h4>
+                <img src="images/bahdanau5.png" alt="Bahdanau Figure 5" class="blog-image" style="max-width: 80%;">
+                So, to explain all this in layman terms, the authors described the method of concentrating on all hidden
+                states given last token predicted and creating context vector as method of providing <b>Attention</b>.
+                And there starts the never ending journey of attention mechanism.
+            </div>
+
+            <h3>How It All Worked Out</h3>
+            Before finishing this small read, I will add one more thing from the paper. The following section from the
+            paper where the authors have shown the learnt context vector weights for each token. You see the
+            similarities between similar meaning words.
+            <img src="images/bahdanau6.png" alt="Bahdanau Figure 6" class="blog-image" style="max-width: 80%;">
+            Ofcourse, with evolving time the attention mechanism has evolved a lot. But the core idea remains the same
+            and so does the heatmap of attention weights.
+
+            <!-- <blockquote>
+                "The transformer architecture has democratized access to powerful AI capabilities, enabling researchers
+                and developers to build sophisticated language models without needing to understand the complexities of
+                recurrent networks or convolutional architectures."
+            </blockquote> -->
+
+            <h2>Conclusion</h2>
+
+            <p>This is my first blog of this kind in whatsoever platform. So I'm not sure if the explanation and
+                descriptions were adequate. I prefer if you do reach out to me about reviews through my email: <a
+                    href="mailto:tathagata2403@gmail.com">tathagata2403@gmail.com</a>.
+                <br><br>
+                The reason why I decided to write this is because since the firts time I read the paper, I wanted to
+                find a this kinda intuitive explanation of what's going on and never really found one. So I decided to
+                write one myself. And my self obsession led me to belive that <em>this is by far the best explanation
+                    there is</em>. Please do break my bubble if you find any better one.
+            </p>
+
+            <div class="highlight-box">
+                <h4>🔗 Further Reading</h4>
+                <ul>
+                    <li><a href="https://blog.paperspace.com/introduction-to-neural-machine-translation-with-bahdanaus-attention/"
+                            target="_blank">Most detailed article I found online</a>
+                    <li><a href="https://arxiv.org/abs/1706.03762" target="_blank">"Attention Is All You Need" -
+                            Original Paper</a></li>
+                    <li><a href="https://medium.com/analytics-vidhya/papers-xplained-neural-machine-translation-using-bahdanau-attention-7e3274c41e14"
+                            target="_blank">The Illustrated
+                            Medium Article - 1</a></li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- KaTeX for Math Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+        integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize math rendering
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof katex !== 'undefined') {
+                // Render math blocks
+                document.querySelectorAll('.math-block').forEach(element => {
+                    try {
+                        katex.render(element.textContent, element, {
+                            throwOnError: false,
+                            displayMode: true
+                        });
+                    } catch (error) {
+                        console.warn('KaTeX rendering error:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
