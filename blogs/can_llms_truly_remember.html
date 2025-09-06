@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can LLMs Truly Remember?</title>
+    <link rel="icon" type="image/x-icon" href="/images/Tatha.png">
+    <!-- <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles-blog.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+        integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+    <link rel="stylesheet" href="blog-styles.css">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="A clear, intuitive explanation of Bahdanau et al.'s attention mechanism in neural machine translation. Learn how attention started and why it matters for AI.">
+    <meta name="keywords"
+        content="Bahdanau, Attention, Neural Machine Translation, AI, Deep Learning, Transformers, Sequence to Sequence, NLP, Tathagata Dey, Blog">
+    <meta name="author" content="Tathagata Dey">
+    <meta property="og:title" content="The Birth of Attention: The Start We All Needed - Tathagata Dey">
+    <meta property="og:description"
+        content="A clear, intuitive explanation of Bahdanau et al.'s attention mechanism in neural machine translation. Learn how attention started and why it matters for AI.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://iamtatha.github.io/blogs/bahadanau_paper.html">
+    <meta property="og:image" content="https://iamtatha.github.io/images/bahdanau1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Birth of Attention: The Start We All Needed - Tathagata Dey">
+    <meta name="twitter:description"
+        content="A clear, intuitive explanation of Bahdanau et al.'s attention mechanism in neural machine translation.">
+    <meta name="twitter:image" content="https://iamtatha.github.io/images/bahdanau1.png">
+</head>
+
+<body>
+    <a href="../blog.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Blog
+    </a>
+
+    <div class="blog-post-container">
+        <div class="blog-header">
+            <h1 class="blog-title">Can LLMs Truly Remember? Or Just Mirror Us?</h1>
+            <div class="blog-meta">
+                <span><i class="fas fa-calendar"></i> Sep 06, 2025</span>
+                <span><i class="fas fa-clock"></i> 5 min read</span>
+                <span><i class="fas fa-tag"></i> AI & ML</span>
+                <span><i class="fas fa-user"></i> Tathagata Dey</span>
+            </div>
+        </div>
+
+        <div class="blog-content">
+            <p>I asked a friend once: “If I told an LLM a secret today, would it remember me tomorrow?”
+                She laughed and said, “Only if you put the secret inside its glass window.” That joke stuck — because
+                it’s basically true.
+
+                This post tells that small truth as a short story: of mirrors, goldfish, diaries, and the math that
+                makes them tick.</p>
+
+            <!-- <div class="highlight-box">
+                <h4>💡 Key Insight</h4>
+                <p>Transformers replaced the sequential processing of RNNs with parallel attention mechanisms, enabling
+                    models to process entire sequences simultaneously and capture long-range dependencies more
+                    effectively.</p>
+            </div> -->
+
+            <h2>Scene 1 — The Uncanny Mirror</h2>
+
+            <p>You sit across a café table from a smart speaker. It answers like a person: it references your joke from
+                last week, finishes your sentence, even gets your sarcasm. You feel seen. But the mirror is only
+                reflecting patterns it learned, not holding a life that touches yours. It’s convincing, uncanny — like a
+                mirror that smiles back when you blink.
+                <br>
+                LLMs simulate memory. They don’t replay an experience; they reconstruct language patterns that best
+                match the prompt. That reconstruction is why they can feel human — but it’s not continuity.
+            </p>
+            <img src="images/llm_memory1.png" alt="Figure 1" class="blog-image">
+
+            When people say “LLMs remember,” our instinct is to picture a filing cabinet: open a drawer, pull out the
+            fact. But LLMs don’t keep drawers — they hold a curved semantic mirror. They reflect patterns from training
+            data into fluent replies, not replay lived experience.
+            <br>
+            Think of it like this: humans chunk, compress, and choose what to recall. LLMs compute weighted mixtures of
+            tokens inside a sliding window. The result often looks like remembering — but it’s an echo, not an
+            autobiographical memory.
+
+
+            <h2>Scene 2 - Why the Mirror Behaves that Way (Simple Math and Sliding Window)</h2>
+
+            Imagine the model has a sliding glass pane over the conversation: whatever’s inside the pane it can “attend
+            to”; everything outside is invisible.
+            <br>
+            The transformer’s attention weight between tokens 𝑖 and 𝑗 is:
+            <div class="math-container">
+                <div class="math-block">
+                    w_{ij} = \text{exp}(q_ik_j)/\sum_{k=1}^{n} \text{exp}(q_ik_j)
+                </div>
+            </div>
+            That gives us powerful short-term recall. But computing attention for all pairs costs roughly
+
+            <div class="math-container">
+                <div class="math-block">
+                    \text{compute} \in O(n^2d)
+                </div>
+            </div>
+
+            where 𝑛 is tokens in the window and 𝑑 is hidden dimension. Bigger window → more power → more cost. So the
+            glass can be widened, but not infinitely.
+
+            Practical consequence: stuff the model with a 100-page document and it can summarize it — until the pane
+            slides and that doc is gone. The model didn’t file it away in a lifelong cabinet; it read it while it could
+            see it.
+
+            <div class="highlight-box">
+                <h4>Quick Question for You?</h4>
+                Imagine you’re chatting with an LLM. You give it this sequence inside a context window:
+
+                A = 5, B = 10, A + B = ?
+
+                It answers: 15.
+                Now scroll the window forward so the “A = 5” part slides out. You ask again:
+
+                A + B = ?
+
+                What happens?
+
+                Human: still 15 (we remember). But what about LLMs?
+            </div>
+            <!-- <img src="images/bahdanau3.png" alt="Bahdanau Figure 3" class="blog-image" style="max-width: 80%;"> -->
+
+            <h2>Scene 3 — Memorization vs Reasoning (A Tiny Experiment)</h2>
+
+            <!-- <div class="blog-image-flex-row" style="display: flex; align-items: flex-start; gap: 2rem; margin: 2rem 0;">
+                <div style="flex: 1;" class="left-div-img">
+                    The authors defined the conditional probability as follows,
+                    <div class="math-container">
+                        <div class="math-block">
+                            \text{P}(y_i|y_1,...,y_{i-1},X) = \text{g}(y_{i-1}, s_i, c_i)
+                        </div>
+                    </div>
+                    So, to break it down, the next token predicted is a function of previous tokens, the current state
+                    and the context vector. The catch about this approach is the context vector. The reason why
+                    attention outperformed other approaches is the way it kept the context alive instead of combining
+                    all info into one vector.
+                    <br>
+                    The context vector is defined as a weighted sum of the encoder hidden states,
+                    <div class="math-container">
+                        <div class="math-block">
+                            c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_j
+                        </div>
+                    </div>
+                    For ith time, the context vector is a weighted sum of all the hidden states from the encoder.
+                </div>
+
+                <img src="images/bahdanau4.png" alt="Bahdanau Figure 1" class="blog-image-right">
+            </div> -->
+
+            Suppose you train a model on 10,000 puzzle-answers. It learns to output correct answers for those exact
+            puzzles — perhaps by memorizing. Researchers measure this behavior with a simple intuition:
+
+            <div class="math-container">
+                <div class="math-block">
+                    \text{LiMem} = \text{Accuracy} * (1 - \text{ConsistencyRatio})
+                </div>
+            </div>
+            If a model aces the original examples but fails when each example is only slightly perturbed, LiMem is high
+            → a red flag for memorization. If the model is robust to small perturbations, it’s probably learned some
+            underlying rule (reasoning), not just rote answers.
+
+            So models can both memorize and reason — but memorization often helps them learn to reason, like training
+            wheels. It’s messy: sometimes they overfit to surface forms.
+
+
+            <!-- <div class="highlight-box">
+                <h4>Moment of Truth</h4>
+                <img src="images/bahdanau5.png" alt="Bahdanau Figure 5" class="blog-image" style="max-width: 80%;">
+                So, to explain all this in layman terms, the authors described the method of concentrating on all hidden
+                states given last token predicted and creating context vector as method of providing <b>Attention</b>.
+                And there starts the never ending journey of attention mechanism.
+            </div> -->
+
+            <div class="highlight-box">
+                <h4>Another Question for You?</h4>
+                On an island:
+
+                Knights always tell the truth.
+
+                Knaves always lie.
+
+                You meet two people:
+
+                Alex says: “Blair is a Knave.”
+
+                Blair says: “Alex and I are both Knights.”
+
+                Who’s who?
+                Take 30 seconds to solve.
+                (Answer: Alex is a Knight, Blair is a Knave.)
+                <br><br>
+                Now imagine an LLM trained on 10,000 such puzzles. Will it be able to answer?
+            </div>
+
+            <h2>Scene 4 — Diaries, Librarians, and Patchy Memory</h2>
+            If a human has to remember something important, they write a note or keep a diary. For LLMs, we have two
+            practical tricks:
+            <ul>
+                <li><strong>Retrieval (RAG)</strong> — hook the model to an external searchable diary. When asked, it
+                    looks up the fact and
+                    quotes it. Good when retrieval works; brittle when it doesn’t.
+                </li>
+                <li><strong>Continued training / memory-conditioning</strong> — teach the model new facts by showing
+                    them the old context
+                    plus
+                    the update, so it can associate the two. This helps the model surface the right facts later, but
+                    still
+                    doesn’t guarantee consistent reasoning across all contexts.
+                </li>
+
+                In other words: if you want true long-term memory, you need both a diary and a librarian — storage plus
+                a system that knows when to consult it.
+            </ul>
+
+
+
+            <h2>Conclusion</h2>
+
+            <p> In short to summarise, LLMs mirror patterns but they do not really store lived episodes like humans. And
+                the way we build it (through context windows) really serve a great purpose as short term memories but
+                again the issue of cost and dilution limit them. And to be honest Memorization is not reasoning. It's
+                differentiating between two students who just mug things up and the one who actually thinks. But
+                memorization often scaffolds reasoning.
+                <br>
+                Reach out to me about reviews through my email: <a
+                    href="mailto:tathagata2403@gmail.com">tathagata2403@gmail.com</a>.
+            </p>
+
+            <div class="highlight-box">
+                <h4>🔗 Further Reading</h4>
+                <ul>
+                    <li><a href="https://arxiv.org/abs/2410.23123" target="_blank">Xie, Y., Xu, Z., Zhang, W., Ma, Z.,
+                            Liu, S., Yu, Z., Liu, H., & Chen, B. (2024).
+                            On Memorization of Large Language Models in Logical Reasoning.
+                            arXiv:2410.23123.</a>
+                    <li><a href="https://arxiv.org/abs/2504.12523" target="_blank">Li, J., & Goyal, N. (2025).
+                            Memorization vs. Reasoning: Updating LLMs with New Knowledge.
+                            arXiv:2504.12523.</a></li>
+                    <li><a href="https://towardsdatascience.com/through-the-uncanny-mirror-do-llms-remember-like-the-human-mind-cc9c63677610"
+                            target="_blank">Kambhampati, S. (2024).
+                            Through the Uncanny Mirror: Do LLMs Remember Like the Human Mind?
+                            Towards Data Science.</a></li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- KaTeX for Math Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+        integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize math rendering
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof katex !== 'undefined') {
+                // Render math blocks
+                document.querySelectorAll('.math-block').forEach(element => {
+                    try {
+                        katex.render(element.textContent, element, {
+                            throwOnError: false,
+                            displayMode: true
+                        });
+                    } catch (error) {
+                        console.warn('KaTeX rendering error:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
