@@ -17,10 +17,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #93c2dd;
+            background: linear-gradient(135deg, #FAF7FF 0%, #E3D7FA 100%);
             margin: 0;
-            padding: 20px 10px;
-            transition: background-color 0.8s ease;
+            padding: 25px 15px;
+            transition: background 0.8s ease;
         }
 
         .container {
@@ -29,7 +29,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 500px;
+            max-width: 750px;
             text-align: center;
         }
 
@@ -45,10 +45,10 @@
         }
 
         .header_text {
-            font-size: 36px;
+            font-size: 38px;
             font-weight: 700;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            color: #4A148C;
+            text-shadow: 0 2px 4px rgba(74, 20, 140, 0.1);
             margin-top: 10px;
             margin-bottom: 20px;
             transition: all 0.8s ease;
@@ -66,7 +66,7 @@
         }
 
         .btn {
-            background-color: #f0498f;
+            background: linear-gradient(135deg, #7e57c2 0%, #5e35b1 100%);
             color: white;
             padding: 14px 36px;
             font-size: 16px;
@@ -75,16 +75,18 @@
             border-radius: 50px;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(240, 73, 143, 0.4);
+            box-shadow: 0 4px 15px rgba(94, 53, 177, 0.3);
         }
 
         .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(240, 73, 143, 0.6);
+            box-shadow: 0 6px 20px rgba(94, 53, 177, 0.45);
         }
 
         #noButton:hover {
-            background-color: #e03b7e;
+            background: #d1c4e9;
+            color: #5e35b1;
+            box-shadow: 0 4px 15px rgba(209, 196, 233, 0.4);
         }
 
         .gif_container {
@@ -98,7 +100,7 @@
             max-width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(74, 20, 140, 0.12);
         }
 
         /* Form Styling (initially hidden) */
@@ -106,13 +108,13 @@
             display: none;
             width: 100%;
             margin-top: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 35px;
+            border: 1.5px solid rgba(191, 168, 238, 0.4);
+            box-shadow: 0 15px 35px rgba(74, 20, 140, 0.08);
             text-align: left;
             opacity: 0;
             transform: translateY(20px);
@@ -126,90 +128,121 @@
         }
 
         .form-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #3B1E70;
+            margin-bottom: 25px;
+            border-bottom: 2.5px solid rgba(126, 87, 194, 0.25);
+            padding-bottom: 12px;
+            line-height: 1.4;
         }
 
         .form-group {
-            margin-bottom: 22px;
+            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
         }
 
         .form-label {
             font-size: 15px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4A3670;
+            margin-bottom: 12px;
+            line-height: 1.5;
         }
 
-        .radio-options {
+        .options-list {
             display: flex;
-            gap: 15px;
-            margin-top: 5px;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
         }
 
-        .radio-label {
+        .option-card {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 8px 18px;
-            border-radius: 50px;
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1.5px solid #d1c4e9;
+            padding: 14px 20px;
+            border-radius: 14px;
+            color: #432a6c;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-align: left;
+            line-height: 1.4;
         }
 
-        .radio-label input[type="radio"] {
-            display: none;
+        .option-card input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .radio-label:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .option-card:hover {
+            background: #fdfcff;
+            border-color: #7e57c2;
         }
 
-        .radio-label input[type="radio"]:checked + span {
-            font-weight: 600;
+        /* Style selected choice cards dynamically */
+        .option-card.selected {
+            background: #7e57c2;
+            color: #ffffff;
+            border-color: #7e57c2;
+            box-shadow: 0 4px 12px rgba(126, 87, 194, 0.25);
         }
 
-        /* Style selected radios dynamically */
-        .radio-label.selected {
-            background: #ffffff;
-            color: #f0498f;
+        .custom-indicator {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #7e57c2;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .custom-indicator.radio {
+            border-radius: 50%;
+        }
+
+        .custom-indicator.checkbox {
+            border-radius: 4px;
+        }
+
+        .option-card.selected .custom-indicator {
             border-color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            box-shadow: inset 0 0 0 3px #7e57c2;
         }
 
         .text-input, .textarea-input {
             width: 100%;
             padding: 12px 18px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid #d1c4e9;
+            background: #ffffff;
             color: #333333;
             font-size: 14px;
             outline: none;
             transition: all 0.3s ease;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .text-input:focus, .textarea-input:focus {
-            border-color: #f0498f;
-            box-shadow: 0 0 0 3px rgba(240, 73, 143, 0.25);
+            border-color: #7e57c2;
+            box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.25);
         }
 
         .conditional-group {
             display: none;
             margin-top: 12px;
-            padding-left: 10px;
-            border-left: 3px solid rgba(255, 255, 255, 0.5);
+            padding-left: 14px;
+            border-left: 3px solid #7e57c2;
             animation: fadeIn 0.4s ease forwards;
         }
 
@@ -219,8 +252,8 @@
         }
 
         .submit-btn {
-            background-color: #ffffff;
-            color: #f0498f;
+            background: linear-gradient(135deg, #7e57c2 0%, #5e35b1 100%);
+            color: #ffffff;
             width: 100%;
             padding: 14px;
             border-radius: 50px;
@@ -228,15 +261,15 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(94, 53, 177, 0.25);
             transition: all 0.3s ease;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .submit-btn:hover {
-            background-color: #faf9f6;
+            background: linear-gradient(135deg, #673ab7 0%, #4527a0 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 20px rgba(94, 53, 177, 0.4);
         }
 
         @keyframes fadeIn {
@@ -254,7 +287,7 @@
                 font-size: 15px;
             }
             .form-section {
-                padding: 20px;
+                padding: 25px 20px;
             }
             #noButton {
                 margin-left: 100px;
@@ -268,7 +301,7 @@
 <body>
     <div class="container">
         <div>
-            <h1 class="header_text" id="headerText">Do you wanna go out with me miss gorgeous?</h1>
+            <h1 class="header_text" id="headerText">Do you wanna go out with me Cutie?</h1>
         </div>
         
         <div class="gif_container" id="gifContainer">
@@ -280,67 +313,193 @@
             <button class="btn" id="noButton" onmouseover="moveButton()" onclick="moveButton()">No</button>
         </div>
 
-        <!-- Formspree form section -->
-        <!-- Replace YOUR_FORMSPREEE_ID_HERE with your Formspree form ID (e.g., https://formspree.io/f/mqkvzobd) -->
-        <form class="form-section" id="dateForm" action="https://formspree.io/f/xwvjozoj" method="POST">
-            <div class="form-title">A few questions for our perfect date... 😊</div>
+        <!-- Custom Google Form integration (Submits via Fetch/AJAX in background) -->
+        <form class="form-section" id="dateForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeAHq8sc78Gj8YhqLQeJvWNvWfhqN_KvJJdis_nZyV3ssTw-g/formResponse" method="POST">
+            <div class="form-title">PMM &rarr; Preliminary Mandatory Monotonous questions before our dates</div>
             
-            <!-- Question 1: Do you like sunflowers? -->
+            <!-- Question 1: What's the prettiest flower to you? (Radio) -->
+            <!-- REPLACE entry.100000001 AND entry.100000002 WITH YOUR GOOGLE FORM ENTRY IDS -->
             <div class="form-group">
-                <label class="form-label">1. Do you like sunflowers? 🌻</label>
-                <div class="radio-options">
-                    <label class="radio-label">
-                        <input type="radio" name="like_sunflowers" value="yes" required onchange="handleRadioChange(this)">
-                        <span>Yes</span>
+                <label class="form-label">1. What's the prettiest flower to you? 🌸</label>
+                <div class="options-list">
+                    <label class="option-card">
+                        <input type="radio" name="entry.1199342066" value="Sunflowers" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Sunflowers</span>
                     </label>
-                    <label class="radio-label">
-                        <input type="radio" name="like_sunflowers" value="no" required onchange="handleRadioChange(this)">
-                        <span>No</span>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1199342066" value="Lillies" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Lillies</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1199342066" value="Orchids" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Orchids</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1199342066" value="I'm the prettiest flower" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>I'm the prettiest flower</span>
                     </label>
                 </div>
                 
                 <!-- Conditional Sub-Question for Q1 -->
-                <div class="conditional-group" id="sunflowerConditional">
-                    <label class="form-label">What flowers do you like instead? 🌸</label>
-                    <input type="text" name="preferred_flowers" class="text-input" placeholder="Tell me your favorite flowers...">
+                <div class="conditional-group" id="flowerConditional">
+                    <label class="form-label">2. Haha! But seriously, what flowers do you like? 💐</label>
+                    <input type="text" name="entry.1573324394" class="text-input" placeholder="Type here...">
                 </div>
             </div>
 
-            <!-- Question 2: What is your favorite treat/dessert? (Easy to edit/change) -->
+            <!-- Question 3: What is your go-to drink or dessert or edible? (Checkboxes) -->
+            <!-- REPLACE entry.100000003 AND entry.100000004 WITH YOUR GOOGLE FORM ENTRY IDS -->
             <div class="form-group">
-                <label class="form-label">2. What is your go-to drink or dessert? 🍦☕</label>
-                <div class="radio-options">
-                    <label class="radio-label">
-                        <input type="radio" name="favorite_treat" value="coffee" required onchange="handleRadioChange(this)">
+                <label class="form-label">3. What is your go-to drink or dessert or edible? 🍦☕</label>
+                <div class="options-list">
+                    <label class="option-card">
+                        <input type="checkbox" name="entry.1015924590" value="Coffee" onchange="handleCheckboxChange(this)">
+                        <span class="custom-indicator checkbox"></span>
                         <span>Coffee</span>
                     </label>
-                    <label class="radio-label">
-                        <input type="radio" name="favorite_treat" value="ice_cream" required onchange="handleRadioChange(this)">
+                    <label class="option-card">
+                        <input type="checkbox" name="entry.1015924590" value="Ice Cream" onchange="handleCheckboxChange(this)">
+                        <span class="custom-indicator checkbox"></span>
                         <span>Ice Cream</span>
                     </label>
-                    <label class="radio-label">
-                        <input type="radio" name="favorite_treat" value="other" required onchange="handleRadioChange(this)">
+                    <label class="option-card">
+                        <input type="checkbox" name="entry.1015924590" value="Tiramisu" onchange="handleCheckboxChange(this)">
+                        <span class="custom-indicator checkbox"></span>
+                        <span>Tiramisu</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="checkbox" name="entry.1015924590" value="YOU!" onchange="handleCheckboxChange(this)">
+                        <span class="custom-indicator checkbox"></span>
+                        <span>YOU!</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="checkbox" name="entry.1015924590" value="Other" onchange="handleCheckboxChange(this)">
+                        <span class="custom-indicator checkbox"></span>
                         <span>Other</span>
                     </label>
                 </div>
 
-                <!-- Conditional Sub-Question for Q2 -->
+                <!-- Conditional Sub-Question for Q3 -->
                 <div class="conditional-group" id="treatConditional">
-                    <label class="form-label">What do you prefer instead? 🍰</label>
-                    <input type="text" name="preferred_treat_other" class="text-input" placeholder="What should we get?">
+                    <label class="form-label">4. Fine! What should we get then? 🍰</label>
+                    <input type="text" name="entry.1765715744" class="text-input" placeholder="What should we get?">
                 </div>
             </div>
 
-            <!-- Question 3: Best day of the week for a date? (Easy to edit/change) -->
+            <!-- Question 5: Do you reach always timely? (Radio) -->
+            <!-- REPLACE entry.100000005 WITH YOUR GOOGLE FORM ENTRY ID -->
             <div class="form-group">
-                <label class="form-label">3. What is the best day of the week for you? 📅</label>
-                <input type="text" name="preferred_day" class="text-input" placeholder="e.g. Saturday afternoon, Friday evening..." required>
+                <label class="form-label">5. Do you reach always timely? ⏰</label>
+                <div class="options-list">
+                    <label class="option-card">
+                        <input type="radio" name="entry.1492181446" value="Yes" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Yes</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1492181446" value="If you're answering No, Just know that I will wait for 5 minutes and then.." required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>If you're answering No, Just know that I will wait for 5 minutes and then..</span>
+                    </label>
+                </div>
             </div>
 
-            <!-- Question 4: Additional comments/ideas (Easy to edit/customize) -->
+            <!-- Question 6: Wait discussion options (Radio) -->
+            <!-- REPLACE entry.100000006 WITH YOUR GOOGLE FORM ENTRY ID -->
             <div class="form-group">
-                <label class="form-label">4. Any specific places you would love to go? 🗺️</label>
-                <textarea name="preferred_location" class="textarea-input" placeholder="Let me know if you have a favorite cafe, park, or restaurant!"></textarea>
+                <label class="form-label">6. Then I will wait for my princess as long as it takes while wondering what should we really talk about when she gets here! 💬</label>
+                <div class="options-list">
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Food" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Food</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Travel" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Travel</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Books" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Books</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Movies" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Movies</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Long-term implications of artificial general intelligence development" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Long-term implications of artificial general intelligence development</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Comparing geopolitical strategies of rising global powers" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Comparing geopolitical strategies of rising global powers</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1514660185" value="Nevermind! We can just stare at each other's eyes!" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Nevermind! We can just stare at each other's eyes!</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 7: Cooking Reaction (Radio) -->
+            <!-- REPLACE entry.100000007 WITH YOUR GOOGLE FORM ENTRY ID -->
+            <div class="form-group">
+                <label class="form-label">7. If I screw up the dish I'm cooking for you, what's your reaction? 🍳</label>
+                <div class="options-list">
+                    <label class="option-card">
+                        <input type="radio" name="entry.1560580241" value="I'd shove it down your throat Tatha! See how it feels bitch." required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>I'd shove it down your throat Tatha! See how it feels bitch.</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1560580241" value="I'd make you cook again. Not compromising on my princess treatment!" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>I'd make you cook again. Not compromising on my princess treatment!</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1560580241" value="Never cook for me again man!" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Never cook for me again man!</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.1560580241" value="And the last option is, ditch it. We will order or cook something together. Cause, none of the option can be &quot;you still eating that shit&quot; on my watch cutie!" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>And the last option is, ditch it. We will order or cook something together. Cause, none of the option can be "you still eating that shit" on my watch cutie!</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 8: Blush (Radio) -->
+            <!-- REPLACE entry.100000008 WITH YOUR GOOGLE FORM ENTRY ID -->
+            <div class="form-group">
+                <label class="form-label">8. Will you blush like hell if I plan a sudden surprise trip for us? ✈️🥰</label>
+                <div class="options-list">
+                    <label class="option-card">
+                        <input type="radio" name="entry.357884165" value="Why would you do that?" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Why would you do that?</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.357884165" value="Hell Yeah!" required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Hell Yeah!</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="entry.357884165" value="Ofcourse! But be ready to take a thousand pictures of me." required onchange="handleRadioChange(this)">
+                        <span class="custom-indicator radio"></span>
+                        <span>Ofcourse! But be ready to take a thousand pictures of me.</span>
+                    </label>
+                </div>
             </div>
 
             <button type="submit" class="submit-btn">Send Responses 💖</button>
@@ -348,26 +507,56 @@
     </div>
 
     <script>
+        function showThankYou() {
+            const formSection = document.getElementById("dateForm");
+            formSection.innerHTML = `
+                <div style="text-align: center; padding: 10px 0; color: white;">
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 12px; margin-top: 0;">Responses Sent! 💖</h3>
+                    <p style="font-size: 16px; font-weight: 400; opacity: 0.95; margin: 0 0 10px 0;">I will get back to you very soon! 😊</p>
+                </div>
+            `;
+            setTimeout(() => {
+                formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 150);
+        }
+
+        // Handle Form Submission using Fetch API with no-cors and URLSearchParams
+        document.getElementById("dateForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const form = this;
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams(formData);
+
+            fetch(form.action, {
+                method: "POST",
+                body: searchParams,
+                mode: "no-cors"
+            })
+            .then(() => {
+                showThankYou();
+            })
+            .catch((error) => {
+                console.error("Error submitting form:", error);
+                showThankYou();
+            });
+        });
+
         function nextPage() {
-            // Update page background and content to Yes state
-            document.body.style.backgroundColor = "#98b8ca";
+            document.body.style.background = "linear-gradient(135deg, #e3d7fa 0%, #cbb7f5 100%)";
             
             const header = document.getElementById("headerText");
             header.innerText = "Yeeeyyyy! Tatha is happyyyyy!";
-            header.style.fontSize = "40px"; // Size kept friendly and responsive
+            header.style.fontSize = "40px";
 
             const gifImage = document.getElementById("gifImage");
             gifImage.src = "https://media0.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif";
 
-            // Hide the Yes/No buttons
             const buttonContainer = document.getElementById("buttonContainer");
             buttonContainer.style.display = "none";
 
-            // Show the Form section with animation
             const formSection = document.getElementById("dateForm");
             formSection.classList.add("show");
             
-            // Scroll to the form section smoothly on mobile
             setTimeout(() => {
                 formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
@@ -375,7 +564,6 @@
 
         function moveButton() {
             const noBtn = document.getElementById('noButton');
-            // Ensure button stays well within viewport boundaries
             const padding = 20;
             const x = padding + Math.random() * (window.innerWidth - noBtn.offsetWidth - (padding * 2));
             const y = padding + Math.random() * (window.innerHeight - noBtn.offsetHeight - (padding * 2));
@@ -385,7 +573,6 @@
 
         // Handle styling of custom radio buttons and showing conditional sub-questions
         function handleRadioChange(radioInput) {
-            // Update selection styling for the radio buttons in the same group
             const groupName = radioInput.name;
             const radios = document.getElementsByName(groupName);
             
@@ -398,11 +585,12 @@
                 }
             });
 
-            // Handle Question 1 conditional question visibility
-            if (groupName === 'like_sunflowers') {
-                const conditionalQ1 = document.getElementById('sunflowerConditional');
+            // Handle Question 1 conditional question visibility (Prettiest flower)
+            // Replace entry.100000001 with your Q1 actual entry ID
+            if (groupName === 'entry.1199342066') {
+                const conditionalQ1 = document.getElementById('flowerConditional');
                 const conditionalInput = conditionalQ1.querySelector('input');
-                if (radioInput.value === 'no') {
+                if (radioInput.value === "I'm the prettiest flower") {
                     conditionalQ1.style.display = 'block';
                     conditionalInput.setAttribute('required', 'true');
                 } else {
@@ -411,18 +599,31 @@
                     conditionalInput.value = '';
                 }
             }
+        }
 
-            // Handle Question 2 conditional question visibility
-            if (groupName === 'favorite_treat') {
-                const conditionalQ2 = document.getElementById('treatConditional');
-                const conditionalInput = conditionalQ2.querySelector('input');
-                if (radioInput.value === 'other') {
-                    conditionalQ2.style.display = 'block';
-                    conditionalInput.setAttribute('required', 'true');
-                } else {
-                    conditionalQ2.style.display = 'none';
-                    conditionalInput.removeAttribute('required');
-                    conditionalInput.value = '';
+        // Handle styling of checkboxes and showing conditional sub-questions
+        function handleCheckboxChange(checkboxInput) {
+            const label = checkboxInput.parentElement;
+            if (checkboxInput.checked) {
+                label.classList.add('selected');
+            } else {
+                label.classList.remove('selected');
+            }
+
+            // Handle Question 3 conditional question visibility (Edibles/Drinks)
+            // Replace entry.100000003 with your Q3 actual entry ID
+            if (checkboxInput.name === 'entry.1015924590') {
+                if (checkboxInput.value === 'Other') {
+                    const conditionalQ2 = document.getElementById('treatConditional');
+                    const conditionalInput = conditionalQ2.querySelector('input');
+                    if (checkboxInput.checked) {
+                        conditionalQ2.style.display = 'block';
+                        conditionalInput.setAttribute('required', 'true');
+                    } else {
+                        conditionalQ2.style.display = 'none';
+                        conditionalInput.removeAttribute('required');
+                        conditionalInput.value = '';
+                    }
                 }
             }
         }
