@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you wanna go out with me?</title>
+    <!-- Google Fonts for premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #93c2dd;
+            margin: 0;
+            padding: 20px 10px;
+            transition: background-color 0.8s ease;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        #noButton {
+            position: absolute;
+            margin-left: 150px;
+            transition: 0.5s;
+        }
+
+        #yesButton {
+            position: absolute;
+            margin-right: 150px;
+        }
+
+        .header_text {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 10px;
+            margin-bottom: 20px;
+            transition: all 0.8s ease;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            height: 60px;
+            position: relative;
+            width: 100%;
+        }
+
+        .btn {
+            background-color: #f0498f;
+            color: white;
+            padding: 14px 36px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(240, 73, 143, 0.4);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(240, 73, 143, 0.6);
+        }
+
+        #noButton:hover {
+            background-color: #e03b7e;
+        }
+
+        .gif_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .gif_container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Form Styling (initially hidden) */
+        .form-section {
+            display: none;
+            width: 100%;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .form-section.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .radio-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 8px 18px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+
+        .radio-label:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .radio-label input[type="radio"]:checked + span {
+            font-weight: 600;
+        }
+
+        /* Style selected radios dynamically */
+        .radio-label.selected {
+            background: #ffffff;
+            color: #f0498f;
+            border-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-input, .textarea-input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333333;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .text-input:focus, .textarea-input:focus {
+            border-color: #f0498f;
+            box-shadow: 0 0 0 3px rgba(240, 73, 143, 0.25);
+        }
+
+        .conditional-group {
+            display: none;
+            margin-top: 12px;
+            padding-left: 10px;
+            border-left: 3px solid rgba(255, 255, 255, 0.5);
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .textarea-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            background-color: #ffffff;
+            color: #f0498f;
+            width: 100%;
+            padding: 14px;
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #faf9f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 480px) {
+            .header_text {
+                font-size: 28px;
+            }
+            .btn {
+                padding: 12px 28px;
+                font-size: 15px;
+            }
+            .form-section {
+                padding: 20px;
+            }
+            #noButton {
+                margin-left: 100px;
+            }
+            #yesButton {
+                margin-right: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1 class="header_text" id="headerText">Do you wanna go out with me miss gorgeous?</h1>
+        </div>
+        
+        <div class="gif_container" id="gifContainer">
+            <img id="gifImage" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtZ2JiZDR0a3lvMWF4OG8yc3p6Ymdvd3g2d245amdveDhyYmx6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute animated illustration">
+        </div>
+        
+        <div class="buttons" id="buttonContainer">
+            <button class="btn" id="yesButton" onclick="nextPage()">Yes</button>
+            <button class="btn" id="noButton" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+
+        <!-- Formspree form section -->
+        <!-- Replace YOUR_FORMSPREEE_ID_HERE with your Formspree form ID (e.g., https://formspree.io/f/mqkvzobd) -->
+        <form class="form-section" id="dateForm" action="https://formspree.io/f/xwvjozoj" method="POST">
+            <div class="form-title">A few questions for our perfect date... 😊</div>
+            
+            <!-- Question 1: Do you like sunflowers? -->
+            <div class="form-group">
+                <label class="form-label">1. Do you like sunflowers? 🌻</label>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="like_sunflowers" value="yes" required onchange="handleRadioChange(this)">
+                        <span>Yes</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="like_sunflowers" value="no" required onchange="handleRadioChange(this)">
+                        <span>No</span>
+                    </label>
+                </div>
+                
+                <!-- Conditional Sub-Question for Q1 -->
+                <div class="conditional-group" id="sunflowerConditional">
+                    <label class="form-label">What flowers do you like instead? 🌸</label>
+                    <input type="text" name="preferred_flowers" class="text-input" placeholder="Tell me your favorite flowers...">
+                </div>
+            </div>
+
+            <!-- Question 2: What is your favorite treat/dessert? (Easy to edit/change) -->
+            <div class="form-group">
+                <label class="form-label">2. What is your go-to drink or dessert? 🍦☕</label>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="favorite_treat" value="coffee" required onchange="handleRadioChange(this)">
+                        <span>Coffee</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="favorite_treat" value="ice_cream" required onchange="handleRadioChange(this)">
+                        <span>Ice Cream</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="favorite_treat" value="other" required onchange="handleRadioChange(this)">
+                        <span>Other</span>
+                    </label>
+                </div>
+
+                <!-- Conditional Sub-Question for Q2 -->
+                <div class="conditional-group" id="treatConditional">
+                    <label class="form-label">What do you prefer instead? 🍰</label>
+                    <input type="text" name="preferred_treat_other" class="text-input" placeholder="What should we get?">
+                </div>
+            </div>
+
+            <!-- Question 3: Best day of the week for a date? (Easy to edit/change) -->
+            <div class="form-group">
+                <label class="form-label">3. What is the best day of the week for you? 📅</label>
+                <input type="text" name="preferred_day" class="text-input" placeholder="e.g. Saturday afternoon, Friday evening..." required>
+            </div>
+
+            <!-- Question 4: Additional comments/ideas (Easy to edit/customize) -->
+            <div class="form-group">
+                <label class="form-label">4. Any specific places you would love to go? 🗺️</label>
+                <textarea name="preferred_location" class="textarea-input" placeholder="Let me know if you have a favorite cafe, park, or restaurant!"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Send Responses 💖</button>
+        </form>
+    </div>
+
+    <script>
+        function nextPage() {
+            // Update page background and content to Yes state
+            document.body.style.backgroundColor = "#98b8ca";
+            
+            const header = document.getElementById("headerText");
+            header.innerText = "Yeeeyyyy! Tatha is happyyyyy!";
+            header.style.fontSize = "40px"; // Size kept friendly and responsive
+
+            const gifImage = document.getElementById("gifImage");
+            gifImage.src = "https://media0.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif";
+
+            // Hide the Yes/No buttons
+            const buttonContainer = document.getElementById("buttonContainer");
+            buttonContainer.style.display = "none";
+
+            // Show the Form section with animation
+            const formSection = document.getElementById("dateForm");
+            formSection.classList.add("show");
+            
+            // Scroll to the form section smoothly on mobile
+            setTimeout(() => {
+                formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function moveButton() {
+            const noBtn = document.getElementById('noButton');
+            // Ensure button stays well within viewport boundaries
+            const padding = 20;
+            const x = padding + Math.random() * (window.innerWidth - noBtn.offsetWidth - (padding * 2));
+            const y = padding + Math.random() * (window.innerHeight - noBtn.offsetHeight - (padding * 2));
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+
+        // Handle styling of custom radio buttons and showing conditional sub-questions
+        function handleRadioChange(radioInput) {
+            // Update selection styling for the radio buttons in the same group
+            const groupName = radioInput.name;
+            const radios = document.getElementsByName(groupName);
+            
+            radios.forEach(radio => {
+                const label = radio.parentElement;
+                if (radio.checked) {
+                    label.classList.add('selected');
+                } else {
+                    label.classList.remove('selected');
+                }
+            });
+
+            // Handle Question 1 conditional question visibility
+            if (groupName === 'like_sunflowers') {
+                const conditionalQ1 = document.getElementById('sunflowerConditional');
+                const conditionalInput = conditionalQ1.querySelector('input');
+                if (radioInput.value === 'no') {
+                    conditionalQ1.style.display = 'block';
+                    conditionalInput.setAttribute('required', 'true');
+                } else {
+                    conditionalQ1.style.display = 'none';
+                    conditionalInput.removeAttribute('required');
+                    conditionalInput.value = '';
+                }
+            }
+
+            // Handle Question 2 conditional question visibility
+            if (groupName === 'favorite_treat') {
+                const conditionalQ2 = document.getElementById('treatConditional');
+                const conditionalInput = conditionalQ2.querySelector('input');
+                if (radioInput.value === 'other') {
+                    conditionalQ2.style.display = 'block';
+                    conditionalInput.setAttribute('required', 'true');
+                } else {
+                    conditionalQ2.style.display = 'none';
+                    conditionalInput.removeAttribute('required');
+                    conditionalInput.value = '';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
