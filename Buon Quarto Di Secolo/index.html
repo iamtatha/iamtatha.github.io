@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Buon Quarto Di Secolo 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-deep: #0a0e2a;
+  --bg-mid: #171235;
+  --bg-warm: #2a1240;
+  --gold: #f5c451;
+  --rose: #ff6b9d;
+  --text: #f4f1fb;
+  --text-dim: #b9b3d6;
+  --glow: rgba(245, 196, 81, 0.35);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% 0%, var(--bg-warm), var(--bg-mid) 45%, var(--bg-deep) 100%);
+  color: var(--text);
+  font-family: 'Quicksand', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ---------- Intro: flight-across-the-map ---------- */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: radial-gradient(ellipse at 50% 30%, var(--bg-warm), var(--bg-deep) 75%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  cursor: pointer;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#intro.intro-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-map {
+  width: min(90vw, 720px);
+  aspect-ratio: 2 / 1;
+}
+
+.intro-map svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.intro-grid line {
+  stroke: rgba(245, 196, 81, 0.15);
+  stroke-width: 1;
+}
+
+.intro-blobs ellipse {
+  fill: rgba(255, 107, 157, 0.16);
+}
+
+.flight-path {
+  fill: none;
+  stroke: url(#pathGradient);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(245, 196, 81, 0.55));
+}
+
+.city-pin {
+  fill: var(--rose);
+  filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.7));
+  opacity: 0;
+  animation: fadeInSimple 0.6s ease forwards 0.5s;
+}
+
+.intro-city-label {
+  fill: var(--text);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 22px;
+  text-anchor: middle;
+  opacity: 0;
+  animation: fadeInSimple 0.6s ease forwards 0.7s;
+}
+
+.plane-glyph {
+  font-size: 28px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes fadeInSimple {
+  to { opacity: 1; }
+}
+
+.intro-caption {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 0 1.2rem;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.intro-caption.show {
+  opacity: 1;
+}
+
+.intro-skip-hint {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+#intro.show-skip .intro-skip-hint {
+  opacity: 0.5;
+}
+
+/* ---------- Hero ---------- */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem 3rem;
+  overflow: hidden;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle linear infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.9; }
+}
+
+.hearts {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -5%;
+  color: var(--rose);
+  opacity: 0.55;
+  animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.35; }
+  100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+}
+
+.hero-content,
+.globe-wrap,
+.stats,
+.scroll-cue {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.hero-content.revealed,
+.globe-wrap.revealed,
+.stats.revealed,
+.scroll-cue.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.9rem;
+  min-height: 1.2em;
+}
+
+.title-text {
+  display: inline-block;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.title-text.swapping {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.6;
+}
+
+/* ---------- Globe ---------- */
+.globe-wrap {
+  position: relative;
+  z-index: 2;
+  width: min(88vw, 460px);
+  aspect-ratio: 1 / 1;
+  margin: 2.5rem auto 1.5rem;
+}
+
+#globeCanvas {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 35px var(--glow));
+}
+
+.city-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -135%);
+  background: rgba(15, 12, 40, 0.75);
+  border: 1px solid rgba(245, 196, 81, 0.35);
+  color: var(--text);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* ---------- Stats ---------- */
+.stats {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem 3rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--gold);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  letter-spacing: 0.03em;
+}
+
+.clocks {
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.clock-time {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.clock small {
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.clock-divider {
+  color: var(--rose);
+  font-size: 1.1rem;
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+/* ---------- Scroll cue ---------- */
+.scroll-cue {
+  position: relative;
+  z-index: 2;
+  margin-top: 3rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.scroll-cue:hover {
+  color: var(--gold);
+}
+
+.scroll-cue .arrow {
+  animation: bounce 1.6s ease-in-out infinite;
+  font-size: 1.1rem;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ---------- Wish message ---------- */
+.wish-section {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding: 5rem 1.5rem;
+  background: var(--bg-deep);
+}
+
+.wish-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 2rem;
+}
+
+.wish-card {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 2.8rem 2.4rem;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(245, 196, 81, 0.18);
+  border-radius: 20px;
+}
+
+.wish-quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
+  color: var(--gold);
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.wish-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.wish-signature {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Memories carousel ---------- */
+.memories-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding: 5rem 1.5rem;
+  background: var(--bg-deep);
+}
+
+.memories-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 1.5rem;
+}
+
+.memories-section.in-view .carousel,
+.memories-section.in-view .car-dots {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.car-dots {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.4rem;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease 0.15s, transform 0.9s ease 0.15s;
+}
+
+.car-btn {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(245, 196, 81, 0.12);
+  border: 1px solid rgba(245, 196, 81, 0.35);
+  color: var(--gold);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.car-btn:hover {
+  background: rgba(245, 196, 81, 0.25);
+  transform: scale(1.08);
+}
+
+.car-viewport {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 22px;
+  transition: height 0.4s ease;
+}
+
+.car-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.car-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+}
+
+.car-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.car-dot.active {
+  background: var(--gold);
+  transform: scale(1.3);
+}
+
+.mem-card {
+  height: 100%;
+  min-height: 380px;
+  display: flex;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(245, 196, 81, 0.18);
+  border-radius: 20px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.mem-date {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(245, 196, 81, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.mem-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: var(--text);
+}
+
+.mem-text {
+  color: var(--text-dim);
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+.mem-photo, .mem-photo-frame img, .mem-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mem-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: repeating-linear-gradient(135deg, rgba(245, 196, 81, 0.07), rgba(245, 196, 81, 0.07) 12px, rgba(255, 107, 157, 0.07) 12px, rgba(255, 107, 157, 0.07) 24px);
+  border: 1px dashed rgba(245, 196, 81, 0.4);
+  color: var(--text-dim);
+  font-size: 1.6rem;
+  border-radius: 10px;
+}
+
+.mem-placeholder span {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
+/* split: photo one side, text the other */
+.mem-split {
+  flex-direction: row;
+}
+
+.mem-split.mem-mirror {
+  flex-direction: row-reverse;
+}
+
+.mem-split .mem-photo {
+  flex: 1 1 45%;
+}
+
+.mem-split .mem-body {
+  flex: 1 1 55%;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* polaroid: centered tilted photo with handwritten-style caption */
+.mem-polaroid {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  gap: 0.9rem;
+  text-align: center;
+}
+
+.mem-polaroid .mem-photo-frame {
+  background: #fdfdfd;
+  padding: 14px 14px 38px;
+  border-radius: 4px;
+  transform: rotate(-3deg);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+  width: min(65%, 230px);
+}
+
+.mem-polaroid .mem-photo-frame .mem-placeholder,
+.mem-polaroid .mem-photo-frame img {
+  aspect-ratio: 1 / 1;
+}
+
+/* fullbleed: big photo, text overlaid at the bottom */
+.mem-fullbleed {
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 420px;
+}
+
+.mem-fullbleed .mem-photo {
+  position: absolute;
+  inset: 0;
+}
+
+.mem-fullbleed .mem-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: linear-gradient(0deg, rgba(10, 14, 42, 0.95), rgba(10, 14, 42, 0.5) 60%, transparent 100%);
+}
+
+/* audio: a little voice-note card */
+.mem-audio {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2.6rem 2rem;
+  gap: 1rem;
+}
+
+.mem-audio .mem-audio-icon {
+  font-size: 2.3rem;
+}
+
+.mem-audio audio {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* quote: no photo, just words */
+.mem-quote {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  gap: 1rem;
+}
+
+.mem-quote .mem-quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.mem-quote .mem-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.25rem;
+  max-width: 480px;
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .mem-split {
+    flex-direction: column !important;
+  }
+  .mem-split .mem-photo {
+    height: 200px;
+  }
+  .car-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats {
+    gap: 1.6rem;
+  }
+}
+
+/* ---------- Filmroll ---------- */
+.filmroll-section {
+  background: var(--bg-deep);
+  padding: 4.5rem 0 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.filmroll-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 2rem;
+}
+
+.filmroll-outer {
+  position: relative;
+  width: 100%;
+  background: #161616;
+  padding: 16px 0;
+}
+
+.filmroll-outer::before,
+.filmroll-outer::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background-image: radial-gradient(circle at 11px 8px, var(--bg-deep) 6px, transparent 7px);
+  background-size: 30px 16px;
+  background-repeat: repeat-x;
+  z-index: 2;
+}
+
+.filmroll-outer::before {
+  top: 0;
+}
+
+.filmroll-outer::after {
+  bottom: 0;
+}
+
+.filmroll-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.filmroll-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  padding: 0 7px;
+  animation: filmrollScroll 30s linear infinite;
+}
+
+.filmroll-outer:hover .filmroll-track {
+  animation-play-state: paused;
+}
+
+.filmroll-frame {
+  flex: 0 0 auto;
+  width: 220px;
+  height: 150px;
+  border: 4px solid #000;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+}
+
+.filmroll-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.filmroll-frame.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  background: repeating-linear-gradient(135deg, rgba(245, 196, 81, 0.08), rgba(245, 196, 81, 0.08) 12px, rgba(255, 107, 157, 0.08) 12px, rgba(255, 107, 157, 0.08) 24px);
+  border: 1px dashed rgba(245, 196, 81, 0.4);
+}
+
+.filmroll-frame.placeholder code {
+  color: var(--gold);
+  font-size: 0.65rem;
+}
+
+@keyframes filmrollScroll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+
+@media (max-width: 480px) {
+  .filmroll-frame {
+    width: 160px;
+    height: 110px;
+  }
+}
+</style>
+</head>
+<body>
+
+  <div id="intro">
+    <div class="intro-map">
+      <svg viewBox="0 0 1000 500" id="introSvg">
+        <defs>
+          <filter id="introBlur" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="18" />
+          </filter>
+          <linearGradient id="pathGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#f5c451" />
+            <stop offset="1" stop-color="#ff6b9d" />
+          </linearGradient>
+        </defs>
+        <g id="introBlobs" class="intro-blobs" filter="url(#introBlur)"></g>
+        <g id="introGrid" class="intro-grid"></g>
+        <path id="flightPath" class="flight-path" d="M745,187 Q815,105 885,347" />
+        <circle id="pinA" class="city-pin" cx="745" cy="187" r="6"></circle>
+        <circle id="pinB" class="city-pin" cx="885" cy="347" r="6"></circle>
+        <text id="introLabelA" class="intro-city-label" x="745" y="165">Kolkata</text>
+        <text id="introLabelB" class="intro-city-label" x="885" y="378">Adelaide</text>
+        <text id="planeGlyph" class="plane-glyph" x="0" y="0">✈️
+          <animateMotion id="planeMotion" begin="indefinite" dur="1.6s" fill="freeze">
+            <mpath href="#flightPath"></mpath>
+          </animateMotion>
+        </text>
+      </svg>
+    </div>
+    <p class="intro-caption" id="introCaption">crossing <span id="introDistance">0</span> km to say happy birthday…</p>
+    <p class="intro-skip-hint">tap anywhere to skip</p>
+  </div>
+
+  <main id="hero">
+    <div class="stars" id="stars"></div>
+    <div class="hearts" id="hearts"></div>
+
+    <div class="hero-content">
+      <p class="eyebrow">Kolkata × Adelaide</p>
+      <h1><span class="title-text" id="heroTitle">Buon Quarto Di Secolo</span></h1>
+      <p class="subtitle">Two cities, one heart — counting the kilometers until we're together again.</p>
+    </div>
+
+    <div class="globe-wrap">
+      <canvas id="globeCanvas"></canvas>
+      <div class="city-tag" id="tagKolkata">📍 Kolkata, India</div>
+      <div class="city-tag" id="tagAdelaide">📍 Adelaide, Australia</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-value"><span id="distanceValue">0</span> km</span>
+        <span class="stat-label">apart, as the crow flies</span>
+      </div>
+      <div class="stat clocks">
+        <div class="clock">
+          <span class="clock-time" id="clockKolkata">--:--</span>
+          <small>Kolkata</small>
+        </div>
+        <div class="clock-divider">✈</div>
+        <div class="clock">
+          <span class="clock-time" id="clockAdelaide">--:--</span>
+          <small>Adelaide</small>
+        </div>
+      </div>
+    </div>
+
+    <button class="scroll-cue" id="scrollCue" aria-label="Scroll down">
+      <span>our story begins</span>
+      <span class="arrow">↓</span>
+    </button>
+  </main>
+
+  <section id="next" class="memories-section">
+    <p class="eyebrow">Our Memories</p>
+    <h2 class="memories-title">Little Moments We've Kept</h2>
+    <div class="carousel" id="memoryCarousel" tabindex="0">
+      <button class="car-btn car-prev" id="carPrev" aria-label="Previous memory">‹</button>
+      <div class="car-viewport">
+        <div class="car-track" id="carTrack"></div>
+      </div>
+      <button class="car-btn car-next" id="carNext" aria-label="Next memory">›</button>
+    </div>
+    <div class="car-dots" id="carDots"></div>
+  </section>
+
+  <section class="wish-section">
+    <p class="eyebrow">A Little Note</p>
+    <h2 class="wish-title">My Wish For You</h2>
+    <div class="wish-card">
+      <span class="wish-quote-mark">❝</span>
+      <!-- Replace this paragraph with your own birthday message for her. -->
+      <p class="wish-text" id="wishText">
+        Write your birthday wish for her right here — this is your page to fill with whatever you want her to read.
+      </p>
+      <span class="wish-signature">— your name</span>
+    </div>
+  </section>
+
+  <section class="filmroll-section">
+    <p class="eyebrow">Frame By Frame</p>
+    <!-- <h2 class="filmroll-title">Our Filmroll</h2> -->
+    <div class="filmroll-outer">
+      <div class="filmroll-viewport">
+        <div class="filmroll-track" id="filmrollTrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+/* ============================================================
+   CONFIG — personalize these whenever you like
+   ============================================================ */
+const CONFIG = {
+  cityA: { name: "Kolkata", country: "India", lat: 22.5726, lon: 88.3639, tz: "Asia/Kolkata" },
+  cityB: { name: "Adelaide", country: "Australia", lat: -34.9285, lon: 138.6007, tz: "Australia/Adelaide" },
+  colors: {
+    grid: "rgba(185, 179, 214, 0.25)",
+    globeFillTop: "rgba(255, 107, 157, 0.10)",
+    globeFillBottom: "rgba(10, 14, 42, 0.05)",
+    outline: "rgba(245, 196, 81, 0.55)",
+    marker: "#ff6b9d",
+    markerGlow: "rgba(255, 107, 157, 0.55)",
+    arc: "#f5c451",
+  },
+};
+
+const TITLE_PHRASES = ["Buon Quarto Di Secolo", "Your 25th Birthday"];
+
+function rotateHeroTitle() {
+  const el = document.getElementById("heroTitle");
+  let index = 0;
+  setInterval(() => {
+    el.classList.add("swapping");
+    setTimeout(() => {
+      index = (index + 1) % TITLE_PHRASES.length;
+      el.textContent = TITLE_PHRASES[index];
+      el.classList.remove("swapping");
+    }, 500);
+  }, 3000);
+}
+
+/* ============================================================
+   Geo math helpers
+   ============================================================ */
+const toRad = (d) => (d * Math.PI) / 180;
+const toDeg = (r) => (r * 180) / Math.PI;
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function latLonToVec(lat, lon) {
+  const φ = toRad(lat);
+  const λ = toRad(lon);
+  return [Math.cos(φ) * Math.cos(λ), Math.cos(φ) * Math.sin(λ), Math.sin(φ)];
+}
+
+function vecToLatLon([x, y, z]) {
+  return [toDeg(Math.asin(z)), toDeg(Math.atan2(y, x))];
+}
+
+function slerp(p0, p1, t) {
+  const dot = Math.max(-1, Math.min(1, p0[0] * p1[0] + p0[1] * p1[1] + p0[2] * p1[2]));
+  const omega = Math.acos(dot);
+  if (omega < 1e-6) return p0;
+  const s0 = Math.sin((1 - t) * omega) / Math.sin(omega);
+  const s1 = Math.sin(t * omega) / Math.sin(omega);
+  return [
+    p0[0] * s0 + p1[0] * s1,
+    p0[1] * s0 + p1[1] * s1,
+    p0[2] * s0 + p1[2] * s1,
+  ];
+}
+
+/* Orthographic projection of a lat/lon point given the globe's current
+   central lat/lon. Returns {x, y, visible} in unit-radius coordinates. */
+function project(lat, lon, centerLat, centerLon) {
+  const φ = toRad(lat);
+  const λ = toRad(lon);
+  const φ1 = toRad(centerLat);
+  const λ0 = toRad(centerLon);
+  const cosC = Math.sin(φ1) * Math.sin(φ) + Math.cos(φ1) * Math.cos(φ) * Math.cos(λ - λ0);
+  const x = Math.cos(φ) * Math.sin(λ - λ0);
+  const y = Math.cos(φ1) * Math.sin(φ) - Math.sin(φ1) * Math.cos(φ) * Math.cos(λ - λ0);
+  return { x, y, visible: cosC > 0 };
+}
+
+/* ============================================================
+   Intro: flat world-map grid + flight path
+   ============================================================ */
+function buildIntroGrid() {
+  const g = document.getElementById("introGrid");
+  const ns = "http://www.w3.org/2000/svg";
+  for (let x = 0; x <= 1000; x += 50) {
+    const line = document.createElementNS(ns, "line");
+    line.setAttribute("x1", x);
+    line.setAttribute("y1", 0);
+    line.setAttribute("x2", x);
+    line.setAttribute("y2", 500);
+    g.appendChild(line);
+  }
+  for (let y = 0; y <= 500; y += 50) {
+    const line = document.createElementNS(ns, "line");
+    line.setAttribute("x1", 0);
+    line.setAttribute("y1", y);
+    line.setAttribute("x2", 1000);
+    line.setAttribute("y2", y);
+    g.appendChild(line);
+  }
+}
+
+function buildIntroBlobs() {
+  const g = document.getElementById("introBlobs");
+  const ns = "http://www.w3.org/2000/svg";
+  const blobs = [
+    [150, 150, 120, 80],
+    [430, 120, 140, 70],
+    [700, 220, 160, 90],
+    [300, 330, 130, 70],
+    [880, 370, 100, 60],
+  ];
+  for (const [cx, cy, rx, ry] of blobs) {
+    const ellipse = document.createElementNS(ns, "ellipse");
+    ellipse.setAttribute("cx", cx);
+    ellipse.setAttribute("cy", cy);
+    ellipse.setAttribute("rx", rx);
+    ellipse.setAttribute("ry", ry);
+    g.appendChild(ellipse);
+  }
+}
+
+function revealHero() {
+  const seq = [
+    [".hero-content", 0],
+    [".globe-wrap", 200],
+    [".stats", 400],
+    [".scroll-cue", 600],
+  ];
+  seq.forEach(([sel, delay]) => {
+    setTimeout(() => document.querySelector(sel).classList.add("revealed"), delay);
+  });
+}
+
+function runIntro() {
+  const intro = document.getElementById("intro");
+  const path = document.getElementById("flightPath");
+  const plane = document.getElementById("planeGlyph");
+  const planeMotion = document.getElementById("planeMotion");
+  const flightDuration = 1600;
+  const flightStart = 550;
+
+  const len = path.getTotalLength();
+  path.style.strokeDasharray = `${len}`;
+  path.style.strokeDashoffset = `${len}`;
+
+  let finished = false;
+  function finish() {
+    if (finished) return;
+    finished = true;
+    intro.classList.add("intro-done");
+    revealHero();
+  }
+  intro.addEventListener("click", finish);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      path.style.transition = `stroke-dashoffset ${flightDuration}ms ease`;
+      path.style.strokeDashoffset = "0";
+      plane.style.opacity = "1";
+      try {
+        planeMotion.beginElement();
+      } catch (e) {
+        /* SMIL unsupported: path still draws in, arrival caption still fires */
+      }
+    }, flightStart);
+  });
+
+  setTimeout(() => {
+    const dist = Math.round(
+      haversineKm(CONFIG.cityA.lat, CONFIG.cityA.lon, CONFIG.cityB.lat, CONFIG.cityB.lon)
+    );
+    document.getElementById("introDistance").textContent = dist.toLocaleString();
+    document.getElementById("introCaption").classList.add("show");
+  }, flightStart + flightDuration - 200);
+
+  setTimeout(() => intro.classList.add("show-skip"), 1000);
+  setTimeout(finish, flightStart + flightDuration + 900);
+}
+
+/* ============================================================
+   Background flourishes: stars + floating hearts
+   ============================================================ */
+function buildStars() {
+  const wrap = document.getElementById("stars");
+  const count = window.innerWidth < 600 ? 60 : 120;
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    const size = Math.random() * 2 + 0.5;
+    s.style.width = `${size}px`;
+    s.style.height = `${size}px`;
+    s.style.left = `${Math.random() * 100}%`;
+    s.style.top = `${Math.random() * 100}%`;
+    s.style.animationDuration = `${2 + Math.random() * 4}s`;
+    s.style.animationDelay = `${Math.random() * 4}s`;
+    frag.appendChild(s);
+  }
+  wrap.appendChild(frag);
+}
+
+function spawnHeart() {
+  const wrap = document.getElementById("hearts");
+  const h = document.createElement("span");
+  h.className = "floating-heart";
+  h.textContent = "❤";
+  h.style.left = `${Math.random() * 100}%`;
+  h.style.fontSize = `${0.6 + Math.random() * 1}rem`;
+  const duration = 9 + Math.random() * 6;
+  h.style.animationDuration = `${duration}s`;
+  wrap.appendChild(h);
+  setTimeout(() => h.remove(), duration * 1000);
+}
+
+/* ============================================================
+   Globe rendering
+   ============================================================ */
+class Globe {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d");
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    this.parallels = [];
+    for (let lat = -60; lat <= 60; lat += 30) {
+      const line = [];
+      for (let lon = -180; lon <= 180; lon += 4) line.push([lat, lon]);
+      this.parallels.push(line);
+    }
+    this.meridians = [];
+    for (let lon = -180; lon < 180; lon += 30) {
+      const line = [];
+      for (let lat = -90; lat <= 90; lat += 4) line.push([lat, lon]);
+      this.meridians.push(line);
+    }
+
+    const pA = latLonToVec(CONFIG.cityA.lat, CONFIG.cityA.lon);
+    const pB = latLonToVec(CONFIG.cityB.lat, CONFIG.cityB.lon);
+    this.arcPoints = [];
+    const steps = 64;
+    for (let i = 0; i <= steps; i++) {
+      const [lat, lon] = vecToLatLon(slerp(pA, pB, i / steps));
+      this.arcPoints.push([lat, lon]);
+    }
+    const midLatLon = vecToLatLon(slerp(pA, pB, 0.5));
+
+    this.centerLat = midLatLon[0];
+    this.targetLon = midLatLon[1];
+    this.startLon = this.targetLon - 150;
+    this.startTime = performance.now();
+    this.settleDuration = 3200;
+    this.settled = false;
+    this.settledAt = null;
+
+    this.resize();
+    window.addEventListener("resize", () => this.resize());
+  }
+
+  resize() {
+    const rect = this.canvas.getBoundingClientRect();
+    this.canvas.width = rect.width * this.dpr;
+    this.canvas.height = rect.height * this.dpr;
+    this.size = rect.width;
+    this.radius = (rect.width / 2) * 0.86;
+    this.cx = rect.width / 2;
+    this.cy = rect.height / 2;
+  }
+
+  easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  currentLon(now) {
+    const elapsed = now - this.startTime;
+    if (elapsed < this.settleDuration) {
+      const t = this.easeOutCubic(elapsed / this.settleDuration);
+      return this.startLon + (this.targetLon - this.startLon) * t;
+    }
+    if (!this.settled) {
+      this.settled = true;
+      this.settledAt = now;
+      document.dispatchEvent(new CustomEvent("globe-settled"));
+    }
+    const idleElapsed = now - this.settledAt;
+    return this.targetLon + 10 * Math.sin(idleElapsed / 4500);
+  }
+
+  toScreen(x, y) {
+    return [this.cx + x * this.radius, this.cy - y * this.radius];
+  }
+
+  drawLine(ctx, points, centerLat, centerLon) {
+    ctx.beginPath();
+    let drawing = false;
+    for (const [lat, lon] of points) {
+      const p = project(lat, lon, centerLat, centerLon);
+      const [sx, sy] = this.toScreen(p.x, p.y);
+      if (p.visible) {
+        if (!drawing) {
+          ctx.moveTo(sx, sy);
+          drawing = true;
+        } else {
+          ctx.lineTo(sx, sy);
+        }
+      } else {
+        drawing = false;
+      }
+    }
+    ctx.stroke();
+  }
+
+  draw(now) {
+    const ctx = this.ctx;
+    const dpr = this.dpr;
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, this.size, this.size);
+
+    const centerLon = this.currentLon(now);
+    const centerLat = this.centerLat;
+
+    const grad = ctx.createRadialGradient(
+      this.cx - this.radius * 0.3, this.cy - this.radius * 0.3, this.radius * 0.1,
+      this.cx, this.cy, this.radius
+    );
+    grad.addColorStop(0, CONFIG.colors.globeFillTop);
+    grad.addColorStop(1, CONFIG.colors.globeFillBottom);
+    ctx.beginPath();
+    ctx.arc(this.cx, this.cy, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.strokeStyle = CONFIG.colors.outline;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+
+    ctx.strokeStyle = CONFIG.colors.grid;
+    ctx.lineWidth = 1;
+    for (const line of this.parallels) this.drawLine(ctx, line, centerLat, centerLon);
+    for (const line of this.meridians) this.drawLine(ctx, line, centerLat, centerLon);
+
+    ctx.save();
+    ctx.shadowColor = CONFIG.colors.arc;
+    ctx.shadowBlur = 8;
+    ctx.strokeStyle = CONFIG.colors.arc;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    this.drawLine(ctx, this.arcPoints, centerLat, centerLon);
+    ctx.restore();
+
+    const t = (now / 3200) % 1;
+    const idx = Math.floor(t * (this.arcPoints.length - 1));
+    const [hlat, hlon] = this.arcPoints[idx];
+    const hp = project(hlat, hlon, centerLat, centerLon);
+    if (hp.visible) {
+      const [hx, hy] = this.toScreen(hp.x, hp.y);
+      ctx.font = "14px serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#ff6b9d";
+      ctx.fillText("❤", hx, hy);
+    }
+
+    this.markerPositions = {};
+    for (const key of ["cityA", "cityB"]) {
+      const c = CONFIG[key];
+      const p = project(c.lat, c.lon, centerLat, centerLon);
+      this.markerPositions[key] = { ...p, screen: this.toScreen(p.x, p.y) };
+      if (!p.visible) continue;
+      const [sx, sy] = this.toScreen(p.x, p.y);
+
+      const pulse = 1 + 0.35 * Math.abs(Math.sin(now / 500));
+      ctx.beginPath();
+      ctx.arc(sx, sy, 7 * pulse, 0, Math.PI * 2);
+      ctx.fillStyle = CONFIG.colors.markerGlow;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(sx, sy, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = CONFIG.colors.marker;
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+}
+
+/* ============================================================
+   City tags follow the projected marker position
+   ============================================================ */
+function positionTags(globe) {
+  const tagA = document.getElementById("tagKolkata");
+  const tagB = document.getElementById("tagAdelaide");
+  const map = { cityA: tagA, cityB: tagB };
+  for (const key of ["cityA", "cityB"]) {
+    const pos = globe.markerPositions && globe.markerPositions[key];
+    const tag = map[key];
+    if (!pos) continue;
+    if (!pos.visible) {
+      tag.style.opacity = "0";
+      continue;
+    }
+    tag.style.opacity = "1";
+    tag.style.left = `${pos.screen[0]}px`;
+    tag.style.top = `${pos.screen[1]}px`;
+  }
+}
+
+/* ============================================================
+   Distance counter
+   ============================================================ */
+function animateDistanceCounter() {
+  const target = Math.round(
+    haversineKm(CONFIG.cityA.lat, CONFIG.cityA.lon, CONFIG.cityB.lat, CONFIG.cityB.lon)
+  );
+  const el = document.getElementById("distanceValue");
+  const duration = 1800;
+  const start = performance.now();
+
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(target * eased).toLocaleString();
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ============================================================
+   Live local clocks
+   ============================================================ */
+function updateClocks() {
+  const opts = { hour: "2-digit", minute: "2-digit", hour12: false };
+  document.getElementById("clockKolkata").textContent = new Intl.DateTimeFormat("en-GB", {
+    ...opts,
+    timeZone: CONFIG.cityA.tz,
+  }).format(new Date());
+  document.getElementById("clockAdelaide").textContent = new Intl.DateTimeFormat("en-GB", {
+    ...opts,
+    timeZone: CONFIG.cityB.tz,
+  }).format(new Date());
+}
+
+/* ============================================================
+   MEMORIES — add as many as you like, in any order.
+   layout: 'split' | 'polaroid' | 'fullbleed' | 'audio' | 'quote'
+   photo/audio: a file path (e.g. "photos/us-at-the-beach.jpg") — leave
+   unset to show a friendly placeholder until you add the real file.
+   ============================================================ */
+const MEMORIES = [
+  {
+    layout: "split",
+    date: "2022-03-14",
+    title: "The day we matched",
+    text: "Somewhere between two time zones, a conversation started that never really stopped.",
+  },
+  {
+    layout: "polaroid",
+    date: "2022-05-02",
+    title: "Your smile",
+    text: "The photo I look at when Kolkata and Adelaide feel too far apart.",
+  },
+  {
+    layout: "fullbleed",
+    date: "2022-12-20",
+    title: "Our first trip together",
+    text: "Same sky, finally the same city.",
+  },
+  {
+    layout: "audio",
+    date: "2023-06-10",
+    title: "That voice note",
+    text: "The one I replay when I miss your voice.",
+  },
+  {
+    layout: "split",
+    mirror: true,
+    date: "2023-11-01",
+    title: "Every little call",
+    text: "Different time zones, same goodnight.",
+  },
+  {
+    layout: "quote",
+    date: "2024-02-14",
+    text: "No matter how many kilometers the globe puts between us, you're still home.",
+  },
+];
+
+function formatMemDate(dateStr) {
+  const d = new Date(`${dateStr}T00:00:00`);
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(d);
+}
+
+function memPhoto(mem, altText) {
+  if (mem.photo) return `<img src="${mem.photo}" alt="${altText}" loading="lazy" />`;
+  return `<div class="mem-placeholder">📷<span>add a photo</span></div>`;
+}
+
+function memAudio(mem) {
+  if (mem.audio) return `<audio controls src="${mem.audio}"></audio>`;
+  return `<div class="mem-placeholder">🎙️<span>add a voice note</span></div>`;
+}
+
+function memDateBadge(mem) {
+  if (!mem.date) return "";
+  return `<span class="mem-date">${mem.dateLabel || formatMemDate(mem.date)}</span>`;
+}
+
+function renderMemory(mem) {
+  const dateHtml = memDateBadge(mem);
+  const textHtml = mem.text ? `<p class="mem-text">${mem.text}</p>` : "";
+  const titleHtml = mem.title ? `<h3 class="mem-title">${mem.title}</h3>` : "";
+
+  switch (mem.layout) {
+    case "polaroid":
+      return `
+        <div class="mem-card mem-polaroid">
+          <div class="mem-photo-frame">${memPhoto(mem, mem.title || "memory")}</div>
+          ${dateHtml}
+          ${titleHtml}
+          ${textHtml}
+        </div>`;
+    case "fullbleed":
+      return `
+        <div class="mem-card mem-fullbleed">
+          <div class="mem-photo">${memPhoto(mem, mem.title || "memory")}</div>
+          <div class="mem-overlay">
+            ${dateHtml}
+            ${titleHtml}
+            ${textHtml}
+          </div>
+        </div>`;
+    case "audio":
+      return `
+        <div class="mem-card mem-audio">
+          <div class="mem-audio-icon">🎧</div>
+          ${dateHtml}
+          ${titleHtml}
+          ${textHtml}
+          ${memAudio(mem)}
+        </div>`;
+    case "quote":
+      return `
+        <div class="mem-card mem-quote">
+          <div class="mem-quote-mark">❝</div>
+          ${textHtml}
+          ${dateHtml}
+        </div>`;
+    case "split":
+    default:
+      return `
+        <div class="mem-card mem-split ${mem.mirror ? "mem-mirror" : ""}">
+          <div class="mem-photo">${memPhoto(mem, mem.title || "memory")}</div>
+          <div class="mem-body">
+            ${dateHtml}
+            ${titleHtml}
+            ${textHtml}
+          </div>
+        </div>`;
+  }
+}
+
+function initCarousel() {
+  const track = document.getElementById("carTrack");
+  const viewport = track.parentElement;
+  const dotsWrap = document.getElementById("carDots");
+  const carousel = document.getElementById("memoryCarousel");
+
+  track.innerHTML = MEMORIES.map((mem) => `<div class="car-slide">${renderMemory(mem)}</div>`).join("");
+
+  dotsWrap.innerHTML = "";
+  MEMORIES.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "car-dot" + (i === 0 ? " active" : "");
+    dot.setAttribute("aria-label", `Go to memory ${i + 1}`);
+    dot.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  let index = 0;
+
+  function updateHeight() {
+    const activeSlide = track.children[index];
+    if (activeSlide) viewport.style.height = `${activeSlide.offsetHeight}px`;
+  }
+
+  function render() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    [...dotsWrap.children].forEach((d, i) => d.classList.toggle("active", i === index));
+    updateHeight();
+  }
+
+  function goTo(i) {
+    index = (i + MEMORIES.length) % MEMORIES.length;
+    render();
+  }
+
+  document.getElementById("carPrev").addEventListener("click", () => goTo(index - 1));
+  document.getElementById("carNext").addEventListener("click", () => goTo(index + 1));
+
+  carousel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") goTo(index - 1);
+    if (e.key === "ArrowRight") goTo(index + 1);
+  });
+
+  let dragStartX = null;
+  viewport.addEventListener("pointerdown", (e) => { dragStartX = e.clientX; });
+  viewport.addEventListener("pointerup", (e) => {
+    if (dragStartX === null) return;
+    const dx = e.clientX - dragStartX;
+    dragStartX = null;
+    if (Math.abs(dx) > 40) goTo(dx < 0 ? index + 1 : index - 1);
+  });
+
+  track.querySelectorAll("img").forEach((img) => img.addEventListener("load", updateHeight));
+  window.addEventListener("resize", updateHeight);
+
+  let autoplay = setInterval(() => goTo(index + 1), 6000);
+  carousel.addEventListener("pointerenter", () => clearInterval(autoplay));
+  carousel.addEventListener("pointerleave", () => {
+    autoplay = setInterval(() => goTo(index + 1), 6000);
+  });
+
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("in-view");
+      });
+    },
+    { threshold: 0.25 }
+  );
+  sectionObserver.observe(document.getElementById("next"));
+
+  render();
+}
+
+/* ============================================================
+   Filmroll — auto-discovers photos/filmroll/1.jpg, 2.jpg, ...
+   Just drop numbered files in that folder, no code changes needed.
+   ============================================================ */
+function probeImage(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(src);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+async function discoverFilmrollPhotos() {
+  const extensions = ["jpg", "jpeg", "png", "webp"];
+  const found = [];
+  const maxCount = 300;
+  for (let i = 1; i <= maxCount; i++) {
+    let matched = null;
+    for (const ext of extensions) {
+      matched = await probeImage(`photos/filmroll/${i}.${ext}`);
+      if (matched) break;
+    }
+    if (!matched) break;
+    found.push(matched);
+  }
+  return found;
+}
+
+async function initFilmroll() {
+  const track = document.getElementById("filmrollTrack");
+  let photos = await discoverFilmrollPhotos();
+
+  const frameHtml = (src) =>
+    src
+      ? `<div class="filmroll-frame"><img src="${src}" alt="a memory together" loading="lazy" /></div>`
+      : `<div class="filmroll-frame placeholder">📷<span>add photos to<br /><code>photos/filmroll/</code></span></div>`;
+
+  if (photos.length === 0) photos = new Array(6).fill(null);
+
+  const sequenceHtml = photos.map(frameHtml).join("");
+  track.innerHTML = sequenceHtml + sequenceHtml;
+
+  const frameWidth = 220 + 14;
+  const totalWidth = photos.length * frameWidth;
+  const pxPerSecond = 55;
+  const duration = Math.max(totalWidth / pxPerSecond, 8);
+  track.style.animationDuration = `${duration}s`;
+}
+
+/* ============================================================
+   Boot
+   ============================================================ */
+window.addEventListener("DOMContentLoaded", () => {
+  buildStars();
+  setInterval(spawnHeart, 2200);
+  buildIntroGrid();
+  buildIntroBlobs();
+
+  const canvas = document.getElementById("globeCanvas");
+  const globe = new Globe(canvas);
+
+  let counterStarted = false;
+  document.addEventListener("globe-settled", () => {
+    if (counterStarted) return;
+    counterStarted = true;
+    animateDistanceCounter();
+  });
+
+  function loop(now) {
+    globe.draw(now);
+    positionTags(globe);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  updateClocks();
+  setInterval(updateClocks, 1000 * 15);
+
+  document.getElementById("scrollCue").addEventListener("click", () => {
+    document.getElementById("next").scrollIntoView({ behavior: "smooth" });
+  });
+
+  initCarousel();
+  initFilmroll();
+  rotateHeroTitle();
+  runIntro();
+});
+  </script>
+</body>
+</html>
