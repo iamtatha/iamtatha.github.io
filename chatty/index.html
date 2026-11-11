@@ -245,6 +245,16 @@ section:nth-of-type(5n+5) h2::before{background:linear-gradient(var(--t5), var(-
 details.method summary{color:color-mix(in oklab, var(--t1) 70%, var(--ink))}
 @media (max-width:520px){ header.hero{padding:20px 18px; border-radius:16px} }
 @media (prefers-reduced-motion: reduce){ .card:hover{transform:none} }
+.settings{flex-direction:column; align-items:flex-end}
+.dates{display:flex; gap:8px 12px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
+.settings input[type=date]{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:3px 8px; min-height:30px}
+.hero .settings input[type=date]{background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.35); color:#fff; color-scheme:dark}
+.hero .settings input[type=date].set{background:#fff; color:var(--hero-a); border-color:#fff; color-scheme:light; font-weight:600}
+.btn.ghost{padding:4px 12px; font-size:13px}
+.hero .btn.ghost{background:transparent; color:#fff; border-color:rgba(255,255,255,.5)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.14)}
+.hero .btn.ghost:disabled{opacity:.45; cursor:default}
+@media (max-width:720px){ .settings{align-items:flex-start} .dates{justify-content:flex-start} }
 .hidden{display:none !important}
 .loading{padding:40px; text-align:center; color:var(--ink-2)}
 @media (max-width:520px){
@@ -274,6 +284,11 @@ details.method summary{color:color-mix(in oklab, var(--t1) 70%, var(--ink))}
         <select id="opt-burst">
           <option value="5">5 min</option><option value="15">15 min</option><option value="30" selected>30 min</option><option value="60">1 hour</option>
         </select></label>
+      <div class="dates" role="group" aria-label="Date range">
+        <label for="opt-from">From <input type="date" id="opt-from"></label>
+        <label for="opt-to">To <input type="date" id="opt-to"></label>
+        <button type="button" class="btn ghost" id="clear-dates">All dates</button>
+      </div>
     </div>
     <div class="drop" id="drop">
       <div class="icon" aria-hidden="true">
@@ -667,20 +682,42 @@ async function readFile(file){
     const parsed=parseChat(text);
     if(!parsed || !parsed.msgs.some(m=>m.kind!=='system')) throw new Error('No WhatsApp messages found. Make sure this is the .txt from "Export chat".');
     PARSED=parsed; IS_SAMPLE=false; FILE_NAME=file.name;
-    run();
+    setDateBounds(); run();
   }catch(e){
     setStatus(`<span class="pill err">Couldn't read ${esc(file.name)}: ${esc(e.message)}</span>`);
   }
 }
 
+function setDateBounds(){
+  const real=PARSED.msgs.filter(m=>m.kind!=='system'); if(!real.length) return;
+  const lo=dayKey(real[0].t), hi=dayKey(real[real.length-1].t);
+  for(const id of ['#opt-from','#opt-to']){ const el=$(id); el.min=lo; el.max=hi; el.value=''; }
+  syncDateUI();
+}
+function syncDateUI(){
+  const f=$('#opt-from'), t=$('#opt-to');
+  f.classList.toggle('set',!!f.value); t.classList.toggle('set',!!t.value);
+  if(t.value) f.max=t.value; else f.max=t.max||'';
+  if(f.value) t.min=f.value; else t.min=f.min||'';
+  $('#clear-dates').disabled=!f.value && !t.value;
+}
 function run(){
   const opts={breakH:+$('#opt-break').value, burstM:+$('#opt-burst').value};
-  RESULT=analyze(PARSED, opts);
-  if(!RESULT){ setStatus('<span class="pill err">No messages to analyse.</span>'); return; }
-  const n=RESULT.all.length;
-  setStatus(IS_SAMPLE
+  const fv=$('#opt-from').value, tv=$('#opt-to').value;
+  const from=fv?new Date(fv+'T00:00:00').getTime():-Infinity, to=tv?new Date(tv+'T23:59:59.999').getTime():Infinity;
+  syncDateUI();
+  const fileInfo = IS_SAMPLE
     ? `<span class="pill example">Showing an example chat. Drop your own export to replace it.</span>`
-    : `<span class="pill">${esc(FILE_NAME)}</span><span class="pill num">${fmtN(n)} messages read</span><span class="pill">Dates read as ${RESULT.order==='mdy'?'month/day':RESULT.order==='ymd'?'year-month-day':'day/month'}</span>`);
+    : `<span class="pill">${esc(FILE_NAME)}</span>`;
+  const rangeTxt = (fv||tv) ? `${fv?fmtDay(fv):'the first message'} to ${tv?fmtDay(tv):'the latest message'}` : '';
+  if(from>to){ setStatus(fileInfo+`<span class="pill err">The From date is after the To date. Pick an earlier From date.</span>`); return; }
+  const msgs = (fv||tv) ? PARSED.msgs.filter(m=>m.t>=from && m.t<=to) : PARSED.msgs;
+  RESULT=analyze({msgs, order:PARSED.order}, opts);
+  if(!RESULT){ setStatus(fileInfo+`<span class="pill err">No messages from ${esc(rangeTxt)}. Widen the dates.</span>`); $('#report').innerHTML=''; return; }
+  const n=RESULT.all.length, total=PARSED.msgs.filter(m=>m.kind!=='system').length;
+  setStatus(fileInfo
+    + (rangeTxt?`<span class="pill">Only ${esc(rangeTxt)}</span><span class="pill num">${fmtN(n)} of ${fmtN(total)} messages</span>`:(IS_SAMPLE?'':`<span class="pill num">${fmtN(n)} messages read</span>`))
+    + (IS_SAMPLE?'':`<span class="pill">Dates read as ${RESULT.order==='mdy'?'month/day':RESULT.order==='ymd'?'year-month-day':'day/month'}</span>`));
   render(RESULT);
 }
 
@@ -964,11 +1001,14 @@ document.addEventListener('drop',e=>{const f=e.dataTransfer?.files?.[0]; if(f) r
 $('#file').addEventListener('change',e=>{const f=e.target.files[0]; if(f) readFile(f); e.target.value='';});
 $('#opt-break').addEventListener('change',()=>PARSED&&run());
 $('#opt-burst').addEventListener('change',()=>PARSED&&run());
+$('#opt-from').addEventListener('change',()=>PARSED&&run());
+$('#opt-to').addEventListener('change',()=>PARSED&&run());
+$('#clear-dates').addEventListener('click',()=>{ $('#opt-from').value=''; $('#opt-to').value=''; PARSED&&run(); });
 const rerender=()=>RESULT&&render(RESULT);
 try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',rerender); }catch(e){}
 new MutationObserver(rerender).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 
-PARSED=parseChat(sampleChat()); IS_SAMPLE=true; run();
+PARSED=parseChat(sampleChat()); IS_SAMPLE=true; setDateBounds(); run();
 </script>
 </body>
 </html>
