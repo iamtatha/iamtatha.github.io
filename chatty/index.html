@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WhatsApp Chat Analyzer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a single scrolling report. Compact drop bar on top, then summary tiles,
+   then head-to-head sections. Person colours carry identity everywhere; ink stays neutral. */
+:root{
+  color-scheme: light;
+  --bg:#f3f5f4; --surface:#ffffff; --sunk:#eaeeec;
+  --ink:#13201d; --ink-2:#4a5855; --ink-3:#77837f; --line:#dbe2df;
+  --accent:#0b6e63; --accent-ink:#ffffff;
+  --bubble-in:#ffffff; --bubble-out:#d9f4e6;
+  --p0:#2a78d6; --p1:#eb6834; --p2:#1baf7a; --p3:#eda100; --p4:#e87ba4; --p5:#008300; --p6:#6250d6; --p-other:#8b9592;
+  --c-lat:#1baf7a; --c-rbn:#eda100; --c-rhi:#e87ba4; --c-bn:#008300; --c-dv:#6250d6; --c-ot:#8b9592;
+  --t1:#0f9d8a; --t2:#e59a00; --t3:#e0517f; --t4:#6a55e0; --t5:#1f9f4f;
+  --hero-a:#0b6e63; --hero-b:#13a07f; --hero-c:#5cc48f;
+  --font-display:"Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --font-body:"IBM Plex Sans", "Noto Sans Bengali", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0e1413; --surface:#161f1d; --sunk:#1d2826;
+    --ink:#e7eeec; --ink-2:#a7b4b1; --ink-3:#7c8986; --line:#273331;
+    --accent:#3fb6a6; --accent-ink:#06201c;
+    --bubble-in:#1f2b29; --bubble-out:#11433a;
+    --p0:#3987e5; --p1:#d95926; --p2:#199e70; --p3:#c98500; --p4:#d55181; --p5:#008300; --p6:#9085e9; --p-other:#6f7a77;
+    --c-lat:#199e70; --c-rbn:#c98500; --c-rhi:#d55181; --c-bn:#2f9a2f; --c-dv:#9085e9; --c-ot:#6f7a77;
+    --t1:#3fc1ad; --t2:#f0b23a; --t3:#ef7aa0; --t4:#9a8cf0; --t5:#4cc27a;
+    --hero-a:#0a4c45; --hero-b:#0f6f5d; --hero-c:#2f8f66;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0e1413; --surface:#161f1d; --sunk:#1d2826;
+  --ink:#e7eeec; --ink-2:#a7b4b1; --ink-3:#7c8986; --line:#273331;
+  --accent:#3fb6a6; --accent-ink:#06201c;
+  --bubble-in:#1f2b29; --bubble-out:#11433a;
+  --p0:#3987e5; --p1:#d95926; --p2:#199e70; --p3:#c98500; --p4:#d55181; --p5:#008300; --p6:#9085e9; --p-other:#6f7a77;
+  --c-lat:#199e70; --c-rbn:#c98500; --c-rhi:#d55181; --c-bn:#2f9a2f; --c-dv:#9085e9; --c-ot:#6f7a77;
+  --t1:#3fc1ad; --t2:#f0b23a; --t3:#ef7aa0; --t4:#9a8cf0; --t5:#4cc27a;
+  --hero-a:#0a4c45; --hero-b:#0f6f5d; --hero-c:#2f8f66;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display); text-wrap:balance; margin:0; line-height:1.15}
+h1{font-size:clamp(26px,4vw,36px); font-weight:700; letter-spacing:-0.01em}
+h2{font-size:22px; font-weight:700}
+h3{font-size:15px; font-weight:600; font-family:var(--font-body)}
+.wrap{max-width:1120px; margin:0 auto; padding:24px 20px 64px; display:flex; flex-direction:column; gap:28px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)} .faint{color:var(--ink-3)}
+.small{font-size:13px}
+button,select,input{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* Header + drop */
+header{display:grid; grid-template-columns:1fr auto; gap:16px 24px; align-items:end}
+header p{margin:6px 0 0; max-width:62ch}
+.drop{grid-column:1/-1; border:1.5px dashed var(--line); background:var(--surface); border-radius:var(--radius); padding:18px 20px; display:flex; gap:16px; align-items:center; flex-wrap:wrap; transition:border-color .15s, background .15s}
+.drop.over{border-color:var(--accent); background:color-mix(in oklab, var(--accent) 8%, var(--surface))}
+.drop .icon{width:40px; height:40px; border-radius:10px; background:var(--sunk); display:grid; place-items:center; flex:none}
+.drop .txt{flex:1 1 280px}
+.drop .txt strong{display:block}
+.btn{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:8px 16px; cursor:pointer; font-weight:500}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.status{grid-column:1/-1; display:flex; gap:10px 16px; flex-wrap:wrap; align-items:center}
+.pill{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:var(--sunk); font-size:13px; color:var(--ink-2)}
+.pill.example{background:color-mix(in oklab, var(--p3) 22%, var(--surface)); color:var(--ink)}
+.pill.err{background:color-mix(in oklab, #e34948 18%, var(--surface)); color:var(--ink)}
+.settings{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+.settings label{font-size:13px; color:var(--ink-2); display:flex; gap:6px; align-items:center}
+.settings select{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:4px 8px}
+
+/* People legend */
+.people{display:flex; gap:10px; flex-wrap:wrap}
+.chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px 6px 8px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-weight:500}
+.dot{width:12px; height:12px; border-radius:50%; flex:none; display:inline-block}
+
+/* Sections */
+section{display:flex; flex-direction:column; gap:14px}
+.sec-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+.sec-head p{margin:0; max-width:70ch}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px}
+.grid{display:grid; gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tile .k{font-size:13px; color:var(--ink-2)}
+.tile .v{font-family:var(--font-display); font-size:28px; font-weight:700; line-height:1.1; margin-top:4px}
+.tile .s{font-size:13px; color:var(--ink-3); margin-top:2px}
+.verdict{font-size:16px; line-height:1.55; margin:0; max-width:75ch}
+.verdict b{font-weight:600}
+
+/* Versus rows */
+.vs-list{display:flex; flex-direction:column; gap:14px}
+.vs .lab{font-size:13px; color:var(--ink-2); text-align:center; margin-bottom:4px}
+.vs2{display:grid; grid-template-columns:minmax(64px,auto) 1fr minmax(64px,auto); gap:10px; align-items:center}
+.vs2 .v{font-variant-numeric:tabular-nums; font-weight:600; font-size:14px}
+.vs2 .v.r{text-align:right}
+.bar{display:flex; height:12px; gap:2px; border-radius:6px; overflow:hidden; background:var(--sunk)}
+.bar span{display:block; height:100%; min-width:2px}
+.vsn .vals{display:flex; flex-wrap:wrap; gap:4px 14px; font-size:13px; margin-top:4px}
+
+/* Person stat cards */
+.pcard{border-top:4px solid var(--pc)}
+.pcard .name{display:flex; align-items:center; gap:8px; font-weight:600}
+.big{font-family:var(--font-display); font-size:34px; font-weight:700; line-height:1.05; margin:8px 0 2px}
+.kv{display:grid; grid-template-columns:1fr auto; gap:6px 12px; margin-top:12px; font-size:14px}
+.kv dt{color:var(--ink-2)} .kv dd{margin:0; text-align:right; font-variant-numeric:tabular-nums; font-weight:500}
+.kv{margin-block-end:0}
+
+/* Chat bubbles */
+.bubble-wrap{display:flex; flex-direction:column; gap:6px}
+.bubble{background:var(--bubble-in); border:1px solid var(--line); border-radius:4px 14px 14px 14px; padding:8px 12px 6px; max-width:100%; width:fit-content; box-shadow:0 1px 0 rgba(0,0,0,.04); overflow-wrap:anywhere}
+.bubble .who{font-size:12.5px; font-weight:600}
+.bubble .msg{white-space:pre-wrap; margin:2px 0}
+.bubble .ts{font-size:11.5px; color:var(--ink-3); text-align:right}
+.chat-bg{background:var(--sunk); border-radius:10px; padding:12px}
+
+/* Charts */
+.chart{position:relative; height:260px}
+.chart.tall{height:300px}
+.legend{display:flex; gap:6px 16px; flex-wrap:wrap; font-size:13px; color:var(--ink-2); margin-bottom:8px}
+.legend span{display:inline-flex; gap:6px; align-items:center}
+
+/* Heatmap */
+.heat{display:grid; grid-template-columns:36px repeat(24,1fr); gap:2px; font-size:11px; color:var(--ink-3); min-width:560px}
+.heat .c{aspect-ratio:1/1; border-radius:3px; background:var(--sunk)}
+.heat .rl{display:flex; align-items:center}
+.heat .hl{text-align:center}
+.scroll-x{overflow-x:auto}
+
+/* Lists */
+.rank{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.rank li{display:grid; grid-template-columns:minmax(0,1fr) 44px; gap:8px; align-items:center; font-size:14px}
+.rank .w{position:relative; padding:2px 8px; border-radius:6px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
+.rank .w i{position:absolute; inset:0 auto 0 0; opacity:.18; border-radius:6px}
+.rank .w b{position:relative; font-weight:500}
+.rank .n{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-2)}
+.emoji-row{display:flex; flex-wrap:wrap; gap:8px}
+.emoji-row span{display:inline-flex; flex-direction:column; align-items:center; min-width:44px; padding:6px 4px; background:var(--sunk); border-radius:10px}
+.emoji-row span b{font-size:22px; line-height:1.2; font-weight:400}
+.emoji-row span i{font-style:normal; font-size:12px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+
+/* Findings + awards */
+.find .n{font-family:var(--font-display); font-size:24px; font-weight:700; line-height:1.1}
+.find p{margin:6px 0 0; color:var(--ink-2); font-size:14px}
+.awards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px}
+.award{display:grid; grid-template-columns:auto 1fr; gap:2px 12px; align-items:center; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--pc); border-radius:10px}
+.award .t{font-size:12.5px; color:var(--ink-3); grid-column:2}
+.award .who{font-weight:600; grid-column:2}
+.award .d{font-size:13px; color:var(--ink-2); grid-column:2}
+.award .ic{grid-row:1/4; font-size:22px; width:36px; text-align:center}
+
+/* Language stacked */
+.lang-row{display:grid; grid-template-columns:minmax(80px,140px) 1fr; gap:12px; align-items:center}
+.lang-row .bar{height:22px; border-radius:6px}
+.lang-row .bar span{display:flex; align-items:center; justify-content:center; color:#fff; font-size:11.5px; font-weight:600; overflow:hidden; white-space:nowrap}
+
+/* Search */
+.search{display:flex; gap:10px; flex-wrap:wrap}
+.search input{flex:1 1 240px; border:1px solid var(--line); border-radius:10px; padding:9px 12px; background:var(--surface)}
+
+details.method{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px}
+details.method summary{cursor:pointer; font-weight:600}
+details.method ul{margin:10px 0 0; padding-left:20px; color:var(--ink-2); font-size:14px; display:flex; flex-direction:column; gap:6px; max-width:80ch}
+#report{display:flex; flex-direction:column; gap:40px}
+
+/* ---------- Vibrant layer ---------- */
+body{background:
+  radial-gradient(900px 500px at -10% -10%, color-mix(in oklab, var(--t1) 14%, transparent), transparent 70%),
+  radial-gradient(800px 520px at 110% 0%, color-mix(in oklab, var(--t3) 10%, transparent), transparent 70%),
+  radial-gradient(900px 700px at 50% 120%, color-mix(in oklab, var(--t2) 8%, transparent), transparent 70%),
+  var(--bg); background-attachment:fixed}
+header.hero{position:relative; overflow:hidden; padding:26px 26px 22px; border-radius:20px; color:#fff;
+  background:linear-gradient(130deg, var(--hero-a) 0%, var(--hero-b) 55%, var(--hero-c) 100%);
+  box-shadow:0 10px 30px -14px color-mix(in oklab, var(--hero-a) 70%, transparent)}
+header.hero::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.12;
+  background-image:radial-gradient(circle at 1px 1px, #fff 1.2px, transparent 1.6px); background-size:18px 18px}
+header.hero::after{content:""; position:absolute; width:340px; height:340px; right:-90px; top:-150px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.28), transparent 65%); pointer-events:none}
+header.hero > *{position:relative}
+header.hero .muted{color:rgba(255,255,255,.86)}
+header.hero h1{color:#fff}
+.hero .settings label{color:rgba(255,255,255,.9)}
+.hero .settings select{background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.35); color:#fff}
+.hero .settings select option{color:#13201d}
+.hero .drop{background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.45); color:#fff; backdrop-filter:blur(4px)}
+.hero .drop .muted{color:rgba(255,255,255,.82)}
+.hero .drop .icon{background:rgba(255,255,255,.2)}
+.hero .drop.over{background:rgba(255,255,255,.24); border-color:#fff}
+.hero .btn.primary{background:#fff; color:var(--hero-a); border-color:#fff; font-weight:600}
+.hero .pill{background:rgba(255,255,255,.18); color:#fff}
+.hero .pill.example{background:#ffe7a8; color:#4a3500}
+.hero .pill.err{background:#ffd9df; color:#5a0f1d}
+.badge-live{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; letter-spacing:.02em; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.18); margin-bottom:10px}
+.badge-live i{width:7px; height:7px; border-radius:50%; background:#b8ffd9; box-shadow:0 0 0 3px rgba(184,255,217,.25)}
+
+h2{display:flex; align-items:center; gap:10px}
+h2::before{content:""; width:6px; height:22px; border-radius:3px; background:linear-gradient(var(--t1), var(--t5)); flex:none}
+section:nth-of-type(5n+2) h2::before{background:linear-gradient(var(--t2), var(--t3))}
+section:nth-of-type(5n+3) h2::before{background:linear-gradient(var(--t4), var(--t1))}
+section:nth-of-type(5n+4) h2::before{background:linear-gradient(var(--t3), var(--t2))}
+section:nth-of-type(5n+5) h2::before{background:linear-gradient(var(--t5), var(--t4))}
+
+.card{box-shadow:0 1px 2px rgba(16,32,29,.04), 0 6px 18px -12px rgba(16,32,29,.18); transition:transform .18s ease, box-shadow .18s ease}
+.card:hover{transform:translateY(-2px); box-shadow:0 2px 4px rgba(16,32,29,.05), 0 14px 26px -14px rgba(16,32,29,.28)}
+.chip{box-shadow:0 1px 2px rgba(0,0,0,.04); background:color-mix(in oklab, var(--pc, var(--accent)) 9%, var(--surface)); border-color:color-mix(in oklab, var(--pc, var(--accent)) 30%, var(--line))}
+
+.tile{--tc:var(--t1); background:linear-gradient(160deg, color-mix(in oklab, var(--tc) 14%, var(--surface)), var(--surface) 70%); border-color:color-mix(in oklab, var(--tc) 28%, var(--line)); position:relative; overflow:hidden}
+.tile::after{content:""; position:absolute; right:-26px; top:-26px; width:84px; height:84px; border-radius:50%; background:color-mix(in oklab, var(--tc) 16%, transparent)}
+.tile .v{color:color-mix(in oklab, var(--tc) 70%, var(--ink))}
+.tile:nth-child(6n+2){--tc:var(--t2)} .tile:nth-child(6n+3){--tc:var(--t3)} .tile:nth-child(6n+4){--tc:var(--t4)} .tile:nth-child(6n+5){--tc:var(--t5)} .tile:nth-child(6n+6){--tc:var(--t3)}
+
+.find{--tc:var(--t1); border-left:4px solid var(--tc); background:linear-gradient(120deg, color-mix(in oklab, var(--tc) 9%, var(--surface)), var(--surface) 60%)}
+.find .n{color:color-mix(in oklab, var(--tc) 75%, var(--ink))}
+.find:nth-child(5n+2){--tc:var(--t2)} .find:nth-child(5n+3){--tc:var(--t3)} .find:nth-child(5n+4){--tc:var(--t4)} .find:nth-child(5n+5){--tc:var(--t5)}
+
+.pcard{background:linear-gradient(180deg, color-mix(in oklab, var(--pc) 10%, var(--surface)), var(--surface) 140px)}
+.pcard .big{color:color-mix(in oklab, var(--pc) 72%, var(--ink))}
+.award{background:linear-gradient(110deg, color-mix(in oklab, var(--pc) 10%, var(--surface)), var(--surface) 70%); box-shadow:0 4px 14px -10px rgba(16,32,29,.25)}
+.award .ic{width:40px; height:40px; display:grid; place-items:center; border-radius:12px; background:color-mix(in oklab, var(--pc) 16%, var(--surface))}
+
+.chat-bg{background-color:color-mix(in oklab, var(--t1) 7%, var(--sunk));
+  background-image:radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--t1) 22%, transparent) 1px, transparent 1.5px); background-size:14px 14px}
+.bubble{box-shadow:0 1px 1.5px rgba(0,0,0,.08)}
+.bar{height:14px; border-radius:7px}
+.bar span:first-child{border-radius:7px 0 0 7px} .bar span:last-child{border-radius:0 7px 7px 0}
+.vs .lab{font-weight:500}
+.emoji-row span{background:color-mix(in oklab, var(--pc, var(--t2)) 9%, var(--sunk)); transition:transform .15s}
+.emoji-row span:hover{transform:scale(1.08)}
+.search input{border-width:1.5px}
+.search input:focus{border-color:var(--t1); box-shadow:0 0 0 4px color-mix(in oklab, var(--t1) 18%, transparent); outline:none}
+details.method summary{color:color-mix(in oklab, var(--t1) 70%, var(--ink))}
+@media (max-width:520px){ header.hero{padding:20px 18px; border-radius:16px} }
+@media (prefers-reduced-motion: reduce){ .card:hover{transform:none} }
+.hidden{display:none !important}
+.loading{padding:40px; text-align:center; color:var(--ink-2)}
+@media (max-width:520px){
+  .wrap{padding:16px 16px 48px; gap:22px}
+  header{grid-template-columns:1fr}
+  .card{padding:14px}
+  .tile .v{font-size:24px}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <span class="badge-live"><i></i>Private · runs in your browser</span>
+      <h1>WhatsApp Chat Analyzer</h1>
+      <p class="muted">Drop an exported chat and get reply times, who texts more, who starts and ends conversations, language mix and more. Everything is computed in this browser; your chat is never uploaded.</p>
+    </div>
+    <div class="settings">
+      <label for="opt-break">New conversation after
+        <select id="opt-break">
+          <option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option>
+          <option value="6" selected>6 hours</option><option value="12">12 hours</option><option value="24">24 hours</option>
+        </select> of silence</label>
+      <label for="opt-burst">Merge texts sent within
+        <select id="opt-burst">
+          <option value="5">5 min</option><option value="15">15 min</option><option value="30" selected>30 min</option><option value="60">1 hour</option>
+        </select></label>
+    </div>
+    <div class="drop" id="drop">
+      <div class="icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M20 15v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4"/></svg>
+      </div>
+      <div class="txt">
+        <strong>Drop your chat export here</strong>
+        <span class="small muted">The .txt from WhatsApp → Export chat → Without media. A .zip from iPhone works too.</span>
+      </div>
+      <label class="btn primary" for="file">Choose file</label>
+      <input type="file" id="file" accept=".txt,.zip,text/plain,application/zip" class="hidden">
+    </div>
+    <div class="status" id="status"></div>
+  </header>
+
+  <div id="report"><div class="loading">Preparing example…</div></div>
+
+  <details class="method">
+    <summary>How the numbers are worked out</summary>
+    <ul>
+      <li><b>Burst</b>: back-to-back messages from one person, with no reply in between and each sent within the merge window set above. Three quick texts count as one burst.</li>
+      <li><b>Reply time</b>: from the last message of one person's burst to the first message of the other person's next burst. Gaps longer than the conversation break are not counted as replies; that message starts a new conversation instead.</li>
+      <li><b>Typical reply</b> is the median, which ignores a few very long waits. The average is shown too and is pulled up by those waits.</li>
+      <li><b>Double text</b>: someone sends a new burst after their previous one got no reply for longer than the merge window.</li>
+      <li><b>Conversation nobody replied to</b>: someone texted after a long silence and the other person never answered before the next break.</li>
+      <li><b>Language</b> is judged per text message by its script (Bengali, Devanagari, Latin…). Latin-script messages are tagged Romanized Bengali or Hindi when they contain common words from those languages; this is a best guess.</li>
+      <li>Media, deleted messages and calls count as messages for timing but add no words. System notices (encryption, number changes, group events) are ignored.</li>
+    </ul>
+  </details>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script id="core">
+/* ================= PARSING ================= */
+const D_ = '(\\d{1,4})[\\/.\\-](\\d{1,2})[\\/.\\-](\\d{1,4})';
+const T_ = '(\\d{1,2})[:.](\\d{2})(?:[:.](\\d{2}))?(?:\\s*([aApP])\\.?\\s?[mM]\\.?)?';
+const RE_IOS = new RegExp('^\\[' + D_ + ',?\\s+' + T_ + '\\]\\s*(.*)$');
+const RE_AND = new RegExp('^' + D_ + ',?\\s+' + T_ + '\\s*[-–—]\\s+(.*)$');
+
+const RE_MEDIA = /^(?:<media omitted>|<মিডিয়া বাদ দেওয়া হয়েছে>|<मीडिया हटा दिया गया>|(?:image|video|audio|sticker|gif|document|contact card|photo) omitted|<attached: [^>]+>|.+\.(?:jpe?g|png|webp|gif|mp4|3gp|mov|opus|ogg|m4a|aac|mp3|pdf|docx?|xlsx?|pptx?|vcf|zip) \(file attached\)[\s\S]*|null)$/i;
+const RE_DELETED = /^(?:this message was deleted|you deleted this message|এই মেসেজটি মুছে ফেলা হয়েছে|এই বার্তাটি মুছে ফেলা হয়েছে|यह संदेश हटा दिया गया|आपने यह संदेश हटाया)\.?$/i;
+const RE_EDITED = /\s*<this message was edited>\s*$/i;
+const RE_CALL = /^(?:missed |silenced |declined )?(?:group )?(?:voice|video) call\b/i;
+const RE_SYSTEM = /^(?:messages and calls are end-to-end encrypted|messages to this (?:chat|group) are now secured|your security code with|.{0,60}'s security code changed|.{0,60} changed (?:their phone number|the subject|this group's|the group)|you (?:blocked|unblocked) this contact|.{0,60} turned (?:on|off) disappearing messages|disappearing messages|.{0,60} is a contact\.?$|.{0,60} pinned a message|.{0,60} created (?:group|this group)|.{0,60} joined using|.{0,60} (?:added|removed) .{0,60}$|.{0,60} left$|this chat is with a business)/i;
+const RE_URL = /https?:\/\/[^\s<>"]+|www\.[^\s<>"]+/gi;
+
+function toTime(r, order){
+  let y, mo, d;
+  if(order==='ymd'){ y=r.a; mo=r.b; d=r.c; }
+  else if(order==='mdy'){ mo=r.a; d=r.b; y=r.c; }
+  else { d=r.a; mo=r.b; y=r.c; }
+  if(y<100) y+=2000;
+  let h=r.h;
+  if(r.ap==='p' && h<12) h+=12;
+  if(r.ap==='a' && h===12) h=0;
+  if(mo<1||mo>12||d<1||d>31||h>23) return NaN;
+  return new Date(y, mo-1, d, h, r.mi, r.s).getTime();
+}
+
+function parseChat(raw){
+  const text = raw.replace(/^﻿/,'').replace(/\r\n?/g,'\n')
+    .replace(/[    ]/g,' ')
+    .replace(/[‎‏‪-‮⁦-⁩]/g,'');
+  const lines = text.split('\n');
+  const raws=[]; let cur=null;
+  for(const line of lines){
+    const m = RE_IOS.exec(line) || RE_AND.exec(line);
+    if(m){
+      cur={a:+m[1], as:m[1].length, b:+m[2], c:+m[3], h:+m[4], mi:+m[5], s:m[6]?+m[6]:0, ap:m[7]?m[7].toLowerCase():null, rest:m[8]};
+      raws.push(cur);
+    } else if(cur){ cur.rest += '\n' + line; }
+  }
+  if(!raws.length) return null;
+  let order='dmy';
+  if(raws.some(r=>r.as===4)) order='ymd';
+  else {
+    const aBig=raws.some(r=>r.a>12), bBig=raws.some(r=>r.b>12);
+    if(aBig && !bBig) order='dmy';
+    else if(bBig && !aBig) order='mdy';
+    else {
+      const viol=o=>{let n=0,p=-Infinity; for(const r of raws){const t=toTime(r,o); if(t<p) n++; if(!isNaN(t)) p=t;} return n;};
+      order = viol('mdy') < viol('dmy') ? 'mdy' : 'dmy';
+    }
+  }
+  const msgs=[];
+  for(const r of raws){
+    const t=toTime(r,order); if(isNaN(t)) continue;
+    const rest=r.rest.replace(/\s+$/,'');
+    const idx=rest.indexOf(': ');
+    let sender=null, body=rest;
+    if(idx>0 && idx<=64 && !rest.slice(0,idx).includes('\n')){ sender=rest.slice(0,idx).replace(/^~\s*/,'').trim(); body=rest.slice(idx+2); }
+    else if(/^[^\n]{1,64}:$/.test(rest)){ sender=rest.slice(0,-1).replace(/^~\s*/,'').trim(); body=''; }
+    const b=body.trim();
+    let kind='text', edited=false, mediaType=null;
+    if(!sender || RE_SYSTEM.test(b)) kind='system';
+    else if(RE_DELETED.test(b)) kind='deleted';
+    else if(b.length<80 && RE_CALL.test(b)) kind='call';
+    else if(RE_MEDIA.test(b)){ kind='media'; mediaType=mediaKind(b); }
+    let txt=b;
+    if(kind==='text' && RE_EDITED.test(txt)){ edited=true; txt=txt.replace(RE_EDITED,''); }
+    if(kind==='text' && !txt) kind='media';
+    msgs.push({t, sender, text:txt, kind, edited, mediaType});
+  }
+  msgs.sort((x,y)=>x.t-y.t); // stable
+  return {msgs, order};
+}
+function mediaKind(b){
+  const s=b.toLowerCase();
+  if(/sticker|\.webp|stk-/.test(s)) return 'Stickers';
+  if(/gif/.test(s)) return 'GIFs';
+  if(/audio|\.opus|\.m4a|\.aac|\.mp3|\.ogg|ptt-|aud-/.test(s)) return 'Voice & audio';
+  if(/video|\.mp4|\.3gp|\.mov|vid-/.test(s)) return 'Videos';
+  if(/image|photo|\.jpe?g|\.png|img-/.test(s)) return 'Photos';
+  if(/document|\.pdf|\.docx?|\.xlsx?|\.pptx?|\.zip/.test(s)) return 'Documents';
+  if(/contact|\.vcf/.test(s)) return 'Contacts';
+  if(s==='null') return 'View once';
+  return 'Media (type not exported)';
+}
+
+/* ================= TEXT HELPERS ================= */
+const STOP = new Set([
+ // English
+ "a an the and or but if so of to in on at for from by with about as into than then too very just also not no yes is am are was were be been being do does did done have has had having i me my mine myself you your yours u ur we us our they them their he him his she her it its this that these those there here what which who whom whose when where why how all any some each more most other such only own same can will would should could may might must shall let get got go going gonna wanna gotta im i'm i'll i've i'd you're you'll you've it's that's dont don't didnt didn't cant can't wont won't isnt isn't aren't wasn't ok okay okk k kk oh ohh ah hmm hm haha hahaha lol yeah yea ya yep nope na nah like one up out down over again now then still even really well cause cuz coz bcz bcoz pls plz please thanks thank tho though wil wud cud",
+ // Romanized Bengali
+ "ami tumi tui apni amra tora tomra o e ki kii ke keno kothay kemon na nah to toh ta ti ar aar je ei oi sei hoy hobe holo hoye hoyeche hocche kore korbo korchi korchis korcho korbi korte kor bol bolo bolchi bolli ache achhe achi achis acho chilo chhilo nei amar tomar tor amake tomake toke or er re r ekta ektu khub kintu ekhon tahole tobe jodi mane thik",
+ // Romanized Hindi
+ "hai hain ho tha thi the nahi nahin kya kyu kyun kaise kaisa main mai mein mujhe tujhe tum tu aap mera meri mere tera teri tere uska uski ka ki ke ko se par pe aur bhi toh hi raha rahi rahe hoon hu haan han kuch bahut abhi kab yaar yr accha acha theek",
+ // Bengali script
+ "আমি তুমি তুই আপনি আমরা কি কী কে কেন কোথায় কেমন না তো টা টি আর যে এই ওই সেই হয় হবে হলো হয়ে করে করব করছি করছিস বল বলো আছে আছি আছিস ছিল নেই আমার তোমার তোর আমাকে তোকে ও এ একটা একটু খুব কিন্তু এখন তাহলে তবে যদি মানে ঠিক",
+ // Devanagari
+ "है हैं हो था थी थे नहीं क्या क्यों कैसे मैं मुझे तुम तू आप मेरा मेरी तेरा तेरी का की के को से पर और भी तो ही रहा रही हूँ हाँ कुछ बहुत अभी यार"
+].join(' ').split(/\s+/));
+
+const BANGLISH = new Set("ami tumi tui achis acho achi kemon korchis korcho korchi korbi korbo bhalo valo hobe hoyeche hoye kintu ekhon kothay kotha keno khub ekta ektu amar tomar tor amake toke jabo jabi bolchi bujhli bujhte bujhchi khabi khete kheyechis ghumabi ghum mon kharap thakbi thakis pagol dekha shune shono boli bolis parbi parbo lagche laglo kichu hocche chilo jacchi aschi asbi esechi dekhechis tahole tobe naki".split(' '));
+const HINGLISH = new Set("hai hain nahi nahin kya kyun kyu kaise kaisa kaisi mujhe tujhe mera meri tera teri raha rahi rahe hoon yaar kuch bahut abhi kidhar accha acha theek matlab bhai chal karunga karungi karega kar lega dekh dekhte bol bata batao kab".split(' '));
+
+const RE_WORD = /[\p{L}\p{N}][\p{L}\p{M}\p{N}'’]*/gu;
+const RE_PICTO = /\p{Extended_Pictographic}/u;
+const RE_LAUGH = /\b(?:a?ha(?:ha)+h?|he(?:he)+|hi(?:hi)+|lo+l+|lmf?a+o+|rofl|jaja+)\b|😂|🤣|😆|😹|হাহা|হা হা|হিহি|हाहा/iu;
+const RE_SORRY = /\b(?:sorry|sry|sorryy+|soory|maaf|maafi)\b|দুঃখিত|সরি|माफ/iu;
+const RE_LOVE = /\b(?:love|luv|ily|bhalobashi|pyaar)\b|❤|😍|🥰|😘|💕|💖|ভালোবাসি|प्यार/iu;
+const RE_THANKS = /\b(?:thanks|thank you|thank u|thanku|thx|tysm|ty|dhonnobad|dhanyavaad|shukriya)\b|ধন্যবাদ|धन्यवाद/iu;
+const RE_GN = /\b(?:good ?night|gn|gud ?n(?:ite|ight)|shubho ratri|sweet dreams)\b|শুভ রাত্রি|শুভরাত্রি/iu;
+const RE_GM = /\b(?:good ?morning|gm|gud ?morning|shubho sokal)\b|শুভ সকাল|सुप्रभात/iu;
+const RE_Q = /[?？]/;
+const SEG = (typeof Intl!=='undefined' && Intl.Segmenter) ? new Intl.Segmenter('en',{granularity:'grapheme'}) : null;
+
+function emojisOf(s){
+  if(!RE_PICTO.test(s)) return [];
+  const out=[];
+  if(SEG){ for(const {segment} of SEG.segment(s)){ if(RE_PICTO.test(segment) && !/^[©®™‼⁉]/.test(segment)) out.push(segment.replace(/️/g,'')); } }
+  else { for(const ch of s){ if(RE_PICTO.test(ch)) out.push(ch); } }
+  return out;
+}
+function scriptOf(s, words){
+  let lat=0,bn=0,dv=0,ot=0;
+  for(const ch of s){
+    if(/\p{Script=Latin}/u.test(ch)) lat++;
+    else if(/\p{Script=Bengali}/u.test(ch)) bn++;
+    else if(/\p{Script=Devanagari}/u.test(ch)) dv++;
+    else if(/\p{L}/u.test(ch)) ot++;
+  }
+  const tot=lat+bn+dv+ot;
+  if(!tot) return 'ot';
+  if(bn>=lat && bn>=dv && bn>=ot) return 'bn';
+  if(dv>=lat && dv>=ot) return 'dv';
+  if(ot>lat) return 'ot';
+  let b=0,h=0;
+  for(const w of words){ if(BANGLISH.has(w)) b++; if(HINGLISH.has(w)) h++; }
+  if(b>0 && b>=h) return 'rbn';
+  if(h>0) return 'rhi';
+  return 'lat';
+}
+
+/* ================= ANALYSIS ================= */
+const pad=n=>String(n).padStart(2,'0');
+function dayKey(t){const d=new Date(t); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function monthKey(t){const d=new Date(t); return d.getFullYear()+'-'+pad(d.getMonth()+1);}
+function keyToUTC(k){const [y,m,d]=k.split('-').map(Number); return Date.UTC(y,m-1,d||1);}
+function median(a){ if(!a.length) return null; const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2?s[m]:(s[m-1]+s[m])/2; }
+function quant(sorted,q){ if(!sorted.length) return null; return sorted[Math.min(sorted.length-1, Math.floor(q*(sorted.length-1)))]; }
+const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+
+function newPerson(name, idx){
+  return {name, idx, msgs:0, textMsgs:0, words:0, chars:0, media:0, mediaTypes:{}, deleted:0, edited:0, calls:0, links:0,
+    emojiCount:0, emojiMap:new Map(), wordMap:new Map(), questions:0, laughs:0, sorry:0, love:0, thanks:0, gn:0, gm:0,
+    hours:Array(24).fill(0), weekdays:Array(7).fill(0), months:new Map(), longest:null,
+    scripts:{lat:0,rbn:0,rhi:0,bn:0,dv:0,ot:0,emo:0},
+    bursts:0, burstMsgs:0, burstWords:0, maxBurst:null, doubleTexts:0, unanswered:0,
+    delays:[], replyMsgs:0, repliedToMsgs:0, replyWords:0, repliedToWords:0, maxWait:null,
+    initiations:0, lastWords:0, monthDelays:new Map(), silenceBreaks:0};
+}
+
+function analyze(parsed, opts){
+  const BREAK = opts.breakH*3600e3, BURST = opts.burstM*60e3;
+  const all = parsed.msgs.filter(m=>m.kind!=='system');
+  if(!all.length) return null;
+  // group senders (top 7 + Others)
+  const cnt=new Map(); for(const m of all) cnt.set(m.sender,(cnt.get(m.sender)||0)+1);
+  const sorted=[...cnt.entries()].sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const keep = sorted.length>8 ? sorted.slice(0,7) : sorted;
+  const pmap=new Map(); const people=keep.map((n,i)=>{const p=newPerson(n,i); pmap.set(n,p); return p;});
+  if(sorted.length>8){ const o=newPerson('Others ('+(sorted.length-7)+')',-1); people.push(o); for(const n of sorted.slice(7)) pmap.set(n,o); }
+
+  const dayCounts=new Map(), heat=Array.from({length:7},()=>Array(24).fill(0));
+  let longestSilence=null, prevT=null, prevSender=null;
+  const timed=[]; // messages that participate in bursts (exclude calls)
+  for(const m of all){
+    const p=pmap.get(m.sender); m.p=p;
+    const d=new Date(m.t), wd=(d.getDay()+6)%7, h=d.getHours();
+    if(prevT!==null){ const g=m.t-prevT; if(!longestSilence||g>longestSilence.gap) longestSilence={gap:g, from:prevT, to:m.t, breaker:p, before:prevSender}; }
+    prevT=m.t; prevSender=p;
+    const dk=dayKey(m.t); dayCounts.set(dk,(dayCounts.get(dk)||0)+1);
+    p.msgs++; p.hours[h]++; p.weekdays[wd]++; heat[wd][h]++;
+    const mk=monthKey(m.t); p.months.set(mk,(p.months.get(mk)||0)+1);
+    if(m.kind==='call'){ p.calls++; continue; }
+    timed.push(m);
+    if(m.kind==='media'){ p.media++; p.mediaTypes[m.mediaType]=(p.mediaTypes[m.mediaType]||0)+1; m.words=0; continue; }
+    if(m.kind==='deleted'){ p.deleted++; m.words=0; continue; }
+    // text
+    p.textMsgs++; if(m.edited) p.edited++;
+    const s=m.text;
+    const urls=s.match(RE_URL); if(urls) p.links+=urls.length;
+    const clean=urls?s.replace(RE_URL,' '):s;
+    const words=(clean.match(RE_WORD)||[]).map(w=>w.toLowerCase().replace(/[’]/g,"'"));
+    m.words=words.length; p.words+=words.length; p.chars+=[...s].length;
+    for(const w of words){ if(w.length<2 || /^\d+$/.test(w) || STOP.has(w)) continue; p.wordMap.set(w,(p.wordMap.get(w)||0)+1); }
+    const em=emojisOf(s); p.emojiCount+=em.length; for(const e of em) p.emojiMap.set(e,(p.emojiMap.get(e)||0)+1);
+    if(RE_Q.test(s)) p.questions++;
+    if(RE_LAUGH.test(s)) p.laughs++;
+    if(RE_SORRY.test(s)) p.sorry++;
+    if(RE_LOVE.test(s)) p.love++;
+    if(RE_THANKS.test(s)) p.thanks++;
+    if(RE_GN.test(s)) p.gn++;
+    if(RE_GM.test(s)) p.gm++;
+    if(!p.longest || words.length>p.longest.words) p.longest={words:words.length, text:s, t:m.t};
+    if(!words.length && em.length) p.scripts.emo++;
+    else p.scripts[scriptOf(clean, words)]++;
+  }
+
+  // bursts
+  const bursts=[]; let b=null;
+  for(const m of timed){
+    if(b && b.p===m.p && m.t-b.end<=BURST){ b.end=m.t; b.n++; b.words+=m.words; }
+    else { b={p:m.p, start:m.t, end:m.t, n:1, words:m.words}; bursts.push(b); }
+  }
+  const sessions=[]; let sess=null;
+  for(let i=0;i<bursts.length;i++){
+    const cur=bursts[i], prev=bursts[i-1], p=cur.p;
+    p.bursts++; p.burstMsgs+=cur.n; p.burstWords+=cur.words;
+    if(!p.maxBurst || cur.n>p.maxBurst.n) p.maxBurst={n:cur.n, t:cur.start};
+    const gap = prev ? cur.start-prev.end : Infinity;
+    if(prev && prev.p!==p){ if(!p.maxWait || gap>p.maxWait.gap) p.maxWait={gap, t:prev.end, after:prev.p}; }
+    if(!prev || gap>BREAK){
+      if(prev) prev.p.lastWords++;
+      if(prev && gap>BREAK*4) p.silenceBreaks++;
+      p.initiations++;
+      sess={start:cur.start, end:cur.end, msgs:cur.n, initiator:p, people:new Set([p])}; sessions.push(sess);
+    } else {
+      sess.end=cur.end; sess.msgs+=cur.n; sess.people.add(p);
+      if(prev.p!==p){
+        p.delays.push(gap);
+        const mk=monthKey(cur.start); if(!p.monthDelays.has(mk)) p.monthDelays.set(mk,[]); p.monthDelays.get(mk).push(gap);
+        p.replyMsgs+=cur.n; p.repliedToMsgs+=prev.n; p.replyWords+=cur.words; p.repliedToWords+=prev.words;
+      } else { p.doubleTexts++; }
+    }
+  }
+  if(bursts.length) bursts[bursts.length-1].p.lastWords++;
+  for(const s of sessions) if(s.people.size===1) s.initiator.unanswered++;
+
+  // per-person derived
+  for(const p of people){
+    const s=[...p.delays].sort((a,b)=>a-b);
+    p.reply={n:s.length, median:median(s), mean:mean(s), p90:quant(s,0.9), fast:s.filter(x=>x<=5*60e3).length, slow:s.filter(x=>x>3600e3).length, sorted:s};
+    p.avgWords = p.textMsgs ? p.words/p.textMsgs : 0;
+    p.avgBurst = p.bursts ? p.burstMsgs/p.bursts : 0;
+    p.avgBurstWords = p.bursts ? p.burstWords/p.bursts : 0;
+    p.night = p.msgs ? (p.hours[0]+p.hours[1]+p.hours[2]+p.hours[3]+p.hours[4])/p.msgs : 0;
+    p.morning = p.msgs ? (p.hours[5]+p.hours[6]+p.hours[7]+p.hours[8])/p.msgs : 0;
+    p.vocab = p.wordMap.size;
+    p.topWords=[...p.wordMap.entries()].sort((a,b)=>b[1]-a[1]).slice(0,12);
+    p.topEmojis=[...p.emojiMap.entries()].sort((a,b)=>b[1]-a[1]).slice(0,10);
+  }
+
+  const first=all[0], last=all[all.length-1];
+  const days=[...dayCounts.keys()].sort();
+  let streak={len:0}, run=1, runStart=days[0];
+  for(let i=0;i<days.length;i++){
+    if(i>0 && keyToUTC(days[i])-keyToUTC(days[i-1])===86400e3) run++; else { run=1; runStart=days[i]; }
+    if(run>streak.len) streak={len:run, start:runStart, end:days[i]};
+  }
+  let busiest=null; for(const [k,v] of dayCounts) if(!busiest||v>busiest.count) busiest={day:k,count:v};
+  const spanDays=Math.round((keyToUTC(dayKey(last.t))-keyToUTC(dayKey(first.t)))/86400e3)+1;
+  const months=[]; { let [y,m]=monthKey(first.t).split('-').map(Number); const end=monthKey(last.t);
+    while(true){ const k=y+'-'+pad(m); months.push(k); if(k===end||months.length>600) break; m++; if(m>12){m=1;y++;} } }
+  let longestSession=null; for(const s of sessions){ if(!longestSession || s.msgs>longestSession.msgs) longestSession=s; }
+  const totalWords=people.reduce((a,p)=>a+p.words,0);
+  return {people, all, first, last, spanDays, activeDays:days.length, dayCounts, busiest, streak, longestSilence, heat, months,
+    sessions, longestSession, totalWords, bursts, opts, order:parsed.order};
+}
+
+/* ================= SAMPLE CHAT ================= */
+function sampleChat(){
+  let seed=20240611; const r=()=>{seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296;};
+  const pick=a=>a[Math.floor(r()*a.length)];
+  const A='Mohdi', B='Momota';
+  const EN=["hey","what are you doing?","lol","haha that's hilarious","ok","okay","wait what","i'm so tired today","did you eat?","call me when free","sorry, was in a meeting","omg","send me the pics","where are you?","on my way","that movie was so good","let's meet this weekend?","hmm","yes","no way 😂","busy rn, text later","how was your day?","same here","thank you!!","see you tomorrow","can't stop laughing 🤣","what's the plan?","did you see the match yesterday?","office is killing me","ok fine","tell me everything","good night","good morning"];
+  const BG=["ki korchis?","kemon achis?","ami ekhon office e","bhalo laglo shune","kal dekha korbi?","khub mon kharap aaj","ki holo bol na","haha pagol naki","ami khete jacchi","thik ache","tui ki ghumiye porli?","ekta kotha bolar chilo","amar mathay kichu dhukche na","porer bar ami treat debo","kothay tui?","accha shono"];
+  const BN=["কি করছিস?","কেমন আছিস?","আমি বাড়ি ফিরছি","খুব ভালো লাগলো","কাল দেখা হবে","শুভ রাত্রি","হাহা 😂","ঠিক আছে","তুই পাগল","আজকে খুব ক্লান্ত লাগছে","দারুণ!"];
+  const HI=["kya kar raha hai yaar","accha theek hai","bahut mazaa aaya"];
+  const EMO=["😂","🤣","❤️","😭","🙏","😍","👍🏽","🥲","😅","🔥"];
+  const msg=who=>{ const x=r();
+    if(x<0.05) return '<Media omitted>';
+    if(x<0.065) return 'This message was deleted';
+    if(x<0.075) return 'https://www.instagram.com/reel/Cx'+Math.floor(r()*1e6)+'/';
+    let s;
+    if(who===A){ s = x<0.55?pick(EN): x<0.85?pick(BG): x<0.92?pick(HI):pick(BN); }
+    else { s = x<0.35?pick(EN): x<0.6?pick(BG): pick(BN); }
+    if(r()<(who===B?0.3:0.12)) s+=' '+pick(EMO)+(r()<0.4?pick(EMO):'');
+    if(r()<0.03) s+='\n'+pick(EN);
+    if(r()<0.02) s+=' <This message was edited>';
+    return s; };
+  const lognorm=(med,sd)=>Math.exp(Math.log(med)+sd*(Math.sqrt(-2*Math.log(r()||1e-9))*Math.cos(2*Math.PI*r())));
+  const fmt=t=>{const d=new Date(t); let h=d.getHours(); const ap=h>=12?'pm':'am'; h=h%12||12;
+    return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+String(d.getFullYear()).slice(2)+', '+h+':'+pad(d.getMinutes())+' '+ap+' - ';};
+  const lines=[fmt(new Date(2025,6,3,21,2).getTime())+'Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. Learn more.'];
+  const HOURS=[8,9,10,11,12,13,14,15,16,17,18,19,20,21,21,22,22,22,23,23,0];
+  for(let day=new Date(2025,6,3); day<new Date(2026,9,31); day.setDate(day.getDate()+1)){
+    if(r()>0.78) continue;
+    const ns=1+(r()<0.45)+(r()<0.18);
+    let tEnd=0;
+    for(let s=0;s<ns;s++){
+      const hr=pick(HOURS); let t=new Date(day.getFullYear(),day.getMonth(),day.getDate()+(hr===0?1:0),hr,Math.floor(r()*60)).getTime();
+      if(t<tEnd+3*3600e3) t=tEnd+3*3600e3+r()*3600e3;
+      let who=r()<0.6?A:B; const nb=3+Math.floor(r()*22);
+      for(let k=0;k<nb;k++){
+        const size = who===A ? 1+Math.floor(r()*r()*5) : 1+Math.floor(r()*r()*3);
+        for(let j=0;j<size;j++){ lines.push(fmt(t)+who+': '+msg(who)); t+=(5+r()*80)*1000; }
+        if(r()<0.1){ t+=(40+r()*80)*60e3; continue; }
+        who = who===A?B:A;
+        const slow = r()<0.06;
+        t += slow ? (60+r()*200)*60e3 : (who===A?lognorm(70,1.1):lognorm(260,1.2))*1000;
+      }
+      tEnd=t;
+    }
+  }
+  return lines.join('\n');
+}
+</script>
+
+<script>
+/* ================= UI ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf=new Intl.NumberFormat('en-IN');
+const fmtN=n=>nf.format(Math.round(n));
+const fmt1=n=>(Math.round(n*10)/10).toLocaleString('en-IN');
+const pct=x=>Math.round(x*100)+'%';
+const fmtDate=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const fmtDT=t=>new Date(t).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true});
+const fmtDay=k=>fmtDate(keyToUTC(k)+new Date().getTimezoneOffset()*60e3);
+function fmtDur(ms){
+  if(ms==null) return '–';
+  const s=Math.round(ms/1000); if(s<60) return s+'s';
+  const m=Math.round(s/60); if(m<60) return m+' min';
+  const h=Math.floor(m/60), mm=m%60; if(h<24) return h+'h'+(mm?' '+mm+'m':'');
+  const d=Math.floor(h/24), hh=h%24; return d+'d'+(hh?' '+hh+'h':'');
+}
+const tok=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const pColor=p=>p.idx<0?'var(--p-other)':'var(--p'+p.idx+')';
+const pColorHex=p=>tok(p.idx<0?'--p-other':'--p'+p.idx);
+const dot=p=>`<span class="dot" style="background:${pColor(p)}"></span>`;
+const first1=n=>n.split(/\s+/)[0];
+
+let PARSED=null, RESULT=null, IS_SAMPLE=true, FILE_NAME='', charts=[];
+
+function setStatus(html){ $('#status').innerHTML=html; }
+
+async function readFile(file){
+  try{
+    let text;
+    if(/\.zip$/i.test(file.name) || file.type.includes('zip')){
+      if(!window.JSZip) throw new Error('The zip reader did not load. Unzip the file and drop the .txt inside.');
+      const zip=await JSZip.loadAsync(file);
+      const entry=Object.values(zip.files).find(f=>!f.dir && /\.txt$/i.test(f.name));
+      if(!entry) throw new Error('No .txt chat file found inside this zip.');
+      text=await entry.async('string');
+    } else text=await file.text();
+    const parsed=parseChat(text);
+    if(!parsed || !parsed.msgs.some(m=>m.kind!=='system')) throw new Error('No WhatsApp messages found. Make sure this is the .txt from "Export chat".');
+    PARSED=parsed; IS_SAMPLE=false; FILE_NAME=file.name;
+    run();
+  }catch(e){
+    setStatus(`<span class="pill err">Couldn't read ${esc(file.name)}: ${esc(e.message)}</span>`);
+  }
+}
+
+function run(){
+  const opts={breakH:+$('#opt-break').value, burstM:+$('#opt-burst').value};
+  RESULT=analyze(PARSED, opts);
+  if(!RESULT){ setStatus('<span class="pill err">No messages to analyse.</span>'); return; }
+  const n=RESULT.all.length;
+  setStatus(IS_SAMPLE
+    ? `<span class="pill example">Showing an example chat. Drop your own export to replace it.</span>`
+    : `<span class="pill">${esc(FILE_NAME)}</span><span class="pill num">${fmtN(n)} messages read</span><span class="pill">Dates read as ${RESULT.order==='mdy'?'month/day':RESULT.order==='ymd'?'year-month-day':'day/month'}</span>`);
+  render(RESULT);
+}
+
+/* ---------- rendering ---------- */
+function vsRow(label, ps, getter, fmt=fmtN){
+  const vals=ps.map(getter), tot=vals.reduce((a,b)=>a+(b||0),0)||1;
+  const bar=`<div class="bar" role="img" aria-label="${esc(label)}">${vals.every(v=>!v)?'':ps.map((p,i)=>`<span style="flex:${Math.max(vals[i]||0,0)/tot||0.0001};background:${pColor(p)}" title="${esc(p.name)}: ${fmt(vals[i]||0)}"></span>`).join('')}</div>`;
+  if(ps.length===2) return `<div class="vs"><div class="lab">${esc(label)}</div><div class="vs2"><span class="v num">${fmt(vals[0]||0)}</span>${bar}<span class="v r num">${fmt(vals[1]||0)}</span></div></div>`;
+  return `<div class="vs vsn"><div class="lab" style="text-align:left">${esc(label)}</div>${bar}<div class="vals">${ps.map((p,i)=>`<span>${dot(p)} ${esc(first1(p.name))} <b class="num">${fmt(vals[i]||0)}</b></span>`).join('')}</div></div>`;
+}
+const leader=(ps,f)=>[...ps].sort((a,b)=>f(b)-f(a))[0];
+function ratioText(a,b){ if(!b) return '–'; const r=a/b; return r>=1.95?(Math.round(r*10)/10)+'×':Math.round((r-1)*100)+'% more'; }
+
+function render(R){
+  const ps=R.people, two=ps.length===2;
+  const [A,B]=ps;
+  const tm=R.all.length;
+  const totalReplies=ps.reduce((a,p)=>a+p.reply.n,0);
+  let h='';
+
+  // People + overview
+  h+=`<section><div class="people">${ps.map(p=>`<span class="chip" style="--pc:${pColor(p)}">${dot(p)}${esc(p.name)} <span class="faint num">${pct(p.msgs/tm)}</span></span>`).join('')}</div>
+  <div class="grid g4">
+    ${tile('Messages', fmtN(tm), fmt1(tm/R.spanDays)+' a day on average')}
+    ${tile('Words', fmtN(R.totalWords), fmt1(R.totalWords/Math.max(1,ps.reduce((a,p)=>a+p.textMsgs,0)))+' per text message')}
+    ${tile('Chatting for', fmtN(R.spanDays)+' days', fmtDate(R.first.t)+' to '+fmtDate(R.last.t))}
+    ${tile('Days you talked', pct(R.activeDays/R.spanDays), fmtN(R.activeDays)+' of '+fmtN(R.spanDays)+' days')}
+    ${tile('Conversations', fmtN(R.sessions.length), 'avg '+fmt1(tm/Math.max(1,R.sessions.length))+' messages each')}
+    ${tile('Longest streak', R.streak.len+' days', R.streak.len?fmtDay(R.streak.start)+' to '+fmtDay(R.streak.end):'')}
+  </div></section>`;
+
+  // Findings
+  h+=`<section><div class="sec-head"><h2>Highlights</h2></div><div class="grid g3">${findings(R).map(f=>`<div class="card find"><div class="n">${f.n}</div><p>${f.t}</p></div>`).join('')}</div></section>`;
+
+  // Reply behaviour
+  const byMed=[...ps].filter(p=>p.reply.n).sort((a,b)=>b.reply.median-a.reply.median);
+  let replyVerdict='';
+  if(byMed.length>=2){
+    const s=byMed[0], f=byMed[byMed.length-1];
+    replyVerdict=`<b>${esc(s.name)}</b> replies slower. A typical reply takes <b>${fmtDur(s.reply.median)}</b>, against <b>${fmtDur(f.reply.median)}</b> for ${esc(f.name)}${f.reply.median>0?`, about <b>${fmt1(s.reply.median/f.reply.median)}×</b> as long`:''}. ${esc(first1(s.name))} took over an hour <b>${fmtN(s.reply.slow)}</b> times (${pct(s.reply.slow/Math.max(1,s.reply.n))} of replies); ${esc(first1(f.name))} did <b>${fmtN(f.reply.slow)}</b> times. Longest anyone was kept waiting: <b>${fmtDur(leader(ps,p=>p.maxWait?p.maxWait.gap:0).maxWait?.gap)}</b> by ${esc(leader(ps,p=>p.maxWait?p.maxWait.gap:0).name)}.`;
+  }
+  h+=`<section><div class="sec-head"><h2>Who replies how fast</h2><p class="small faint">${fmtN(totalReplies)} replies within ${R.opts.breakH}h of the last message</p></div>
+  ${replyVerdict?`<p class="verdict">${replyVerdict}</p>`:''}
+  <div class="grid g${Math.min(ps.length,3)===3?3:2}">${ps.map(p=>`<div class="card pcard" style="--pc:${pColor(p)}">
+    <div class="name">${dot(p)}${esc(p.name)}</div>
+    <div class="big num">${fmtDur(p.reply.median)}</div><div class="small muted">typical reply time</div>
+    <dl class="kv">
+      <dt>Average reply</dt><dd>${fmtDur(p.reply.mean)}</dd>
+      <dt>9 in 10 replies within</dt><dd>${fmtDur(p.reply.p90)}</dd>
+      <dt>Replied within 5 min</dt><dd>${p.reply.n?pct(p.reply.fast/p.reply.n):'–'}</dd>
+      <dt>Took over an hour</dt><dd>${fmtN(p.reply.slow)} times</dd>
+      <dt>Longest wait they caused</dt><dd>${p.maxWait?fmtDur(p.maxWait.gap):'–'}</dd>
+      <dt>Replies counted</dt><dd>${fmtN(p.reply.n)}</dd>
+    </dl></div>`).join('')}</div>
+  <div class="grid g2">
+    <div class="card"><h3>How long replies take</h3><p class="small faint" style="margin:2px 0 8px">Share of each person's replies</p>${legendHTML(ps)}<div class="chart"><canvas id="ch-hist"></canvas></div></div>
+    <div class="card"><h3>Typical reply time by month</h3><p class="small faint" style="margin:2px 0 8px">Median, minutes. Months with fewer than 5 replies are skipped.</p>${legendHTML(ps)}<div class="chart"><canvas id="ch-trend"></canvas></div></div>
+  </div></section>`;
+
+  // Texting style
+  let styleVerdict='';
+  if(two){
+    const ab = A.repliedToMsgs? B.replyMsgs/A.repliedToMsgs*10 : 0; // B's msgs per 10 of A
+    const ba = B.repliedToMsgs? A.replyMsgs/B.repliedToMsgs*10 : 0;
+    const abw = A.repliedToWords? B.replyWords/A.repliedToWords*10:0, baw=B.repliedToWords? A.replyWords/B.repliedToWords*10:0;
+    styleVerdict=`For every <b>10 messages</b> ${esc(A.name)} sends, ${esc(B.name)} sends back <b>${fmt1(ab)}</b>. For every 10 from ${esc(first1(B.name))}, ${esc(first1(A.name))} sends back <b>${fmt1(ba)}</b>. In words: ${esc(first1(B.name))} answers 10 words with <b>${fmt1(abw)}</b>, ${esc(first1(A.name))} answers 10 words with <b>${fmt1(baw)}</b>.`;
+  }
+  h+=`<section><div class="sec-head"><h2>How each of you texts</h2><p class="small faint">Back-to-back texts within ${R.opts.burstM} min are merged into one burst</p></div>
+  ${styleVerdict?`<p class="verdict">${styleVerdict}</p>`:''}
+  <div class="card vs-list">
+    ${two?`<div class="vs2 small muted" style="font-weight:600"><span>${dot(A)} ${esc(first1(A.name))}</span><span></span><span style="text-align:right">${esc(first1(B.name))} ${dot(B)}</span></div>`:''}
+    ${vsRow('Messages sent', ps, p=>p.msgs)}
+    ${vsRow('Words written', ps, p=>p.words)}
+    ${vsRow('Bursts (merged turns)', ps, p=>p.bursts)}
+    ${vsRow('Messages per burst', ps, p=>p.avgBurst, fmt1)}
+    ${vsRow('Words per burst', ps, p=>p.avgBurstWords, fmt1)}
+    ${vsRow('Words per message', ps, p=>p.avgWords, fmt1)}
+    ${vsRow('Double texts (no reply, texted again)', ps, p=>p.doubleTexts)}
+        ${vsRow('Longest run of messages in one burst', ps, p=>p.maxBurst?p.maxBurst.n:0)}
+  </div></section>`;
+
+  // Conversations
+  const ls=R.longestSession, sil=R.longestSilence;
+  h+=`<section><div class="sec-head"><h2>Starting and ending conversations</h2><p class="small faint">A conversation ends after ${R.opts.breakH}h of silence</p></div>
+  <div class="grid g2">
+    <div class="card vs-list">
+      ${vsRow('Started the conversation', ps, p=>p.initiations)}
+      ${vsRow('Had the last word', ps, p=>p.lastWords)}
+      ${vsRow('Started a conversation nobody replied to', ps, p=>p.unanswered)}
+      ${vsRow('Broke a long silence (4× the break)', ps, p=>p.silenceBreaks)}
+      ${vsRow('Said good morning', ps, p=>p.gm)}
+      ${vsRow('Said good night', ps, p=>p.gn)}
+    </div>
+    <div class="grid" style="gap:14px">
+      <div class="card"><h3>Longest conversation</h3><p class="verdict" style="font-size:15px;margin-top:6px">${ls?`<b>${fmtN(ls.msgs)} messages</b> over ${fmtDur(ls.end-ls.start)}, starting ${fmtDT(ls.start)}. ${esc(ls.initiator.name)} started it.`:'–'}</p></div>
+      <div class="card"><h3>Longest silence</h3><p class="verdict" style="font-size:15px;margin-top:6px">${sil?`<b>${fmtDur(sil.gap)}</b> without a single message, from ${fmtDate(sil.from)} to ${fmtDate(sil.to)}. ${esc(sil.breaker.name)} broke it.`:'–'}</p></div>
+      <div class="card"><h3>Busiest day</h3><p class="verdict" style="font-size:15px;margin-top:6px">${R.busiest?`<b>${fmtN(R.busiest.count)} messages</b> on ${fmtDay(R.busiest.day)}.`:'–'}</p></div>
+    </div>
+  </div></section>`;
+
+  // Timeline
+  h+=`<section><div class="sec-head"><h2>Timeline</h2></div>
+  <div class="grid g2">
+    <div class="card"><h3>First message</h3><div class="chat-bg" style="margin-top:8px">${bubble(R.first)}</div></div>
+    <div class="card"><h3>Latest message</h3><div class="chat-bg" style="margin-top:8px">${bubble(R.last)}</div></div>
+  </div>
+  <div class="card"><h3>Messages per month</h3>${legendHTML(ps)}<div class="chart tall"><canvas id="ch-month"></canvas></div></div></section>`;
+
+  // When
+  const maxHeat=Math.max(1,...R.heat.flat());
+  const WD=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  h+=`<section><div class="sec-head"><h2>When you talk</h2></div>
+  <div class="grid g2">
+    <div class="card"><h3>Hour of day</h3><p class="small faint" style="margin:2px 0 8px">Share of each person's messages</p>${legendHTML(ps)}<div class="chart"><canvas id="ch-hour"></canvas></div></div>
+    <div class="card"><h3>Day of week</h3><p class="small faint" style="margin:2px 0 8px">Share of each person's messages</p>${legendHTML(ps)}<div class="chart"><canvas id="ch-wd"></canvas></div></div>
+  </div>
+  <div class="card"><h3>Weekly rhythm</h3><p class="small faint" style="margin:2px 0 10px">Darker cells mean more messages. Hover a cell for the count.</p>
+    <div class="scroll-x"><div class="heat"><span></span>${Array.from({length:24},(_,i)=>`<span class="hl">${i%3===0?(i===0?'12a':i<12?i+'a':i===12?'12p':(i-12)+'p'):''}</span>`).join('')}
+    ${R.heat.map((row,d)=>`<span class="rl">${WD[d]}</span>`+row.map((v,hh)=>`<span class="c" title="${WD[d]} ${hh}:00–${hh}:59 · ${fmtN(v)} messages" style="background:${v?`color-mix(in oklab, var(--accent) ${Math.round(12+88*Math.sqrt(v/maxHeat))}%, var(--sunk))`:'var(--sunk)'}"></span>`).join('')).join('')}
+    </div></div></div></section>`;
+
+  // Language
+  const LC=[['lat','English & Latin text','--c-lat'],['rbn','Romanized Bengali','--c-rbn'],['rhi','Romanized Hindi','--c-rhi'],['bn','Bengali script','--c-bn'],['dv','Devanagari (Hindi)','--c-dv'],['ot','Other scripts & emoji only','--c-ot']];
+  const langOf=p=>{const s={...p.scripts}; s.ot+=s.emo; delete s.emo; return s;};
+  const totals={}; for(const p of ps){const s=langOf(p); for(const k in s) totals[k]=(totals[k]||0)+s[k];}
+  const allText=Object.values(totals).reduce((a,b)=>a+b,0)||1;
+  const usedLC=LC.filter(([k])=>totals[k]/allText>=0.005);
+  h+=`<section><div class="sec-head"><h2>Language mix</h2><p class="small faint">Share of text messages by language</p></div>
+  <div class="card"><div class="legend">${usedLC.map(([k,l,c])=>`<span><span class="dot" style="background:var(${c})"></span>${l}</span>`).join('')}</div>
+  <div class="vs-list">${[{name:'Everyone',scripts:totals,all:true},...ps].map(p=>{const s=p.all?totals:langOf(p); const t=Object.values(s).reduce((a,b)=>a+b,0)||1;
+    return `<div class="lang-row"><span class="small" style="font-weight:600">${p.all?'Everyone':dot(p)+' '+esc(first1(p.name))}</span><div class="bar">${usedLC.map(([k,l,c])=>s[k]?`<span style="flex:${s[k]/t};background:var(${c})" title="${l}: ${pct(s[k]/t)} (${fmtN(s[k])})">${s[k]/t>=0.07?pct(s[k]/t):''}</span>`:'').join('')}</div></div>`;}).join('')}</div></div></section>`;
+
+  // Words & emojis
+  h+=`<section><div class="sec-head"><h2>Words and emojis</h2><p class="small faint">Common filler words in English, Bengali and Hindi are left out</p></div>
+  <div class="grid ${ps.length>2?'g3':'g2'}">${ps.map(p=>{const mx=p.topWords[0]?.[1]||1; return `<div class="card pcard" style="--pc:${pColor(p)}">
+    <div class="name">${dot(p)}${esc(p.name)}</div>
+    <p class="small muted" style="margin:4px 0 10px">${fmtN(p.vocab)} different words · ${fmtN(p.emojiCount)} emojis · ${fmtN(p.media)} media · ${fmtN(p.links)} links</p>
+    <div class="emoji-row" style="margin-bottom:14px">${p.topEmojis.length?p.topEmojis.map(([e,n])=>`<span><b>${esc(showEmoji(e))}</b><i>${fmtN(n)}</i></span>`).join(''):'<span class="small faint" style="background:none">No emojis</span>'}</div>
+    <ol class="rank">${p.topWords.map(([w,n])=>`<li><span class="w"><i style="width:${Math.max(6,n/mx*100)}%;background:${pColor(p)}"></i><b>${esc(w)}</b></span><span class="n">${fmtN(n)}</span></li>`).join('')}</ol>
+    ${p.longest?`<h3 style="margin-top:16px">Longest message · ${fmtN(p.longest.words)} words</h3><div class="chat-bg" style="margin-top:6px"><div class="bubble"><div class="msg">${esc(p.longest.text.length>420?p.longest.text.slice(0,420)+'…':p.longest.text)}</div><div class="ts">${fmtDT(p.longest.t)}</div></div></div>`:''}
+  </div>`;}).join('')}</div>
+  <div class="card vs-list">
+    ${vsRow('Messages with laughter (haha, lol, 😂, হাহা)', ps, p=>p.laughs)}
+    ${vsRow('Questions asked', ps, p=>p.questions)}
+    ${vsRow('Said sorry', ps, p=>p.sorry)}
+    ${vsRow('Said thanks', ps, p=>p.thanks)}
+    ${vsRow('Love and hearts', ps, p=>p.love)}
+    ${vsRow('Emojis used', ps, p=>p.emojiCount)}
+    ${vsRow('Media shared', ps, p=>p.media)}
+    ${vsRow('Deleted messages', ps, p=>p.deleted)}
+    ${vsRow('Edited messages', ps, p=>p.edited)}
+    ${ps.some(p=>p.calls)?vsRow('Calls (voice & video)', ps, p=>p.calls):''}
+  </div></section>`;
+
+  // Awards
+  h+=`<section><div class="sec-head"><h2>Awards</h2></div><div class="awards">${awards(R).map(a=>`<div class="award" style="--pc:${pColor(a.p)}"><span class="ic" aria-hidden="true">${a.ic}</span><span class="t">${a.t}</span><span class="who">${esc(a.p.name)}</span><span class="d">${a.d}</span></div>`).join('')}</div></section>`;
+
+  // Search
+  h+=`<section><div class="sec-head"><h2>Who says it more?</h2><p class="small faint">Search any word or phrase, in any language</p></div>
+  <div class="card"><div class="search"><label for="q" class="hidden">Word or phrase</label><input id="q" type="search" placeholder="Try: sorry, ভালো, yaar, 😂" value="${esc(defaultQuery(R))}"></div>
+  <div id="q-res" style="margin-top:14px"></div>${legendHTML(ps)}<div class="chart"><canvas id="ch-q"></canvas></div></div></section>`;
+
+  $('#report').innerHTML=h;
+  $('#q').addEventListener('input', debounce(()=>doSearch(R), 250));
+  drawCharts(R);
+  doSearch(R);
+}
+function tile(k,v,s){return `<div class="card tile"><div class="k">${k}</div><div class="v num">${v}</div><div class="s">${s||''}</div></div>`;}
+function legendHTML(ps){return `<div class="legend">${ps.map(p=>`<span>${dot(p)}${esc(p.name)}</span>`).join('')}</div>`;}
+function bubble(m){
+  const body = m.kind==='media'?'📎 '+(m.mediaType||'Media'):m.kind==='deleted'?'🚫 Deleted message':m.kind==='call'?'📞 '+m.text:m.text;
+  return `<div class="bubble"><div class="who" style="color:${pColor(m.p)}">${esc(m.sender)}</div><div class="msg">${esc(body.length>500?body.slice(0,500)+'…':body)}</div><div class="ts">${fmtDT(m.t)}</div></div>`;
+}
+function showEmoji(e){ const cp=[...e]; return cp.length===1 && cp[0].codePointAt(0)<0x1F000 ? e+'\ufe0f' : e; }
+function debounce(f,ms){let t; return()=>{clearTimeout(t); t=setTimeout(f,ms);};}
+function defaultQuery(R){ const p=R.people[0]; return p.topEmojis[0]?.[0] || p.topWords[0]?.[0] || ''; }
+
+function findings(R){
+  const ps=R.people, out=[], tm=R.all.length;
+  const st=leader(ps,p=>p.initiations), totI=ps.reduce((a,p)=>a+p.initiations,0)||1;
+  out.push({n:pct(st.initiations/totI), t:`of conversations are started by ${esc(st.name)}.`});
+  const lw=leader(ps,p=>p.lastWords), totL=ps.reduce((a,p)=>a+p.lastWords,0)||1;
+  out.push({n:pct(lw.lastWords/totL), t:`of the time ${esc(lw.name)} sends the last message before things go quiet.`});
+  const mb=leader(ps,p=>p.maxBurst?p.maxBurst.n:0);
+  if(mb.maxBurst) out.push({n:fmtN(mb.maxBurst.n)+' in a row', t:`${esc(mb.name)}'s longest monologue, with no reply in between, on ${fmtDate(mb.maxBurst.t)}.`});
+  const ow=leader(ps,p=>p.night);
+  out.push({n:pct(ow.night), t:`of ${esc(ow.name)}'s messages are sent between midnight and 5 am. The night owl of the chat.`});
+  const hrs=Array(24).fill(0); for(const p of ps) p.hours.forEach((v,i)=>hrs[i]+=v);
+  const ph=hrs.indexOf(Math.max(...hrs)); const hl=h=>h===0?'12 am':h<12?h+' am':h===12?'12 pm':(h-12)+' pm';
+  const wds=Array(7).fill(0); for(const p of ps) p.weekdays.forEach((v,i)=>wds[i]+=v);
+  const WDL=['Mondays','Tuesdays','Wednesdays','Thursdays','Fridays','Saturdays','Sundays'];
+  out.push({n:hl(ph)+'–'+hl((ph+1)%24), t:`is the chattiest hour (${pct(hrs[ph]/tm)} of all messages). ${WDL[wds.indexOf(Math.max(...wds))]} are the busiest day.`});
+  const dt=leader(ps,p=>p.doubleTexts);
+  if(dt.doubleTexts) out.push({n:fmtN(dt.doubleTexts), t:`times ${esc(dt.name)} texted again after getting no reply.`});
+  const lg=leader(ps,p=>p.laughs/Math.max(1,p.textMsgs));
+  if(lg.laughs) out.push({n:pct(lg.laughs/Math.max(1,lg.textMsgs)), t:`of ${esc(lg.name)}'s texts contain a laugh. The most amused one here.`});
+  const q=leader(ps,p=>p.questions/Math.max(1,p.textMsgs));
+  if(q.questions) out.push({n:fmtN(q.questions), t:`questions asked by ${esc(q.name)}, the most curious of ${ps.length===2?'the two':'the group'}.`});
+  const lv=leader(ps,p=>p.love/Math.max(1,p.textMsgs)); if(lv.love) out.push({n:fmtN(lv.love), t:`messages from ${esc(lv.name)} carry love or hearts, the most affectionate here.`});
+  const calls=ps.reduce((a,p)=>a+p.calls,0); if(calls){ const c=leader(ps,p=>p.calls); out.push({n:fmtN(calls)+' calls', t:`in the export. ${esc(c.name)} placed or missed the most (${fmtN(c.calls)}).`}); }
+  return out;
+}
+function awards(R){
+  const ps=R.people, a=[];
+  const add=(ic,t,f,d)=>{const p=leader(ps,f); if(f(p)>0) a.push({ic,t,p,d:d(p)});};
+  add('🗣️','Chatterbox',p=>p.msgs,p=>fmtN(p.msgs)+' messages');
+  add('📝','Essay writer',p=>p.avgWords,p=>fmt1(p.avgWords)+' words per message');
+  const rs=ps.filter(p=>p.reply.n>=5); if(rs.length>1){ const f=[...rs].sort((x,y)=>x.reply.median-y.reply.median)[0]; a.push({ic:'⚡',t:'Fastest replier',p:f,d:'typically '+fmtDur(f.reply.median)}); const s=[...rs].sort((x,y)=>y.reply.median-x.reply.median)[0]; a.push({ic:'🐢',t:'Takes their time',p:s,d:'typically '+fmtDur(s.reply.median)+', slowest '+fmtDur(s.maxWait?.gap)}); }
+  add('🚀','Conversation starter',p=>p.initiations,p=>fmtN(p.initiations)+' conversations started');
+  add('🔚','Last word',p=>p.lastWords,p=>fmtN(p.lastWords)+' conversations ended');
+  add('🔁','Double texter',p=>p.doubleTexts,p=>fmtN(p.doubleTexts)+' follow-ups without a reply');
+  add('😂','Emoji enthusiast',p=>p.emojiCount/Math.max(1,p.textMsgs),p=>fmt1(p.emojiCount/Math.max(1,p.textMsgs)*100)+' emojis per 100 texts');
+  add('🦉','Night owl',p=>p.night,p=>pct(p.night)+' of messages after midnight');
+  add('🌅','Early bird',p=>p.morning,p=>pct(p.morning)+' of messages 5–9 am');
+  add('📸','Media sharer',p=>p.media,p=>fmtN(p.media)+' photos, videos & more');
+  add('❓','Question asker',p=>p.questions/Math.max(1,p.textMsgs),p=>fmtN(p.questions)+' questions, '+pct(p.questions/Math.max(1,p.textMsgs))+' of texts');
+  add('🙏','Most apologetic',p=>p.sorry,p=>fmtN(p.sorry)+' sorries');
+  add('📚','Biggest vocabulary',p=>p.vocab,p=>fmtN(p.vocab)+' different words');
+  add('🗑️','Deleter',p=>p.deleted,p=>fmtN(p.deleted)+' deleted messages');
+  return a;
+}
+
+function doSearch(R){
+  const q=($('#q')?.value||'').trim();
+  const box=$('#q-res'); const ps=R.people;
+  if(!q){ box.innerHTML='<p class="small faint">Type something to compare.</p>'; makeChart('ch-q', null); return; }
+  const e=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const wordy=/^[\p{L}\p{M}\p{N}\s'’]+$/u.test(q);
+  const re=new RegExp(wordy?`(?<![\\p{L}\\p{M}\\p{N}])${e}(?![\\p{L}\\p{M}\\p{N}])`:e,'giu');
+  const counts=new Map(ps.map(p=>[p,0])); const byMonth=new Map(ps.map(p=>[p,new Map()]));
+  for(const m of R.all){ if(m.kind!=='text') continue; const k=(m.text.match(re)||[]).length; if(!k) continue;
+    counts.set(m.p,counts.get(m.p)+k); const mk=monthKey(m.t), mm=byMonth.get(m.p); mm.set(mk,(mm.get(mk)||0)+k); }
+  const tot=[...counts.values()].reduce((a,b)=>a+b,0);
+  box.innerHTML = tot ? `<div class="vs-list">${vsRow(`"${q}" used ${fmtN(tot)} times`, ps, p=>counts.get(p))}</div>`
+    : `<p class="small muted">Nobody has used "${esc(q)}" in this chat.</p>`;
+  makeChart('ch-q', tot ? {type:'line', labels:R.months.map(monthLabel), datasets:ps.map(p=>({label:p.name, data:R.months.map(k=>byMonth.get(p).get(k)||0), color:pColorHex(p)}))} : null);
+}
+
+/* ---------- charts ---------- */
+function monthLabel(k){const [y,m]=k.split('-').map(Number); return new Date(y,m-1,1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});}
+function makeChart(id, spec){
+  const old=charts.find(c=>c.canvas && c.canvas.id===id); if(old){ old.destroy(); charts=charts.filter(c=>c!==old); }
+  const cv=document.getElementById(id); if(!cv || !spec || !window.Chart) return;
+  const ink2=tok('--ink-2'), line=tok('--line'), surf=tok('--surface');
+  const isBar=spec.type==='bar';
+  const ds=spec.datasets.map(d=>isBar?{label:d.label,data:d.data,backgroundColor:d.color,borderColor:surf,borderWidth:spec.stacked?{top:2}:0,borderRadius:spec.stacked?0:4,borderSkipped:'start',maxBarThickness:28}
+    :{label:d.label,data:d.data,borderColor:d.color,backgroundColor:d.color,borderWidth:2,pointRadius:0,pointHoverRadius:5,pointHitRadius:12,tension:0.25,spanGaps:true});
+  const c=new Chart(cv,{type:spec.type,data:{labels:spec.labels,datasets:ds},options:{
+    responsive:true, maintainAspectRatio:false, animation:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false}, tooltip:{backgroundColor:tok('--ink'),titleColor:tok('--bg'),bodyColor:tok('--bg'),padding:10,boxPadding:4,usePointStyle:true,
+      callbacks:{label:ctx=>' '+ctx.dataset.label+': '+(spec.fmt?spec.fmt(ctx.parsed.y):fmtN(ctx.parsed.y))}}},
+    scales:{x:{stacked:!!spec.stacked,grid:{display:false},border:{color:line},ticks:{color:ink2,font:{size:11},maxRotation:0,autoSkip:true,autoSkipPadding:12}},
+            y:{stacked:!!spec.stacked,beginAtZero:true,grid:{color:line},border:{display:false},ticks:{color:ink2,font:{size:11},maxTicksLimit:6,callback:v=>spec.yfmt?spec.yfmt(v):fmtN(v)}}}}});
+  charts.push(c);
+}
+function drawCharts(R){
+  if(window.Chart){ Chart.defaults.font.family=getComputedStyle(document.body).fontFamily; }
+  const ps=R.people;
+  // histogram
+  const B=R.opts.breakH*3600e3;
+  const edges=[[0,60e3,'< 1 min'],[60e3,5*60e3,'1–5 min'],[5*60e3,15*60e3,'5–15 min'],[15*60e3,3600e3,'15–60 min'],[3600e3,3*3600e3,'1–3 h'],[3*3600e3,Infinity,'3 h +']].filter(e=>e[0]<B);
+  makeChart('ch-hist',{type:'bar',labels:edges.map(e=>e[2]),fmt:v=>Math.round(v)+'%',yfmt:v=>v+'%',
+    datasets:ps.map(p=>({label:p.name,color:pColorHex(p),data:edges.map(([a,b])=>p.reply.n?p.delays.filter(x=>x>=a&&x<b).length/p.reply.n*100:0)}))});
+  makeChart('ch-trend',{type:'line',labels:R.months.map(monthLabel),fmt:v=>fmtDur(v*60e3),yfmt:v=>v+'m',
+    datasets:ps.map(p=>({label:p.name,color:pColorHex(p),data:R.months.map(k=>{const a=p.monthDelays.get(k); return a&&a.length>=5?Math.round(median(a)/6e3)/10:null;})}))});
+  makeChart('ch-month',{type:'bar',stacked:true,labels:R.months.map(monthLabel),
+    datasets:ps.map(p=>({label:p.name,color:pColorHex(p),data:R.months.map(k=>p.months.get(k)||0)}))});
+  const hl=Array.from({length:24},(_,h)=>h===0?'12a':h<12?h+'a':h===12?'12p':(h-12)+'p');
+  makeChart('ch-hour',{type:'line',labels:hl,fmt:v=>fmt1(v)+'%',yfmt:v=>v+'%',
+    datasets:ps.map(p=>({label:p.name,color:pColorHex(p),data:p.hours.map(v=>p.msgs?v/p.msgs*100:0)}))});
+  makeChart('ch-wd',{type:'bar',labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],fmt:v=>fmt1(v)+'%',yfmt:v=>v+'%',
+    datasets:ps.map(p=>({label:p.name,color:pColorHex(p),data:p.weekdays.map(v=>p.msgs?v/p.msgs*100:0)}))});
+}
+
+/* ---------- wiring ---------- */
+const drop=$('#drop');
+['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault(); drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault(); if(ev==='drop'||e.target===document.documentElement||!e.relatedTarget) drop.classList.remove('over');}));
+document.addEventListener('drop',e=>{const f=e.dataTransfer?.files?.[0]; if(f) readFile(f);});
+$('#file').addEventListener('change',e=>{const f=e.target.files[0]; if(f) readFile(f); e.target.value='';});
+$('#opt-break').addEventListener('change',()=>PARSED&&run());
+$('#opt-burst').addEventListener('change',()=>PARSED&&run());
+const rerender=()=>RESULT&&render(RESULT);
+try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',rerender); }catch(e){}
+new MutationObserver(rerender).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+PARSED=parseChat(sampleChat()); IS_SAMPLE=true; run();
+</script>
+</body>
+</html>
